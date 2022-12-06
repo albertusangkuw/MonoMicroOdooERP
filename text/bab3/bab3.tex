@@ -4,42 +4,43 @@
 \vspace{4.5pt}
 
 \section{Analisis Masalah}
-Mea tale aliquam minimum te. Eu mel putant virtute, essent inermis nominavi mea no. Laoreet indoctum sea te. Te scripta fabulas duo, pro doming recusabo voluptaria at. Cu sed numquam inciderint, ei minim altera disputando cum, te nec graeco maiorum convenire.\\
-Cu mel putent rationibus dissentiet. Per vidisse scaevola oportere ei, qui solet molestie eu. Hinc diceret nominati per at, nec dico denique laboramus et. Legere regione his at, aeque decore in mei. Lihat Gambar \ref{fig:asd}. Nomor gambar akan href.\\
+....
 
 \begin{center}
 	\includegraphics[width=8cm]{img/2.PNG}
-	\captionof{figure}{asdasdas}
+	\captionof{figure}{...}
 	\label{fig:asd}
 \end{center}
 
 \section{Kerangka Pemikiran}
-Mea tale aliquam minimum te. Eu mel putant virtute, essent inermis nominavi mea no. Laoreet indoctum sea te. Te scripta fabulas duo, pro doming recusabo voluptaria at. Cu sed numquam inciderint, ei minim altera disputando cum, te nec graeco maiorum convenire.\\
+\begin{center}
+	\includegraphics[width=14cm]{img/KerangkaPemikiran.png}
+	\captionof{figure}{Kerangka Pemikiran}
+	\label{fig:asd}
+\end{center}
 
-\begin{algorithm} 
-  \begin{algorithmic}[1]
-    \STATE $i \gets 10$
-    \IF{$i\geq 5$} 
-        \STATE $i \gets i-1$
-    \ELSE
-        \IF{$i\leq 3$}
-            \STATE $i \gets i+2$
-        \ENDIF
-    \ENDIF 
-    \RETURN{}
-  \end{algorithmic} 
-  \caption{Another another test algorithm}
-  \label{alg:algorithm3}
-\end{algorithm}
+Penelitian akan dimulai dengan menggunakan kode sumber aplikasi yang dibuat dengan monolit. Kode sumber ini dilakukan proses dekomposisi yaitu dengan analisis seperti mencari objek beserta atributnya, untuk mencari keterhubungan lebih lanjut tentang objek maka dilakukan pencarian pada fungsi-fungsi sehingga terbentuklah grafik yang menunjukan bagaimana keterhubungan objek di aplikasi. \\
 
-Cu mel putent rationibus dissentiet. Per vidisse scaevola oportere ei, qui solet molestie eu. Hinc diceret nominati per at, nec dico denique laboramus et. Legere regione his at, aeque decore in mei.\\
+Dari grafik yang sudah dibuat akan dilakukan pengelompokan dengan pendekatan Hierarchical Clustering. Dimana perlu ditentukan jumlah cluster minimum yang harus ditemukan dan pemilihan algoritma Linkage. Metode linkage yaitu menentukan jarak atau kemiripan antara semua objek. Untuk menentukan jarak ini bisa dengan rata-rata, maximum, minimum dan mengecilkan variance. \\
+
+Pengelompokan dari Hierarchical Clustering akan dipilih dengan mencari nilai cohesion terendah dan  nilai coupling tertinggi. Dimana Internal Coupling mengevaluasi tingkat ketergantungan langsung dan tidak langsung antar objek. Semakin banyak dua objek menggunakan metode masing-masing semakin mereka menjadi satu kesatuan. Sedangkan Internal Cohesion akan mengevaluasi kekuatan interaksi antar objek. Biasanya, dua objek atau lebih menjadi interaktif jika metodenya bekerja pada atribut yang sama.\\
+
+Ketika analisis dekomposisi sudah selesai dilakukan maka akan dilakukan implementasi berdasarkan pengelompokannya masing-masing yang akan menjadi service. Untuk metode komunikasinya antara service yaitu dengan Remote Procedure Call(RPC) dan untuk mengelola data, setiap service memiliki databasenya masing-masing dan untuk menjaga konsistensi data antar service maka digunakan pendekatan SAGA dengan cara choreography.\\
+
+Untuk mengetahui bagaimana performa dari microservice dibandingkan dengan monolit yaitu dengan test beban. Pengukuran performa dilihat dari throughput, jumlah response, dan latency. 
+
 
 \section{Urutan Proses Global}
-Mea tale aliquam minimum te. Eu mel putant virtute, essent inermis nominavi mea no. Laoreet indoctum sea te. Te scripta fabulas duo, pro doming recusabo voluptaria at. Cu sed numquam inciderint, ei minim altera disputando cum, te nec graeco maiorum convenire.\\
-Cu mel putent rationibus dissentiet. Per vidisse scaevola oportere ei, qui solet molestie eu. Hinc diceret nominati per at, nec dico denique laboramus et. Legere regione his at, aeque decore in mei.\\
+\begin{center}
+	\includegraphics[width=14cm]{img/FlowchartProsesGlobal.png}
+	\captionof{figure}{Diagram Flowchart Proses Global }
+	\label{fig:asd}
+\end{center}
+.....
+
 
 \section{Analisis Manual}
-Mea tale aliquam minimum te. Eu mel putant virtute, essent inermis nominavi mea no. Laoreet indoctum sea te. Te scripta fabulas duo, pro doming recusabo voluptaria at. Cu sed numquam inciderint, ei minim altera disputando cum, te nec graeco maiorum convenire. Cu mel putent rationibus dissentiet. Per vidisse scaevola oportere ei, qui solet molestie eu. Hinc diceret nominati per at, nec dico denique laboramus et. Legere regione his at, aeque decore in mei.\\
+....
 
 \begin{small}
     \begin{longtable}[c]{|l|l|l|l|}
