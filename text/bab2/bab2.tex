@@ -2,30 +2,165 @@
 \chapter{LANDASAN TEORI}
 %-----------------------------------------------------------------------------%
 \vspace{4.5pt}
-
+Pada bab ini menjelaskan beberapa teori dan jurnal yang berhubungan dengan permasalahan penelitian dan yang digunakan pada proses penelitian.
 \section{Tinjauan Pustaka}
-
+Pembahasan mengenai teori-teori tersebut akan dijelaskan sebagai berikut.
 \subsection{Monolit}
-Monolit yaitu suatu cara untuk melakukan penyebaran. Ketika semua fungsi dalam sistem harus disebarkan secara bersama-sama, maka itu merupakan monolit. Tantangan yang muncul pada monolit terjadi ketika semakin banyak orang yang bekerja pada aplikasi yang sama. Akibatnya setiap pengembang memiliki kepentingan masing-masing dalam mengelola kode yang sama dan membuat pengambilan keputusan sulit serta tidak fleksibel. Keuntungan yang muncul dengan monolit yaitu penyebaran yang lebih sederhana dan memudahkan pemantauan, pemecahan masalah, dan aktivitas pengujian sistem. monolit dapat menyederhanakan pada penggunaan kembali kode yang sudah dibuat sebelumnya \cite{6}.\\
+Monolit yaitu suatu cara untuk melakukan penyebaran. Ketika semua fungsi dalam sistem harus disebarkan secara bersama-sama, maka itu merupakan monolit. Tantangan yang muncul pada monolit terjadi ketika semakin banyak orang yang bekerja pada aplikasi yang sama. Akibatnya setiap pengembang memiliki kepentingan masing-masing dalam mengelola kode yang sama dan membuat pengambilan keputusan sulit serta tidak fleksibel. Keuntungan yang muncul dengan monolit yaitu penyebaran yang lebih sederhana dan memudahkan pemantauan, pemecahan masalah, dan aktivitas pengujian sistem. monolit dapat menyederhanakan pada penggunaan kembali kode yang sudah dibuat sebelumnya \cite{6}.
 
-Terdapat 3 jenis monolit:
-\subsubsection{Single Process Monolith}
-Dimana sebuah kode disebarkan dengan satu proses. Dimana setiap kode bisa berada di banyak instances serta tempat penyimpanan dan mendapatkan data disimpan pada suatu database yang sama. Variasi lainnya yaitu modular monolith dimana setiap kode bisa bekerja secara independen tetapi perlu dijadikan satu kesatuan ketika ingin dilakukan penyebaran\cite{6}. \\
-\subsubsection{Distributed Monolith}
-Monolit terdistribusi adalah sistem yang terdiri dari beberapa layanan, tetapi untuk apa pun alasannya seluruh sistem harus disebarkan bersama-sama. Sebuah monolith terdistribusi mungkin akan memenuhi definisi dari sebuah arsitektur service-oriented (SOA)\cite{6}.\\
+Terdapat 3 jenis monolit \cite{6}:
+\begin{enumerate}[leftmargin=1.3cm]
+\item Single Process Monolith
 
-Monolit terdistribusi biasanya muncul  di kondisi dimana tidak cukup fokus pada konsep information hiding dan kohesi dari fungsi bisnis. Akibatnya terbentuklah arsitektur yang memiliki kopel yang tinggi, dimana bisa perubahan menyebabkan kerusakan pada bagian sistem lain\cite{6}.\\ 
-\subsubsection{Sistem Black-Box Pihak Ketiga}
-Aplikasi pihak ketiga merupakan sebuah monolit, misalkan sistem penggajian, sistem CRM, dan sistem SDM. Faktor umum yang terjadi yaitu aplikasi ini dibuat dan dikelola oleh orang lain dimana pengembang belum tentu memiliki kemampuan untuk mengubah kode seperti Software-as-a-Service(SaaS)\cite{6}.\\
+Dimana sebuah kode disebarkan dengan satu proses. Dimana setiap kode bisa berada di banyak instances serta tempat penyimpanan dan mendapatkan data disimpan pada suatu database yang sama. Variasi lainnya yaitu modular monolith dimana setiap kode bisa bekerja secara independen tetapi perlu dijadikan satu kesatuan ketika ingin dilakukan penyebaran.
+\item Distributed Monolith
+
+Monolit terdistribusi adalah sistem yang terdiri dari beberapa layanan, tetapi untuk apa pun alasannya seluruh sistem harus disebarkan bersama-sama. Sebuah monolith terdistribusi mungkin akan memenuhi definisi dari sebuah arsitektur service-oriented (SOA).
+
+Monolit terdistribusi biasanya muncul  di kondisi dimana tidak cukup fokus pada konsep information hiding dan kohesi dari fungsi bisnis. Akibatnya terbentuklah arsitektur yang memiliki kopel yang tinggi, dimana bisa perubahan menyebabkan kerusakan pada bagian sistem lain.
+\item Sistem Black-Box Pihak Ketiga
+Aplikasi pihak ketiga merupakan sebuah monolit, misalkan sistem penggajian, sistem CRM, dan sistem SDM. Faktor umum yang terjadi yaitu aplikasi ini dibuat dan dikelola oleh orang lain dimana pengembang belum tentu memiliki kemampuan untuk mengubah kode seperti Software-as-a-Service(SaaS).
+\end{enumerate}
+
+Keuntungan dari Monolit:
+\begin{enumerate}[leftmargin=1.3cm]
+	\item Sederhana dalam melakukan pengembangan karena Integrated Development Environment (IDE) dan peralatan pengembang berfokus pada membuat satu aplikasi
+\item Mudah untuk melakukan perubahan secara radikal di aplikasi. Perubahan ini bisa dari kode hingga skema database serta proses deployment.
+\item Pengujian dilakukan pada satu aplikasi, pengembang dapat membuat pengujian dari awal hingga akhir dengan lebih mudah dan terintegrasi
+\item Deployment dilakukan pada satu aplikasi, pengembang hanya menyalin aplikasi dari komputer ke komputer yang lain. Dengan ini aplikasi relatif mudah dilakukan konfigurasi dan mudah diperbanyak jumlah aplikasi.
+\end{enumerate}
+
+Tantangan dari monolith	
+\begin{enumerate}[leftmargin=1.3cm]
+	\item Sulit dikembangkan secara berkelanjutan
+	\item Proses deployment sulit ketika aplikasi sudah di deploy di produksi.
+	\item Tidak mudah untuk melakukan skalabilitas
+	\item Terkunci pada teknologi jadul\\
+\end{enumerate}	
 
 \subsection{Microservice}
-...
+Microservice adalah service yang bisa di deploy secara independen yang dimodelkan berdasarkan bisnis domain. Service ini berkomunikasi satu sama lain melalui jaringan komputer dan bisa dibangun dengan berbagai macam teknologi.  Microservice adalah salah tipe dari service oriented architecture (SOA) meskipun ada perbedaan dalam membuat batasan antara service dan deployment  secara independent.[6]
+Service adalah komponen perangkat lunak yang memiliki kegunaannya secara khusus dimana komponen ini bisa berdiri sendiri dan secara independen dilakukan proses deployment. Service memiliki API(Application Programming Interface) yang memberikan akses kepada client untuk melakukan operasi. Terdapat 2 tipe operasi yaitu perintah dan kueri.[8]
+API terdiri dari perintah, kueri dan event. Perintah dapat berupa buatPesanan() yang melakukan aksi dan memperbarui data. Kueri dapat berupa cariPesananBerdasarkanID() yang digunakan untuk mengambil data. Service juga dapat membuat suatu event seperti PesananSudahDibuat dimana event ini akan dikonsumsi oleh client-nya.[8]
+Service API akan mengenkapsulasi internal implementasinya, sehingga pengembang aplikasi tidak bisa menuliskan kode yang melewati API. Akibatnya arsitektur microservice dapat mewajibkan modularitas di aplikasi.  Setiap service di arsitektur microservice memiliki masing-masing arsitektur dan dimungkinkan teknologi  yang berbeda. Tetapi service memiliki arsitektur hexagonal. Dimana API akan diimplementasi melalui adaptor yang berinteraksi dengan logika bisnis[7]
+
+Ciri Khusus Microservice	
+\begin{enumerate}[leftmargin=1.3cm]
+	\item Kecil dan berfokus pada satu hal dengan baik
+	\item Otonomi / Bisa berdiri sendiri
+	\item Proses Deployment  secara mandiri
+	\item Dimodelkan di Sekitar Domain Bisnis
+	\item Setiap service memiliki data yang dikelola masing-masing
+\end{enumerate}	
+
+Keuntungan dari Microservice
+\begin{enumerate}[leftmargin=1.3cm]
+	\item Memudahkan pengembangan aplikasi komplex dan flexibel Service memiliki ukuran yang kecil sehingga mudah dikelola
+	\item Service bisa dilakukan skala secara independen 
+	\item Mudah melakukan percobaan dan penggunaan teknologi baru
+	\item Memiliki isolasi kegagalan lebih baik
+\end{enumerate}	
+
+Tantangan dari Microservice
+\begin{enumerate}[leftmargin=1.3cm]
+	\item Menemukan service yang tepat itu sulit
+	\item Memiliki kompleksitas karena merupakan suatu distributed sistem
+	\item Membutuhkan koordinasi ketika menambahkan fitur yang menjangkau beberapa service
+	\item Menentukan kapan untuk melakukan adopsi
+\end{enumerate}	
+
+Pola Microservice
+Gambar *.* Pola dalam menyelesaikan masalah di arsitektur Microservice[8]
+\begin{enumerate}[leftmargin=1.3cm]
+	\item Application patterns
+	Permasalahan yang harus diselesaikan oleh pengembang aplikasi
+	- Proses kueri
+	- Dekomposisi aplikasi menjadi service
+	- Menjaga data konsistensi dan implementasi proses transaksi
+	- Mengotomatiskan proses pengujian  service
+	\item Application infrastructure 
+	Permasalah infrastruktur yang memiliki pengaruh pada proses pengembangan aplikasi
+	- Pola komunikasi
+	- Pola mengatasi permasalahan antar service
+	\item Infrastructure patterns 
+	Permasalahan infrastruktur yang muncul diluar dari pengembangan aplikasi
+	Pola Komunikasi
+	Pola Service Deployment
+	Pola observability untuk mengetahui bagaimana aplikasi bekerja	
+\end{enumerate}	
+
 \subsection{Enterprise Resource Planning}
-...
+Enterprise Resource Planning(ERP) adalah suatu sistem perangkat lunak yang memungkinkan perusahaan untuk mengotomatisasikan dan mengintegrasikan proses bisnisnya dengan komputerisasi. Dengan ini setiap informasi yang diperlukan di proses bisnis dapat dibagikan dan digunakan disemua bagian perusahaan dengan alur terstruktur. Sistem ERP dapat mengeliminasi duplikasi data dan memberikan integrasi data. Sistem ERP memiliki database dimana semua transaksi bisnis dapat direkam, diproses, dipantau dan dilaporkan. Tujuannya agar bisa proses bisnis bisa dilakukan dengan lebih cepat , murah, dan transparan.[1]
+Sistem ERP dapat memberikan dukungan untuk proses bisnis perusahaan melalui modul yang terpisah. Setiap modul adalah aplikasi perangkat lunak yang dibangung khusus untuk setiap operasi bisnis. Umumnya modul yang ditemukan pada ERP yaitu Modul Produksi, Modul Manajemen Rantai Pasokan, Modul Keuangan, Modul Penjualan \& Pemasaran, Modul Sumber Daya Manusia, dan modul pelengkap lainnya seperti e-commerce.[1]
+
+Arsitektur ERP: 
+\begin{enumerate}[leftmargin=1.3cm]
+	\item The tiered architecture
+	\item Web-based architecture
+	\item Service oriented architecture
+	\item Cloud architecture
+\end{enumerate}
+
+\subsection{Analisis Kode}
+Analisis Kode analisis adalah suatu proses mengekstraksi informasi mengenai suatu program dari kode atau artifak. Proses ini bisa dilakukan secara manual yaitu dengan melihat kode program atau bahasa mesin namun kompleksitas program yang tinggi membuat proses secara manual sangat mahal dan tidak efektif. Sehingga diperlukan peralatan yang dapat membantu proses analisis kode. Peralatan ini dapat memberikan informasi kepada pengembang mengenai program yang dianalisis.[9] 
+
+Anatomi Analisis Kode
+\begin{enumerate}[leftmargin=1.3cm]
+	\item Ekstraksi Data
+	\item Representasi Informasi
+	\item Explorasi Pengetahuan
+\end{enumerate}
+
+Anatomi Analisis Kode
+\begin{enumerate}[leftmargin=1.3cm]
+	\item Statik vs Dinamis
+	\item Sound vs Unsound
+	\item Flow sensitive vs Flow insensitive
+	\item Context sensitive vs Context insensitive
+\end{enumerate}
+
+Tantangan Kode Analisis
+\begin{enumerate}[leftmargin=1.3cm]
+	\item Perbedaan bahasa kode program
+	\item Multi-Language
+	\item Analisis secara langsung
+\end{enumerate}
+
+\subsection{Clustering}
+Clustering yaitu suatu proses untuk melakukan pengelompok atau klasifikasi objek. Objek bisa ditentukan dari pengukuran atau berdasarkan hubungan antar objek lainnya. Tujuan dari clustering yaitu untuk  menemukan struktur data yang valid. Cluster terdiri dari sejumlah object serupa yang dikumpulkan / dikelompokan bersama.[10]
+
+Metode Clustering yang umumnya digunakan:
+\begin{enumerate}[leftmargin=1.3cm]
+	\item Hierarchical Clustering
+	…
+	\item Partitional Clustering
+	…
+	
+\end{enumerate}	
 \subsection{Dekomposisi}
-...
-\subsection{Pengelompokan}
-...
+Pemilihan bagian yang ingin didekomposisi untuk menjadi Service:[6]
+\begin{enumerate}[leftmargin=1.3cm]
+\item Berdasarkan proses bisnis
+\item Berdasarkan sub-domain (DDD)
+\end{enumerate}	
+
+Pola untuk Proses Dekomposisi:
+\begin{enumerate}[leftmargin=1.3cm]
+	\item Pola Strangle 
+	\item Pola UI Composition
+	\item Branch By Abstraction
+	\item Parallel Run
+	\item Decorating Collaborator
+	\item Change Data Capture
+\end{enumerate}	
+
+Tantangan dan Hambatan Dekomposisi:
+\begin{enumerate}[leftmargin=1.3cm]
+	\item Latensi Jaringan
+	\item Menjaga konsistensi data antar service
+	\item Adanya God Class yang mencegah dekomposisi
+\end{enumerate}	
+
 \subsection{Teknologi dan Library}
 \subsubsection{Docker}
 ...
