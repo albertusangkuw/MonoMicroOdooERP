@@ -3,14 +3,19 @@
 %-----------------------------------------------------------------------------%
 \vspace{4.5pt}
 
+Pada bab ini menjelaskan analisis masalah yang diatasi, alur kerja dari perangkat lunak yang dikembangkan, arsitektur dan metode yang digunakan serta hasil evaluasi
+
 \section{Analisis Masalah}
-Arsitektur yang digunakan Odoo(ERP) masih beruba monolith sehingga memiliki kelemahan seperti skalabilitas, sulit dikembangkan berkelanjutan, dan terkunci pada teknologi tertentu.
-Arsitektur Microservice dapat menyelesaikan masalah tersebut
-Namun diperlukan proses dekomposisi dari mono-to-micro. Proses dekomposisi sendiri  tidak mudah dan melelahkan karena masih membutuhkan proses manual. 
-Proses manual ini bisa di”mudahkan” dengan melakukan clustering khususnya dengan metode hierarchical 
-Sebelum melakukan proses clustering diperlukan analisis kode seperti Call Graph untuk mendapatkan graph dari source code aplikasi Odoo (ERP)
-Hasil terbaik dari clustering diimplementasikan menjadi service, service dan dilakukan pemecahan dengan pattern yang sudah ditemukan
-Dilakukan evaluasi dari aplikasi yang dibangun untuk menentukan apakah microservice dan clustering bisa melakukan dekomposisi dapat menyelesaikan permasalahan pada kasus ERP
+
+
+
+- Arsitektur yang digunakan Odoo(ERP) masih beruba monolith sehingga memiliki kelemahan seperti skalabilitas, sulit dikembangkan berkelanjutan, dan terkunci pada teknologi tertentu.
+- Arsitektur Microservice dapat menyelesaikan masalah tersebut
+- Namun diperlukan proses dekomposisi dari mono-to-micro. Proses dekomposisi sendiri  tidak mudah dan melelahkan karena masih membutuhkan proses manual. 
+- Proses manual ini bisa di”mudahkan” dengan melakukan clustering khususnya dengan metode hierarchical 
+- Sebelum melakukan proses clustering diperlukan analisis kode seperti Call Graph untuk mendapatkan graph dari source code aplikasi Odoo (ERP)
+- Hasil terbaik dari clustering diimplementasikan menjadi service, service dan dilakukan pemecahan dengan pattern yang sudah ditemukan
+- Dilakukan evaluasi dari aplikasi yang dibangun untuk menentukan apakah microservice dan clustering bisa melakukan dekomposisi dapat menyelesaikan permasalahan pada kasus ERP
 
 \section{Kerangka Pemikiran}
 \begin{center}
@@ -55,7 +60,9 @@ Memilih hasil rekomendasi \\
 
 \subsection{Dekomposisi Monolitik ke Microservice}
 Komponen Diagram monolith VS komponen diagram yang diolah dari call graph\\
-Sequence Diagram antar service dan module
+Package Diagram Strategi Dekomposisi\\
+State diagram authentikasi\\
+Sequence Diagram antar service dan module (kasus transaksi mis. penjualan)\\
 
 \subsection{Deployment}
 \begin{center}
@@ -65,5 +72,6 @@ Sequence Diagram antar service dan module
 \end{center}
 
 \subsection{Evaluasi}
+Flowchart\\
 Latency \& Throughput:  JMeter\\
 Cost: AWS Cost Management (Cost Explorer)

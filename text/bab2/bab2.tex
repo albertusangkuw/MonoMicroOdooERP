@@ -6,7 +6,9 @@ Pada bab ini menjelaskan beberapa teori dan jurnal yang berhubungan dengan perma
 \section{Tinjauan Pustaka}
 Pembahasan mengenai teori-teori tersebut akan dijelaskan sebagai berikut.
 \subsection{Monolit}
-Monolit yaitu suatu cara untuk melakukan penyebaran. Ketika semua fungsi dalam sistem harus disebarkan secara bersama-sama, maka itu merupakan monolit. Tantangan yang muncul pada monolit terjadi ketika semakin banyak orang yang bekerja pada aplikasi yang sama. Akibatnya setiap pengembang memiliki kepentingan masing-masing dalam mengelola kode yang sama dan membuat pengambilan keputusan sulit serta tidak fleksibel. Keuntungan yang muncul dengan monolit yaitu penyebaran yang lebih sederhana dan memudahkan pemantauan, pemecahan masalah, dan aktivitas pengujian sistem. monolit dapat menyederhanakan pada penggunaan kembali kode yang sudah dibuat sebelumnya \cite{6}.
+Monolit yaitu suatu cara untuk melakukan penyebaran. Ketika semua fungsi dalam sistem harus disebarkan secara bersama-sama, maka itu merupakan monolit.\cite{6} Monolit merupakan sebuah aplikasi perangkat lunak dimana setiap modulenya tidak bisa dieksekusi secara independen. Hal ini membuat monolit sulit digunakan pada sistem terdistribusi tanpa bantuan penggunaan frameworks atau solusi ad hoc seperti Objek Jaringan, RMI atau CORBA.
+Penggunaan pada bahasa utama seperti Java, C/C++, dan Python pada pengembangan aplikasi di sisi server. Memiliki kemampuan melakukan abstraksi untuk memecah kompleksitas program menjadi berupa modul. Namun, bahasa pemrograman ini dirancang untuk membuat artefacts monolit. Dimana abstraksi ini tergantung pada penggunaan berbagi sumber data pada komputer yang sama (memori, database, file). 
+
 
 Terdapat 3 jenis monolit \cite{6}:
 \begin{enumerate}[leftmargin=1.3cm]
@@ -32,10 +34,10 @@ Keuntungan dari Monolit:
 
 Tantangan dari monolith	
 \begin{enumerate}[leftmargin=1.3cm]
-	\item Sulit dikembangkan secara berkelanjutan
-	\item Proses deployment sulit ketika aplikasi sudah di deploy di produksi.
-	\item Tidak mudah untuk melakukan skalabilitas
-	\item Terkunci pada teknologi jadul\\
+	\item Sulit dikembangkan secara berkelanjutan, karena semakin banyak orang yang bekerja pada aplikasi yang sama. Akibatnya setiap pengembang memiliki kepentingan masing-masing dalam mengelola kode yang sama dan membuat pengambilan keputusan sulit serta tidak fleksibel
+	\item Memiliki reliabilitas yang rendah, karena kesalahan pada salah satu module aplikasi bisa menyebabkan kegagalan secara keseluruhan aplikasi. Akibatnya aplikasi tidak dapat digunakan oleh pengguna dan harus dilakukan deployment kembali.
+	\item Tidak mudah untuk melakukan skalabilitas,setiap modul aplikasi memiliki kebutuhan sumber daya yang berbeda seperti ada module penyediaan data yang membutuhkan banyak memori dan ada modul pemprosesan gambar yang membutuhkan banyak CPU, karena module ini berada pada aplikasi yang sama akibatnya pengembang harus melakukan pengorbanan pada salah satu sisi sumber daya.
+	\item Terkunci pada teknologi jadul, pengembang terkunci pada teknologi awal yang digunakan untuk membangun aplikasi. Pengembang juga kesulitan ketika ingin mengadopsi teknologi baru pada aplikasi karena sangat berisiko dan sangat mahal untuk menulis kembali seluruh aplikasi antar teknologi.\\
 \end{enumerate}	
 
 \subsection{Microservice}
