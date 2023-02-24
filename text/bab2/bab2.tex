@@ -7,7 +7,7 @@ Pada bab ini menjelaskan beberapa teori dan jurnal yang berhubungan dengan perma
 Pembahasan mengenai teori-teori tersebut akan dijelaskan sebagai berikut.
 \subsection{Monolit}
 Monolit yaitu suatu cara untuk melakukan penyebaran. Ketika semua fungsi dalam sistem harus disebarkan secara bersama-sama, maka itu merupakan monolit.\cite{6} Monolit merupakan sebuah aplikasi perangkat lunak dimana setiap modulenya tidak bisa dieksekusi secara independen. Hal ini membuat monolit sulit digunakan pada sistem terdistribusi tanpa bantuan penggunaan frameworks atau solusi ad hoc seperti Objek Jaringan, RMI atau CORBA.
-Penggunaan pada bahasa utama seperti Java, C/C++, dan Python pada pengembangan aplikasi di sisi server. Memiliki kemampuan melakukan abstraksi untuk memecah kompleksitas program menjadi berupa modul. Namun, bahasa pemrograman ini dirancang untuk membuat artefacts monolit. Dimana abstraksi ini tergantung pada penggunaan berbagi sumber data pada komputer yang sama (memori, database, file). 
+Penggunaan pada bahasa utama seperti Java, C/C++, dan Python pada pengembangan aplikasi di sisi server. Memiliki kemampuan melakukan abstraksi untuk memecah kompleksitas program menjadi berupa modul. Namun, bahasa pemrograman ini dirancang untuk membuat artefacts monolit. Dimana abstraksi ini tergantung pada penggunaan berbagi sumber data pada komputer yang sama (memori, database, file).[?] 
 
 
 Terdapat 3 jenis monolit \cite{6}:
@@ -32,11 +32,11 @@ Keuntungan dari Monolit:
 \item Deployment dilakukan pada satu aplikasi, pengembang hanya menyalin aplikasi dari komputer ke komputer yang lain. Dengan ini aplikasi relatif mudah dilakukan konfigurasi dan mudah diperbanyak jumlah aplikasi.
 \end{enumerate}
 
-Tantangan dari monolith	
+Tantangan dari monolith:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Sulit dikembangkan secara berkelanjutan, karena semakin banyak orang yang bekerja pada aplikasi yang sama. Akibatnya setiap pengembang memiliki kepentingan masing-masing dalam mengelola kode yang sama dan membuat pengambilan keputusan sulit serta tidak fleksibel
 	\item Memiliki reliabilitas yang rendah, karena kesalahan pada salah satu module aplikasi bisa menyebabkan kegagalan secara keseluruhan aplikasi. Akibatnya aplikasi tidak dapat digunakan oleh pengguna dan harus dilakukan deployment kembali.
-	\item Tidak mudah untuk melakukan skalabilitas,setiap modul aplikasi memiliki kebutuhan sumber daya yang berbeda seperti ada module penyediaan data yang membutuhkan banyak memori dan ada modul pemprosesan gambar yang membutuhkan banyak CPU, karena module ini berada pada aplikasi yang sama akibatnya pengembang harus melakukan pengorbanan pada salah satu sisi sumber daya.
+	\item Tidak mudah untuk melakukan skalabilitas,setiap modul aplikasi memiliki kebutuhan sumber daya yang berbeda seperti ada module penyediaan data yang membutuhkan banyak memori sedangkan modul pemprosesan gambar membutuhkan banyak CPU, karena module ini berada pada aplikasi yang sama akibatnya pengembang harus melakukan pengorbanan pada salah satu sisi sumber daya.
 	\item Terkunci pada teknologi jadul, pengembang terkunci pada teknologi awal yang digunakan untuk membangun aplikasi. Pengembang juga kesulitan ketika ingin mengadopsi teknologi baru pada aplikasi karena sangat berisiko dan sangat mahal untuk menulis kembali seluruh aplikasi antar teknologi.\\
 \end{enumerate}	
 
@@ -46,32 +46,37 @@ Service adalah komponen perangkat lunak yang memiliki kegunaannya secara khusus 
 API terdiri dari perintah, kueri dan event. Perintah dapat berupa buatPesanan() yang melakukan aksi dan memperbarui data. Kueri dapat berupa cariPesananBerdasarkanID() yang digunakan untuk mengambil data. Service juga dapat membuat suatu event seperti PesananSudahDibuat dimana event ini akan dikonsumsi oleh client-nya.[8]
 Service API akan mengenkapsulasi internal implementasinya, sehingga pengembang aplikasi tidak bisa menuliskan kode yang melewati API. Akibatnya arsitektur microservice dapat mewajibkan modularitas di aplikasi.  Setiap service di arsitektur microservice memiliki masing-masing arsitektur dan dimungkinkan teknologi  yang berbeda. Tetapi service memiliki arsitektur hexagonal. Dimana API akan diimplementasi melalui adaptor yang berinteraksi dengan logika bisnis[7]
 
-Ciri Khusus Microservice	
+Ciri Khusus Microservice:	
 \begin{enumerate}[leftmargin=1.3cm]
-	\item Kecil dan berfokus pada satu hal dengan baik
-	\item Otonomi / Bisa berdiri sendiri
-	\item Proses Deployment  secara mandiri
-	\item Dimodelkan di Sekitar Domain Bisnis
-	\item Setiap service memiliki data yang dikelola masing-masing
+	\item Kecil dan berfokus pada satu hal dengan baik\\
+		Service yang dibuat memiliki encapsulation dengan pembuatan service dimodelkan di sekitar Domain Bisnis, tujuannya agar ketika terjadi perubahan antar service bisa dilakukan dengan lebih mudah dan tidak berdampak pada service lain. Oleh karena itu service yang dibuat seminimal mungkin untuk tidak berhubungan dengan service lain. 
+	\item Otonomi / Bisa berdiri sendiri\\
+		Microservice memiliki service yang terisolasi dimana bisa memiliki sistem operasi hingga komputer yang berbeda. Dengan ini sistem terdistribusi lebih sederhana dan nilai kopel yang rendah. Semua komunikasi antar service dilakukan melalui jaringan sehingga service harus memiliki kemampuan dideploy sendiri tanpa harus mengubah service lain.
+	\item Setiap service memiliki data yang dikelola masing-masing\\
+		Service yang membutuhkan data diluar domainya harus berkomunikasi melalui API(application programming interface), dengan ini setiap service memiliki tanggung jawab terhadap datanya masing masing sehingga data tersebut hanya bisa diubah oleh service itu sendiri. Masing masing service memiliki data yang pribadi dan data yang bisa dibagikan kepada service lain
 \end{enumerate}	
 
-Keuntungan dari Microservice
+Keuntungan dari Microservice:
 \begin{enumerate}[leftmargin=1.3cm]
-	\item Memudahkan pengembangan aplikasi komplex dan flexibel Service memiliki ukuran yang kecil sehingga mudah dikelola
-	\item Service bisa dilakukan skala secara independen 
-	\item Mudah melakukan percobaan dan penggunaan teknologi baru
-	\item Memiliki isolasi kegagalan lebih baik
+	\item Memudahkan pengembangan aplikasi komplex dan flexibel\\
+	 Service memiliki ukuran yang kecil sehingga mudah dikelola, perubahan pada satu service bisa diterapkan secara independen dari service lainnya. Bila terjadi kegagalan di satu service tidak berdampak besar pada service lainnya karena service masing-masing terisolasi selain itu proses pemulihan bisa dilakukan dengan mudah dan cepat.
+	\item Bisa dilakukan skaling secara independen\\ 
+	Setiap service memiliki fungsi yang berfokus pada satu hal,  dimana setiap service bisa memiliki kebutuhan sumber daya berbeda. Penggunaan sumber daya ini bisa dikelola dengan mudah dan cepat karena setiap service dapat dideploy dengan jumlah service yang berbeda.
+	\item Mudah melakukan percobaan dan penggunaan teknologi baru\\
+	Arsitektur microservice mengeliminasi komitmen penggunaan secara lama pada suatu teknologi. Dengan ini pengembang dapat memilih berbagai teknologi dalam membangun service serta service yang kecil dan berfokus lebih mudah untuk dilakukan migrasi antara teknologi yang berbeda. 
 \end{enumerate}	
 
-Tantangan dari Microservice
+Tantangan dari Microservice:
 \begin{enumerate}[leftmargin=1.3cm]
-	\item Menemukan service yang tepat itu sulit
-	\item Memiliki kompleksitas karena merupakan suatu distributed sistem
-	\item Membutuhkan koordinasi ketika menambahkan fitur yang menjangkau beberapa service
-	\item Menentukan kapan untuk melakukan adopsi
+	\item Menemukan service yang tepat itu sulit\\
+	Salah satu tantang terbesar dari membuat microservice yaitu tidak adanya kepastian bagaimana untuk melakukan dekomposisi dengan baik. Dimana service yang didekomposisi dengan tepat tidak mudah dan bila dilakukan dengan tidak benar dapat sebaliknya membuat distributed monolith. 
+	\item Memiliki kompleksitas karena merupakan suatu distributed sistem\\
+	Setiap service untuk berkomunikasi antar service memiliki tantangan masing-masing seperti latensi, konsistensi data, dan kondisi ketika beberapa service mengalami kegagalan. Microservice juga meningkatkan kompleksitas operasional oleh karena itu untuk melakukan deployment sebaiknya menggunakan proses otomatisasi.
+	\item Deployment yang melibatkan beberapa service\\
+	Untuk melakukan deployment ini dibutuhkan koordinasi antara tim pengembang service ketika menambahkan atau mengubah fitur yang menjangkau beberapa service maka dari itu harus dibuat perencanaan deployment berdasrkan ketergantungan antar service.
 \end{enumerate}	
 
-Pola Microservice
+Pola Microservice:
 Gambar *.* Pola dalam menyelesaikan masalah di arsitektur Microservice[8]
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Application patterns
@@ -97,35 +102,48 @@ Sistem ERP dapat memberikan dukungan untuk proses bisnis perusahaan melalui modu
 
 Arsitektur ERP: 
 \begin{enumerate}[leftmargin=1.3cm]
-	\item The tiered architecture
-	\item Web-based architecture
-	\item Service oriented architecture
-	\item Cloud architecture
+	\item The Tiered\\
+	Arsitektur tiered umumnya dirancang dalam bentuk lapisan yang didasarkan dari model client-server atau bisa disebut N-Tier. Dalam arsitektur ini setiap komponen ERP disusun kedalam masing lapisan seperti lapisan user interface, lapisan aplikasi dan lapisan database / penyimpanan data.
+	\item Web-based\\
+	Arsitektur Web-based mengadopsi teknologi berorientasi objek web dimana pengguna yang ingin menggunakan sistem ERP bisa mengakses melalui browser dan internet.Object-oriented technology diimplementasi untuk mencampur data dan fungsi yang tersedia di berbagai web service.
+	\item Service Oriented\\
+	SOA(Service Oriented Architecture) adalah sistem yang dimana terdapat fungsi  modular yang berkomunikasi melalui jaringan. Satu atau lebih service bisa berkordinasi dalam suatu aktivitas fungsi bisnis. 
+	\item Cloud\\
+	Cloud dapat memberikan solusi bagi organisasi ketika mengadopsi sistem ERP pada kegiatan bisnisnya. Sistem ERP dengan arsitektur cloud bisa dikategorikan sebagai tipe SaaS(Software as a Service). Organisasi akan membayar pihak ke tiga setiap periode berdasarkan modul yang digunakannya. 
 \end{enumerate}
 
 \subsection{Analisis Kode}
 Analisis Kode analisis adalah suatu proses mengekstraksi informasi mengenai suatu program dari kode atau artifak. Proses ini bisa dilakukan secara manual yaitu dengan melihat kode program atau bahasa mesin namun kompleksitas program yang tinggi membuat proses secara manual sangat mahal dan tidak efektif. Sehingga diperlukan peralatan yang dapat membantu proses analisis kode. Peralatan ini dapat memberikan informasi kepada pengembang mengenai program yang dianalisis.[9] 
 
-Anatomi Analisis Kode
+Anatomi Analisis Kode:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Ekstraksi Data
+	
 	\item Representasi Informasi
+	
 	\item Explorasi Pengetahuan
 \end{enumerate}
 
-Anatomi Analisis Kode
+Strategi Analisis Kode:
 \begin{enumerate}[leftmargin=1.3cm]
-	\item Statik vs Dinamis
-	\item Sound vs Unsound
-	\item Flow sensitive vs Flow insensitive
-	\item Context sensitive vs Context insensitive
+	\item Statik vs Dinamis\\
+	
+	\item Sound vs Unsound\\
+	
+	\item Flow sensitive vs Flow insensitive\\
+	
+	\item Context sensitive vs Context insensitive\\
+	
 \end{enumerate}
 
-Tantangan Kode Analisis
+Tantangan Kode Analisis:
 \begin{enumerate}[leftmargin=1.3cm]
-	\item Perbedaan bahasa kode program
-	\item Multi-Language
-	\item Analisis secara langsung
+	\item Perbedaan bahasa kode program\\
+	
+	\item Multi-Language\\
+	
+	\item Analisis secara langsung\\
+	
 \end{enumerate}
 
 \subsection{Clustering}
@@ -142,8 +160,9 @@ Metode Clustering yang umumnya digunakan:
 \subsection{Dekomposisi}
 Pemilihan bagian yang ingin didekomposisi untuk menjadi Service:[6]
 \begin{enumerate}[leftmargin=1.3cm]
-\item Berdasarkan proses bisnis
-\item Berdasarkan sub-domain (DDD)
+	\item Berdasarkan proses bisnis
+	\item Berdasarkan sub-domain (DDD)
+	\item Berdasrkan Analisis Kode
 \end{enumerate}	
 
 Pola untuk Proses Dekomposisi:
