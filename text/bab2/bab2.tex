@@ -6,8 +6,9 @@ Pada bab ini menjelaskan beberapa teori dan jurnal yang berhubungan dengan perma
 \section{Tinjauan Pustaka}
 Pembahasan mengenai teori-teori tersebut dijelaskan sebagai berikut.
 \subsection{Monolit}
-Monolit yaitu suatu cara untuk melakukan penyebaran. Ketika semua fungsi dalam sistem harus disebarkan secara bersama-sama, maka itu merupakan sebuah monolit.\cite{6} Monolit merupakan sebuah aplikasi perangkat lunak dimana setiap modulnya tidak bisa dieksekusi secara independen. Hal ini membuat monolit sulit digunakan pada sistem terdistribusi tanpa bantuan penggunaan \textit{frameworks} atau solusi \textit{ad hoc} seperti Objek Jaringan, \textit{RMI} atau \textit{CORBA}.
-Penggunaan pada bahasa utama seperti \textit{Java},\textit{C/C++}, dan \textit{Python} pada pengembangan aplikasi di sisi \textit{server}, memiliki kemampuan dalam melakukan abstraksi untuk memecah kompleksitas program menjadi berupa modul. Namun, bahasa pemrograman ini dirancang untuk membuat \textit{artefacts} monolit. Dimana abstraksi ini tergantung pada penggunaan berbagi sumber data pada komputer yang sama (memori, database, file).[?] 
+Monolit yaitu suatu cara untuk melakukan penyebaran. Ketika semua fungsi dalam sistem harus disebarkan secara bersama-sama, maka itu merupakan sebuah monolit \cite{6}. Monolit merupakan sebuah aplikasi perangkat lunak dimana setiap modulnya tidak bisa dieksekusi secara independen. Hal ini membuat monolit sulit digunakan pada sistem terdistribusi tanpa bantuan penggunaan \textit{frameworks} atau solusi \textit{ad hoc} seperti Objek Jaringan, \textit{RMI} atau \textit{CORBA} \cite{16}.
+
+Penggunaan pada bahasa pemrograman seperti \textit{Java},\textit{C/C++}, dan \textit{Python} pada pengembangan aplikasi di sisi \textit{server}, memiliki kemampuan dalam melakukan abstraksi untuk memecah kompleksitas program menjadi berupa modul. Namun, bahasa pemrograman ini dirancang untuk membuat \textit{artefacts} monolit. Dimana abstraksi ini tergantung pada penggunaan berbagi sumber data pada komputer yang sama (memori, database, file) \cite{16}.
 
 
 Terdapat 3 jenis monolit \cite{6}:
@@ -22,7 +23,7 @@ Monolit terdistribusi biasanya muncul  di kondisi dimana tidak cukup fokus pada 
 Aplikasi pihak ketiga merupakan sebuah monolit, misalkan sistem penggajian, sistem CRM, dan sistem SDM. Faktor umum yang terjadi yaitu aplikasi ini dibuat dan dikelola oleh orang lain dimana pengembang belum tentu memiliki kemampuan untuk mengubah kode seperti \textit{Software-as-a-Service(SaaS)}.
 \end{enumerate}
 
-Keuntungan dari Monolit:
+Keuntungan dari Monolit \cite{6,8}:
 \begin{enumerate}[leftmargin=1.3cm]
 \item Sederhana dalam melakukan pengembangan karena \textit{Integrated Development Environment (IDE)} dan peralatan pengembang berfokus pada membuat satu aplikasi
 \item Mudah untuk melakukan perubahan secara radikal di aplikasi. Perubahan ini bisa dari kode hingga skema database serta proses \textit{deployment}.
@@ -30,7 +31,7 @@ Keuntungan dari Monolit:
 \item Deployment dilakukan pada satu aplikasi, pengembang hanya menyalin aplikasi dari komputer ke komputer yang lain. Dengan ini aplikasi relatif mudah dilakukan konfigurasi dan mudah diperbanyak jumlah aplikasi.
 \end{enumerate}
 
-Tantangan dari monolit:
+Tantangan dari monolit \cite{6,8}:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Sulit dikembangkan secara berkelanjutan, karena semakin banyak orang yang bekerja pada aplikasi yang sama. Akibatnya setiap pengembang memiliki kepentingan masing-masing dalam mengelola kode yang sama dan membuat pengambilan keputusan sulit serta tidak fleksibel
 	\item Memiliki reliabilitas yang rendah, karena kesalahan pada salah satu module aplikasi bisa menyebabkan kegagalan secara keseluruhan aplikasi. Akibatnya aplikasi tidak dapat digunakan oleh pengguna dan harus dilakukan deployment kembali.
@@ -39,14 +40,14 @@ Tantangan dari monolit:
 \end{enumerate}	
 
 \subsection{\textit{Microservice}}
-\textit{Microservice} adalah beberapa \textit{service} yang bisa di deploy secara independen yang dimodelkan berdasarkan bisnis domain. \textit{Service} ini berkomunikasi satu sama lain melalui jaringan komputer dan bisa dibangun dengan berbagai macam teknologi. \textit{Microservice} adalah salah tipe dari \textit{service oriented architecture (SOA)} meskipun ada perbedaan dalam membuat batasan antara \textit{service} dan \textit{deployment} secara independen.[6]
+\textit{Microservice} adalah beberapa \textit{service} yang bisa di deploy secara independen yang dimodelkan berdasarkan bisnis domain. \textit{Service} ini berkomunikasi satu sama lain melalui jaringan komputer dan bisa dibangun dengan berbagai macam teknologi. \textit{Microservice} adalah salah tipe dari \textit{service oriented architecture (SOA)} meskipun ada perbedaan dalam membuat batasan antara \textit{service} dan \textit{deployment} secara independen \cite{8}.
 
-\textit{Service} adalah komponen perangkat lunak yang memiliki kegunaannya secara khusus dimana komponen ini bisa berdiri sendiri dan secara independen dilakukan proses deployment. Service memiliki \textit{API (Application Programming Interface)} yang memberikan akses kepada \textit{client} untuk melakukan operasi. Terdapat 2 tipe operasi yaitu perintah dan kueri.[8]
-\textit{API} terdiri dari perintah, kueri dan \textit{event}. Perintah dapat berupa \textit{buatPesanan()} yang melakukan aksi dan memperbarui data. Kueri dapat berupa \textit{cariPesananBerdasarkanID()} yang digunakan untuk mengambil data. \textit{Service} juga dapat membuat suatu \textit{event} seperti \textit{PesananSudahDibuat} dimana \textit{event} ini akan dikonsumsi oleh \textit{client}-nya / \textit{subscriber}.[8]
+\textit{Service} adalah komponen perangkat lunak yang memiliki kegunaannya secara khusus dimana komponen ini bisa berdiri sendiri dan secara independen dilakukan proses deployment. Service memiliki \textit{API (Application Programming Interface)} yang memberikan akses kepada \textit{client} untuk melakukan operasi. Terdapat 2 tipe operasi yaitu perintah dan kueri.
+\textit{API} terdiri dari perintah, kueri dan \textit{event}. Perintah dapat berupa \textit{buatPesanan()} yang melakukan aksi dan memperbarui data. Kueri dapat berupa \textit{cariPesananBerdasarkanID()} yang digunakan untuk mengambil data. \textit{Service} juga dapat membuat suatu \textit{event} seperti \textit{PesananSudahDibuat} dimana \textit{event} ini akan dikonsumsi oleh \textit{client}-nya / \textit{subscriber} \cite{8}.
 
-\textit{Service API} akan mengenkapsulasi internal implementasinya, sehingga pengembang aplikasi tidak bisa menuliskan kode yang melewati \textit{API}. Akibatnya arsitektur \textit{microservice} dapat mewajibkan modularitas di aplikasi.  Setiap \textit{service} di arsitektur \textit{microservice} memiliki masing-masing arsitektur sendiri dan dimungkinkan dengan teknologi yang berbeda. Tetapi kebanyakan \textit{service} memiliki arsitektur heksagonal. Dimana \textit{API} akan diimplementasi melalui adapter yang berinteraksi dengan logika bisnis[7]
+\textit{Service API} akan mengenkapsulasi internal implementasinya, sehingga pengembang aplikasi tidak bisa menuliskan kode yang melewati \textit{API}. Akibatnya arsitektur \textit{microservice} dapat mewajibkan modularitas di aplikasi.  Setiap \textit{service} di arsitektur \textit{microservice} memiliki masing-masing arsitektur sendiri dan dimungkinkan dengan teknologi yang berbeda. Tetapi kebanyakan \textit{service} memiliki arsitektur heksagonal. Dimana \textit{API} akan diimplementasi melalui adapter yang berinteraksi dengan logika bisnis \cite{7}
 
-Ciri Khusus \textit{Microservice}:	
+Ciri Khusus \textit{Microservice} \cite{6,7,8}:	
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Kecil dan berfokus pada satu hal dengan baik\\
 	\textit{Service} yang dibuat memiliki \textit{encapsulation} dengan pembuatan \textit{service} dimodelkan di sekitar Domain Bisnis, tujuannya agar ketika terjadi perubahan antar \textit{service} bisa dilakukan dengan lebih mudah dan tidak berdampak pada \textit{service} lain. Oleh karena itu \textit{service} yang dibuat seminimal mungkin untuk tidak berhubungan dengan \textit{service} lain. 
@@ -56,7 +57,7 @@ Ciri Khusus \textit{Microservice}:
 	\textit{Service} yang membutuhkan data diluar domainnya harus berkomunikasi melalui \textit{API(application programming interface)}, dengan ini setiap \textit{service} memiliki tanggung jawab terhadap datanya masing-masing sehingga data tersebut hanya bisa diubah oleh \textit{service} itu sendiri. Setiap \textit{service} memiliki data yang pribadi dan data yang bisa dibagikan kepada \textit{service} lain
 \end{enumerate}	
 
-Keuntungan dari \textit{Microservice}:
+Keuntungan dari \textit{Microservice}  \cite{6,7,8}:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Memudahkan pengembangan aplikasi kompleks dan flexibel\\
 	\textit{Service} berukuran kecil sehingga mudah dikelola, perubahan pada satu \textit{service} bisa diterapkan secara independen dari service lainnya. Bila terjadi kegagalan di satu \textit{service} tidak berdampak besar pada \textit{service} lainnya karena \textit{service} masing-masing terisolasi selain itu proses pemulihan bisa dilakukan dengan mudah dan cepat.
@@ -66,7 +67,7 @@ Keuntungan dari \textit{Microservice}:
 	Arsitektur \textit{microservice} mengeliminasi komitmen penggunaan secara lama pada suatu teknologi. Dengan ini pengembang dapat memilih berbagai teknologi dalam membangun \textit{service} serta \textit{service} yang kecil dan berfokus lebih mudah untuk dilakukan migrasi antara teknologi yang berbeda. 
 \end{enumerate}	
 
-Tantangan dari \textit{Microservice}:
+Tantangan dari \textit{Microservice}  \cite{6,7,8}:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Menemukan \textit{service} yang tepat itu sulit\\
 	Salah satu tantang terbesar dari membuat \textit{microservice} yaitu tidak adanya cara yang pasti bagaimana untuk melakukan dekomposisi dengan baik. Dimana \textit{service} yang didekomposisi dengan tepat tidak mudah ditemukan dan bila dilakukan dengan tidak benar dapat sebaliknya membuat \textit{distributed monolith}. 
@@ -76,7 +77,7 @@ Tantangan dari \textit{Microservice}:
 	Untuk melakukan \textit{deployment} ini dibutuhkan koordinasi antara tim pengembang \textit{servic} ketika menambahkan atau mengubah fitur yang berdampak pada beberapa \textit{service} maka dari itu harus dibuat perencanaan \textit{deployment} berdasarkan ketergantungan antar \textit{service}.
 \end{enumerate}	
 
-Pola \textit{Microservice}:
+Pola \textit{Microservice}  \cite{8}:
 \begin{center}
 	\includegraphics[width=12cm]{img/PolaMicroservice.png}
 	\captionof{figure}{
@@ -89,16 +90,16 @@ Pola \textit{Microservice}:
 	- Proses kueri
 	- Dekomposisi aplikasi menjadi service
 	- Menjaga data konsistensi dan implementasi proses transaksi
-	- Mengotomatiskan proses pengujian  service
+	- Mengotomatiskan proses pengujian  service ...
 	\item \textit{Application infrastructure} 
 	Permasalah infrastruktur yang memiliki pengaruh pada proses pengembangan aplikasi
 	- Pola komunikasi
-	- Pola mengatasi permasalahan antar service
+	- Pola mengatasi permasalahan antar service ...
 	\item \textit{Infrastructure patterns} 
 	Permasalahan infrastruktur yang muncul diluar dari pengembangan aplikasi
 	- Pola Komunikasi
 	- Pola Service Deployment
-	- Pola observability untuk mengetahui bagaimana aplikasi bekerja\\	
+	- Pola observability untuk mengetahui bagaimana aplikasi bekerja ...\\	
 \end{enumerate}	
 
 \subsection{\textit{Enterprise Resource Planning}}
@@ -119,9 +120,9 @@ Arsitektur ERP \cite{1}:
 \end{enumerate}
 
 \subsection{Analisis Kode}
-Analisis Kode adalah suatu proses mengekstraksi informasi mengenai suatu program dari kode atau artifak. Proses ini bisa dilakukan secara manual yaitu dengan melihat kode program atau bahasa mesin namun kompleksitas program yang tinggi membuat proses secara manual sangat sulit dan tidak efektif. Sehingga diperlukan alat otomatisasi yang dapat membantu proses analisis kode. Alat ini dapat memberikan informasi kepada pengembang mengenai program yang dianalisis.[9] 
+Analisis Kode adalah suatu proses mengekstraksi informasi mengenai suatu program dari kode atau artifak. Proses ini bisa dilakukan secara manual yaitu dengan melihat kode program atau bahasa mesin namun kompleksitas program yang tinggi membuat proses secara manual sangat sulit dan tidak efektif. Sehingga diperlukan alat otomatisasi yang dapat membantu proses analisis kode. Alat ini dapat memberikan informasi kepada pengembang mengenai program yang dianalisis \cite{9}. 
 
-Anatomi Analisis Kode:
+Anatomi Analisis Kode \cite{9}:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Ekstraksi Data\\
 	Proses ini adalah proses pertama kali dilakukan sebelum melakukan analisis kode, data yang diekstrasi berasal dari kode program. Umumnya dilakukan dengan \textit{syntatic analyzer} atau \textit{parser}. Proses \textit{Parser} ini mengkonversi urutan karakter menjadi suatu kata-kata dan mengekstraksi nilai semantik sebenarnya. Tujuannya agar memudahkan proses analisis/transformasi dan penambahan data lainnya.
@@ -131,7 +132,7 @@ Anatomi Analisis Kode:
 	Setelah informasi direpresentasikan, informasi dibuat menjadi suatu kesimpulan. Kesimpulan bisa dibuat secara kuantitatif atau kualitatif, proses visualisasi penting dalam proses eksplorasi pengetahuan kode program.
 \end{enumerate}
 
-Strategi Analisis Kode:
+Strategi Analisis Kode \cite{9}:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Statik vs Dinamis\\
 	Analisis secara statik menganalisis program tanpa dieksekusi untuk mendapatkan semua informasi yang kemungkinan akan dieksekusi. Sedangkan secara Dinamis, program mengumpulkan informasi yang dieksekusi dengan nilai yang diberikan. Beberapa teknik analisis menggabungkan kedua pendekatan ini.
@@ -143,7 +144,7 @@ Strategi Analisis Kode:
 	\textit{Context in-sensitive} hanya menghasilkan satu hasil yang berhubungan dalam semua konteks. Sedangkan \textit{context sensitive} memiliki hasil berbeda ketika konteks berbeda. Pendekatan ini bertujuan untuk menganalisis proses pembuatan analisis umumnya tanpa adanya informasi mengenai konteks yang akan digunakan. \textit{Context sensitive} penting untuk menganalisis program modern dimana terdapat suatu abstraksi.
 \end{enumerate}
 
-Tantangan Kode Analisis:
+Tantangan Kode Analisis \cite{9}:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Perbedaan bahasa kode program\\
 	Banyak peningkatan dan perubahan pada bahasa pemrograman seperti \textit{dynamic class loading} dan \textit{reflection}. Konsep ini juga terdapat pada proses pengubahan tipe data, \textit{pointer}, \textit{Anonymous types} yang membuat proses \textit{parser} sulit. Fitur pada pemrograman ini meningkatkan fleksibilitas ketika program berjalan dan membutuhkan analisis secara dinamik yang lebih kuat.
@@ -154,9 +155,9 @@ Tantangan Kode Analisis:
 \end{enumerate}
 
 \subsection{\textit{Clustering}}
-\textit{Clustering} yaitu suatu proses untuk melakukan pengelompok atau klasifikasi objek. Objek bisa ditentukan dari pengukuran atau berdasarkan hubungan antar objek lainnya. Tujuan dari clustering yaitu untuk  menemukan struktur data yang valid. Cluster terdiri dari sejumlah object serupa yang dikumpulkan / dikelompokan bersama.[10]
+\textit{Clustering} yaitu suatu proses untuk melakukan pengelompok atau klasifikasi objek. Objek bisa ditentukan dari pengukuran atau berdasarkan hubungan antar objek lainnya. Tujuan dari clustering yaitu untuk  menemukan struktur data yang valid. Cluster terdiri dari sejumlah object serupa yang dikumpulkan / dikelompokan bersama.\cite{10}
 
-Metode \textit{Clustering} yang umumnya digunakan:
+Metode \textit{Clustering} yang umumnya digunakan \cite{10}:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item \textit{Hierarchical Clustering} \\
 	Metode \textit{Hierarchical Clustering} adalah sebuah prosedur untuk mentranformasi sebuah \textit{proximity matrix} menjadi beberapa partisi. Clustering adalah sebuah partisi dimana komponen dari partisi disebut \textit{clusters}. Beberapa partisi memiliki suatu urutan dan tingkatan berdasarkan bagaimana partisi tersebut disatukan. Terdapat 2 pendekatan algoritma dalam membentuk suatu partisi yaitu secara \textit{agglomerative} dan \textit{divisive}. 
@@ -167,7 +168,7 @@ Metode \textit{Clustering} yang umumnya digunakan:
 	Dimana satu partisi lebih penting, Metode \textit{Partitional} juga memiliki efisiensi dan kompresi yang cocok untuk data yang besar sehingga pola dalam cluster memiliki kemiripan satu sama lain daripada pola dalam \textit{cluster} yang berbeda. Pemilihan nilai \textit{cluster} bisa ditentukan secara opsional, kriteria \textit{cluster} yang valid harus ditentukan seperti \textit{square-error} untuk menentukan apakah partisi yang dibuat optimal. Kriterianya sendiri bisa dibagi menjadi secara global atau lokal.  
 
 \end{enumerate}	
-Pemilihan Partisi :	
+Pemilihan Partisi \cite{15}:	
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Secara Struktural dan Perilaku dari \textit{microservice}
 	\item Nilai \textit{Coupling} dan \textit{Cohesion}
@@ -175,7 +176,7 @@ Pemilihan Partisi :
 \end{enumerate}	
 
 \subsection{Dekomposisi}
-Pemilihan bagian yang ingin didekomposisi untuk menjadi Service:[6]
+Pemilihan bagian yang ingin didekomposisi untuk menjadi Service \cite{6}:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Proses bisnis
 	\item Sub-domain (DDD)
@@ -214,46 +215,45 @@ Tantangan dan Hambatan Dekomposisi:
 \setlength{\LTright}{\LTleft}
 \begin{small}
 	\begin{longtable}{|p{3cm}|p{3.5cm}|p{3cm}|p{3.5cm}|}
+		\label{tbl:StateoftheArt}\\
 		\caption{\textit{State of the Art}}\\
 		\hline
 		\textbf{Jurnal} & \textbf{Rumusan Masalah} & \textbf{Metode} & \textbf{Hasil}\\
 		\endfirsthead
 		\hline
 		Munezero Immaculée Josélyne, Doreen Tuheirwe-Mukasa, Benjamin Kanagwa, and Joseph Balikuddembe. (2018, May). "Partitioning microservices: a domain engineering approach." \cite{11} &
-		... &
-		... &
-		... 
+		Bagaimana menentukan ukuran yang tepat pada suatu service? &
+		Menggunakan metodologi konsepsual Domain Driven Design &
+		Berhasil membuat \textit{dissemination domain} pada aplikasi cuaca 
 		\\
 		
 		\hline
 		Tyszberowicz, S., Heinrich, R., Liu, B., Liu, Z. (2018). "Identifying Microservices Using Functional Decomposition." \cite{12}  & 
-		... &
-		... &
-	    ... 
+		Bagaimana cara mencari partisi yang tepat pada sistem untuk dijadikan microservice? &
+		Menggunakan spesifikasi use case dan menggunakan funcional decomposition  &
+	    Memiliki hasil yang sebanding dengan teknik manual tapi dengan waktu yang lebih singkat 
 		\\
 
 		\hline
 		Khaled Sellami, Mohamed Aymen Saied, and Ali Ouni. (2022). "A Hierarchical
 		DBSCAN Method for Extracting Microservices from Monolithic Applications" \cite{13} &
-		... &
-	    ... &
-		... 
+		Bagaimana mengotomatisasi proses migrasi aplikasi monolith ke microservice?  &
+	    Menggunakan DBSCAN(Density-based Clustering) yang menghasilkan rekomentasi microservice  &
+		Berhasil membuat microservice yang lebih kohesive dan memiliki interaksi yang lebih sedikit. 
 		\\
 		
 		\hline
 		Shanshan Li, He Zhang, Zijia Jia, Zheng Li, Cheng Zhang, Jiaqi Li, Qiuya Gao, Jidong Ge, Zhihao Shan. (2019). "A dataflow-driven approach to identifying microservices from monolithic applications."  \cite{14} &		  
-		... &
-		... &
-		... 
+		Bagaimana cara menyelesaikan masalah dekomposisi microservice &
+		Menggunakan DFD(Data Flow Diagrams) untuk mengekstraksi ketergantungan antar proses dan data &
+		Menghasilkan coupling dan cohesion yang baik dengan cara yang mudah dan semi-otomatis.
 		\\
-
-		\label{tbl:StateoftheArt}\\
 
 		\hline
 		Chaitanya K. Rudrabhatla. (2020). "Impacts of Decomposition Techniques on Performance and Latency of Microservices."  \cite{3} &
-		... &
-		... &
-		... 
+		Bagaimana dan dampak perfoma dalam menentukan batasan antar service  &
+		Melakukan perbadingan antara pendekatan DDD, Normalized Entity Relationship, Hybrid &
+		Teknik DDD lebih baik dalam dekomposisi namun teknik Hybrid dengan mempertimbangkan fungsionalis dan transaksi yang terjadi memiliki performa lebih baik.
 		\\
 		
 	\end{longtable}

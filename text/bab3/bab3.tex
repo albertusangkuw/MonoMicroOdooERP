@@ -6,16 +6,13 @@
 Pada bab ini menjelaskan analisis masalah yang diatasi, alur kerja dari perangkat lunak yang dikembangkan, arsitektur dan metode yang digunakan serta hasil evaluasi
 
 \section{Analisis Masalah}
-
-
-
-- Arsitektur yang digunakan Odoo(ERP) masih beruba monolith sehingga memiliki kelemahan seperti skalabilitas, sulit dikembangkan berkelanjutan, dan terkunci pada teknologi tertentu.
+..... - Arsitektur yang digunakan Odoo(ERP) masih beruba monolith sehingga memiliki kelemahan seperti skalabilitas, sulit dikembangkan berkelanjutan, dan terkunci pada teknologi tertentu.
 - Arsitektur Microservice dapat menyelesaikan masalah tersebut
 - Namun diperlukan proses dekomposisi dari mono-to-micro. Proses dekomposisi sendiri  tidak mudah dan melelahkan karena masih membutuhkan proses manual. 
 - Proses manual ini bisa di”mudahkan” dengan melakukan clustering khususnya dengan metode hierarchical 
 - Sebelum melakukan proses clustering diperlukan analisis kode seperti Call Graph untuk mendapatkan graph dari source code aplikasi Odoo (ERP)
 - Hasil terbaik dari clustering diimplementasikan menjadi service, service dan dilakukan pemecahan dengan pattern yang sudah ditemukan
-- Dilakukan evaluasi dari aplikasi yang dibangun untuk menentukan apakah microservice dan clustering bisa melakukan dekomposisi dapat menyelesaikan permasalahan pada kasus ERP
+- Dilakukan evaluasi dari aplikasi yang dibangun untuk menentukan apakah microservice dan clustering bisa melakukan dekomposisi dapat menyelesaikan permasalahan pada kasus ERP ...\\
 
 \section{Kerangka Pemikiran}
 \begin{center}
@@ -44,34 +41,48 @@ Untuk mengetahui bagaimana performa dari microservice dibandingkan dengan monoli
 
 \subsection{Proses Clustering}
 3.X.X Flowchart Proses Clustering
-\begin{enumerate}
-  \item Pengambilan Source Code
-Mengunduh dari branch main/master terbaru dan semua test workflow pass
-\item Pembuatan Call Graph
-Menggunakan library call graph (pycg atau pycallgraph)
-\item Ilustrasi Graph
-Ilustrasi menggunakan tools graphviz
-\item Extrasi Call Graph
-Proses ekstraksi json 
-\item Pengelompokan dari graph
-Menggunakan python dan library hirarki clustering 
-Memilih hasil rekomendasi \\
-\end{enumerate}
+\subsubsection{Pengambilan Source Code}
+- Mengunduh dari branch main/master Odoo versi 16 dan semua  workflow test pass
+- Installasi requiment Odoo dengan pip ...
+\subsubsection{Pembuatan Call Graph}
+Menggunakan library call graph (pycg) dengan PyCG yang sudah dimodifikasi ...
+\subsubsection{Ilustrasi Graph}
+Ilustrasi menggunakan tools graphviz ...
+\subsubsection{Extrasi Call Graph}
+Proses ekstraksi json yang dihasilkan dari tools PyCG ...
+\subsubsection{Extrasi Depedency Module}
+- Memparse file manifest.py yang di miliki setiap addons(module) untuk melihat module yang dibutuhkan ...
+\subsubsection{Extrasi Depedency Data}
+- Memparse XML Data yang berada di setiap addons(module) pada folder 'data' ...
+\subsubsection{Pre Procesinng}
+- Memisahkan hubungan module external(library) dengan module aplikasi Odoo
+- Membuat weight graph dari setip koneksi antar Module
+- Membuat adjacency matrix ...
+\subsubsection{Hierarchical Clustering}
+- Menggunakan python dan library hierarchical clustering SciPy
+- Menampilkan dendogram dengan MatplotLib ...
+\subsubsection{Pemilihan Partisi}
+Partisi yang dikelompokan akan dipilih berdasarkan nilai coupling yang rendah dan cohesion yang tinggi dengan mempertimbangkan ketergantungan data antar module ....\\
 
 \subsection{Dekomposisi Monolitik ke Microservice}
-Komponen Diagram monolith VS komponen diagram yang diolah dari call graph\\
-Package Diagram Strategi Dekomposisi\\
-State diagram authentikasi\\
-Sequence Diagram antar service dan module (kasus transaksi mis. penjualan)\\
-
+\subsubsection{Pemisahan User Interface}
+- Pemisahan web service "werkzeug" odoo dari monolith yang akan me-render frontend...
+\subsubsection{Strategi Pemisahan yg dipilih}
+- Menggunakan Pola Strangle \\
+- Package Diagram / Komponen Diagram monolith dan komponen diagram yang dipilih dari Clustering\\
+- State diagram authentikasi aplikasi \\
+- Sequence Diagram antar service dan module (pada kasus transaksi mis. penjualan barang) ... \\
+\subsubsection{Strategi Pemisahan database}
+- Menggunakan pattern monolith as data access layer\\
+- konsistensi data dengen choreography based saga ...
+\subsubsection{Komunikasi antar service}
+- Menggunakan RPC(gRPC/JSON-RPC) ...
+\subsubsection{Infrastruktur}
+- Menggunakan API Gateway (Kong) sebagai salah satu cara untuk dalam melakukan pola strangle \\
+- Konfigurasi Docker setiap service ..
 \subsection{Deployment}
 \begin{center}
 	\includegraphics[width=14cm]{img/Deployment.png}
 	\captionof{figure}{Diagram Deployment }
 	\label{fig:asd}
 \end{center}
-
-\subsection{Evaluasi}
-Flowchart\\
-Latency \& Throughput:  JMeter\\
-Cost: AWS Cost Management (Cost Explorer)
