@@ -79,7 +79,7 @@ Cu mel putent rationibus dissentiet. Per vidisse scaevola oportere ei, qui solet
 		\centering \textbf{Luaran} &
 		\centering \textbf{Keterangan} \tabularnewline \hline
 		
-		1. & \_\_init\_\_ & - & - & Konstruktor yang menginisialisasi objek Training dimana proses inisialisasi parameter CNN juga dilakukan. \\ \hline
+		1. & \_\_init\_\_ & - & - & Konstruktor yang menginisialisasi objek Training di mana proses inisialisasi parameter CNN juga dilakukan. \\ \hline
 		2. & auto\_training & - & float[]\newline float[] & Menjalankan alur proses \textit{training} secara keseluruhan dimulai dari pengambilan citra \textit{host} dan \textit{watermark} dari direktori \textit{local}, penyisipan \textit{watermark}, ekstaksi \textit{embedding map}, hingga pemprosesan \textit{embedding map} dengan CNN. Fungsi mengembalikan nlai \textit{loss} dari akurasi.\\ \hline
 		3. & normalize\newline \_watermark & image : float[][] & float[][] & Memroses citra watermark agar dapat digunakan untuk \textit{training}.\\ \hline
 		\multirow{2}{*}{4.} & apply\newline \_transformations & image : float[][] & float[][] & Menjalankan seluruh transformasi digital pada citra dan menyimpannya sebagai \textit{array}. \\

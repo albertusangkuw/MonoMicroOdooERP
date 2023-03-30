@@ -6,15 +6,15 @@
 Pada bab ini menjelaskan analisis masalah yang diatasi, alur kerja dari perangkat lunak yang dikembangkan, arsitektur dan metode yang digunakan serta hasil evaluasi
 
 \section{Analisis Masalah}
-Arsitektur ERP yang digunakan pada Odoo yaitu arsitektur Service Oriented Architecture (SOA) dan masih dideploy secara monolit, seperti yang sudah dijelaskan pada landasan teori. Arsitektur monolit memiliki kelemahan dan permasalahan yang bisa diselesaikan dengan arsitektur microservice. Aplikasi ERP juga diperlukan untuk memiliki skalabilitas yang baik dan kustomisasi.
+Arsitektur ERP yang digunakan pada Odoo yaitu arsitektur Service Oriented Architecture (SOA) dan masih dideploy secara monolitik, seperti yang sudah dijelaskan pada landasan teori. Arsitektur monolitik memiliki kelemahan dan permasalahan yang bisa diselesaikan dengan arsitektur \textit{microservice}. Aplikasi ERP juga diperlukan untuk memiliki skalabilitas yang baik dan kustomisasi.
 
-Namun untuk melakukan perubahan arsitektur harus dilakukan dekomposisi, proses dekomposisi sendiri tidak mudah karena proses dekomposisi masih membutuhkan analisis secara manual dan untuk mengidentifikasi service sulit karena banyaknya pendekatan dan pertimbangan.
-Pada penelitian ini menggunakan pendekatan Hierarchical clustering untuk membantu menemukan service yang tepat, dimana hierarchical clustering memberikan rekomendasi bagaimana pengelompokan service berdasarkan pemilihan partisi terbaik.
-Proses dimulai dari melalukan analisis kode seperti Call Graph yang dihasilkan dari kode aplikasi Odoo. Hasil analisis kode di ekstraksi menjadi matrix untuk dilakukan hierarchical clustering. Cluster terbaik dipilih melalui nilai secara struktural yaitu nilai coupling  dan kohesi.
+Namun untuk melakukan perubahan arsitektur harus dilakukan dekomposisi, proses dekomposisi sendiri tidak mudah karena proses dekomposisi masih membutuhkan analisis secara manual dan untuk mengidentifikasi \textit{service} sulit karena banyaknya pendekatan dan pertimbangan.
+Pada penelitian ini menggunakan pendekatan Hierarchical clustering untuk membantu menemukan \textit{service} yang tepat, di mana hierarchical clustering memberikan rekomendasi bagaimana pengelompokan \textit{service} berdasarkan pemilihan partisi terbaik.
+Proses dimulai dari melalukan analisis kode seperti Call Graph yang dihasilkan dari kode aplikasi Odoo. Hasil analisis kode di ekstraksi menjadi matrix untuk dilakukan hierarchical clustering. Cluster terbaik dipilih melalui nilai secara struktural yaitu nilai \textit{coupling}  dan \textit{cohesion}.
 
-Hasil terbaik dari clustering diimplementasikan menjadi service, penelitian ini akan menggunakan strategi dengan pola strangle untuk memecah kode di monolit. Untuk dekomposisi pada data akan menggunakan strategi Aggregate Exposing Monolith. Agar data antar service tetap terintegrasi maka dilakukan penerapan SAGA dengan pendekatan Orchestrated .
+Hasil terbaik dari clustering diimplementasikan menjadi \textit{service}, penelitian ini akan menggunakan strategi dengan pola \textit{strangle} untuk memecah kode di monolitik. Untuk dekomposisi pada data akan menggunakan strategi \textit{Aggregate Exposing Monolith}.
 
-Microservice yang dibentuk akan dievaluasi melalui uji beban dan penggunaan sumber daya aplikasi untuk menentukan apakah dengan arsitektur microservice dapat menyelesaikan permasalahan yang muncul pada arsitektur monolit di aplikasi ERP.
+Microservice yang dibentuk akan dievaluasi melalui uji beban dan penggunaan sumber daya aplikasi untuk menentukan apakah dengan arsitektur \textit{microservice} dapat menyelesaikan permasalahan yang muncul pada arsitektur monolitik di aplikasi ERP.
 \\
 
 \section{Kerangka Pemikiran}
@@ -24,16 +24,15 @@ Microservice yang dibentuk akan dievaluasi melalui uji beban dan penggunaan sumb
 	\label{fig:asd}
 \end{center}
 
-Penelitian akan dimulai dengan menggunakan kode sumber aplikasi yang dibuat dengan monolit. Kode sumber dilakukan proses dekomposisi yaitu dengan analisis seperti mencari objek beserta atributnya, untuk mencari keterhubungan lebih lanjut tentang objek maka dilakukan pencarian pada fungsi-fungsi sehingga terbentuklah graph yang menunjukan bagaimana keterhubungan masing-masing objek di aplikasi.
+Penelitian akan dimulai dengan menggunakan kode sumber aplikasi yang dibuat dengan monolitik. Kode sumber dilakukan proses dekomposisi yaitu dengan analisis seperti mencari objek beserta atributnya, untuk mencari keterhubungan lebih lanjut tentang objek maka dilakukan pencarian pada fungsi-fungsi sehingga terbentuklah \textit{call graph} yang menunjukkan bagaimana keterhubungan masing-masing objek di aplikasi.
 
-Dari graph yang sudah dibuat akan dilakukan pengelompokan dengan pendekatan Hierarchical Clustering. Dimana perlu ditentukan cara menghitung kedekatan antara objek dan pemilihan algoritma Linkage. Metode linkage yaitu menentukan jarak atau kemiripan antara semua objek. Untuk menentukan jarak ini bisa dengan rata-rata, maximum, minimum dan mengecilkan variance.
+Dari \textit{graph} yang sudah dibuat akan dilakukan pengelompokan dengan pendekatan Hierarchical Clustering. Di mana perlu ditentukan cara menghitung kedekatan antara objek dan pemilihan algoritma Linkage. Metode linkage yaitu menentukan jarak atau kemiripan antara semua objek. Untuk menentukan jarak ini bisa dengan rata-rata, maximum, dan minimum.
 
-Pengelompokan dari Hierarchical Clustering akan dipilih dengan mencari nilai cohesion terendah dan  nilai coupling tertinggi. Dimana Internal Coupling mengevaluasi tingkat ketergantungan langsung dan tidak langsung antar objek. Semakin banyak dua objek menggunakan metode masing-masing semakin mereka menjadi satu kesatuan. Sedangkan Internal Cohesion akan mengevaluasi kekuatan interaksi antar objek. Biasanya, dua objek atau lebih menjadi interaktif jika metodenya bekerja pada atribut yang sama.
+Pengelompokan dari Hierarchical Clustering akan dipilih dengan mencari nilai \textit{cohesion} terendah dan  nilai \textit{coupling} tertinggi. Di mana \textit{coupling} mengevaluasi tingkat ketergantungan langsung dan tidak langsung antar objek. Semakin banyak dua objek menggunakan metode masing-masing semakin mereka menjadi satu kesatuan. Sedangkan  \textit{cohesion} akan mengevaluasi kekuatan interaksi antar objek. Biasanya, dua objek atau lebih menjadi interaktif jika metodenya bekerja pada atribut yang sama.
 
-Ketika analisis dekomposisi sudah selesai dilakukan maka akan dilakukan implementasi berdasarkan pengelompokannya masing-masing yang akan menjadi service. Untuk metode komunikasinya antara service yaitu dengan Remote Procedure Call(RPC) dan untuk mengelola data, setiap service memiliki databasenya masing-masing dan untuk menjaga konsistensi data antar service maka digunakan pendekatan SAGA dengan cara choreography.
+Ketika analisis dekomposisi sudah selesai dilakukan maka akan dilakukan implementasi berdasarkan pengelompokannya masing-masing yang akan menjadi \textit{service}. Untuk metode komunikasinya antara \textit{service} yaitu dengan Remote Procedure Call(RPC) dan untuk mengelola data, setiap \textit{service} memiliki databasenya masing-masing.
 
-Untuk mengetahui bagaimana performa dari microservice dibandingkan dengan monolit yaitu dengan test beban. Pengukuran performa dilihat dari throughput, jumlah response, dan latency. 
-
+Untuk mengetahui bagaimana performa dari \textit{microservice} dibandingkan dengan monolitik yaitu dengan test beban. Pengukuran performa dilihat dari throughput, jumlah \textit{response}, dan latency. Bagi pengukuran biaya dilakukan melalui menghitung perbandingan antara jumlah sumber daya yang digunakan seperti memori (RAM) dan penggunaan CPU(jumlah core) pada \textit{virtual machine} di masing-masing arsitektur.
 
 \section{Urutan Proses Global}
 \begin{center}
@@ -52,143 +51,103 @@ Aplikasi ERP Odoo merupakan aplikasi berlisensi open source, kode program dapat 
 	\label{fig:asd}
 \end{center}
 \subsubsection{Pembuatan Call Graph}
-Pada tugas akhir ini menggunakan tools PyCG untuk menghasilkan call graph dalam bentuk format JSON. Adapun beberapa modifikasi perlu dilakukan pada tools PyCG yaitu pada module classes di class ClassNode dengan tujuan mencegah terjadinya pengulangan tak terbatas pada kasus \textit{Monkey Patching}.
+Pada tugas akhir ini menggunakan tools PyCG untuk menghasilkan \textit{call graph} dalam bentuk format JSON. Terdapat 2 target folder yang dibuat \textit{call graph} yaitu folder odoo.addons dan folder addons karena folder lainnya tidak memiliki hubungan mengenai proses bisnis. Untuk menghemat waktu pembuatan \textit{call graph} maka folder test tidak dibuat.  
+
+\textit{Entry point} untuk \textit{tools} PyCG adalah semua file di target folder dengan ekstensi file .py serta ditentukan package yang ingin diolah menjadi \textit{call graph}. Proses eksekusi dilakukan melalui terminal. Call graph yang dihasilkan berisi \textit{call} yang berasal dari file .py yang ditentukan sebelumnya dan semua module yang terhubungan dari target. Semua module ini bisa diluar dari target module apabila keterhubungan itu terus berlanjut. PyCG hanya bisa menghasilkan \textit{call graph} tanpa informasi mengenai jumlah pemanggilan dan urutan pemanggilan.
+
 \begin{center}
-	\includegraphics[width=14cm]{img/bab_3/ModifiedPyCG.png}
-	\captionof{figure}{Class yang dimodifikasi pada PyCG}
-	\label{fig:asd}
-\end{center}
-\begin{center}
-	\includegraphics[width=14cm]{img/bab_3/MonkeyPatch.png}
-	\captionof{figure}{Kasus Monkey Patching di Odoo}
-	\label{fig:asd}
-\end{center}
-Terdapat 2 target folder yang dibuat call graph yaitu folder odoo dan folder addons karena folder lainnya tidak memiliki hubungan mengenai proses bisnis. Untuk menghemat waktu pembuatan call graph pada folder test tidak diikutkan.  Entry point untuk tools PyCG adalah semua file di target folder dengan extensi file .py serta ditentukan package yang ingin diolah menjadi call graph. Proses eksekusi dilakukan melalui terminal. Call graph yang dihasilkan berisi call yang berasal dari file .py yang ditentukan sebelumnya dan semua module yang terhubungan dari target. Semua module ini bisa diluar dari target module apabila keterhubungan itu terus berlanjut. PyCG hanya bisa menghasilkan call graph tanpa informasi mengenai jumlah pemanggilan dan urutan pemanggilan.
-\begin{center}
-	\includegraphics[width=9cm]{img/bab_3/lsOdoo.png}
-	\captionof{figure}{Isi folder Odoo}
-	\includegraphics[width=9cm]{img/bab_3/lsAddons.png}
-	\captionof{figure}{Isi folder Addons}
-	\label{fig:asd}
+	\includegraphics[width=13cm]{img/bab_3/soToCG.png}
+	\captionof{figure}{Proses Pembuatan Call Graph dengan PyCG}
+	\label{contoh_json_pycg}
 \end{center}
 
-\subsubsection{Ekstraksi Call Graph}
-Proses ekstraksi json yang dihasilkan dari tools PyCG berupa 2 file JSON masing masing adalah odoo dan addons. Kedua file JSON digabungkan dan menjadi satu graph yang direpresentasikan dalam bentuk adjacency list di python.
+Proses ekstraksi json yang dihasilkan dari tools PyCG berupa 2 file JSON masing masing adalah odoo dan addons. Kedua file JSON digabungkan dan menjadi satu \textit{graph} yang direpresentasikan dalam bentuk adjacency list di python.
+
+\subsubsection{Ekstraksi Dependency Module}
+Keterbatasannya informasi \textit{call graph} yang dihasilkan dari PyCG, sehingga tugas akhir ini menggunakan library python yaitu 'inspect' untuk menganalisis object secara run-time. Hal ini disebabkan python adalah bahasa pemrogram dinamik di mana pengecekan tipe data dilakukan secara 'run-time'. Ekstrasi ini difokuskan pada module yang memiliki proses bisnis seperti module addons dan odoo/addons. Dari gambar 3.5 bisa diketahui penggunaan inspect bisa menemukan atribut apa saja dan nilainya dari atribut pada objek. 
+
 \begin{center}
-	\includegraphics[width=9cm]{img/bab_3/JSONPyCG.png}
-	\captionof{figure}{Ilustrasi JSON yang dihasilkan PyCG}
-	\label{fig:asd}
+	\includegraphics[width=13cm]{img/bab_3/inspectSample.png}
+	\captionof{figure}{Penggunaan 'inspect' untuk melihat object python lebih mendalam}
+	\label{contoh_json_pycg}
 \end{center}
-\subsubsection{Ekstraksi Depedency Module}
-Keterbatasannya informasi call graph yang dihasilkan dari PyCG, sehingga tugas akhir ini  menggunakan library python yaitu 'inspect' untuk menganalisis object secara run-time. Hal ini disebabkan python adalah bahasa pemrogram dynamic dimana pengecekan tipe data dilakukan secara 'run-time'. Ektrasi ini difokuskan pada module yang memiliki proses bisnis baik seperti module addons dan odoo/addons.
-\begin{center}
-	\includegraphics[width=14cm]{img/bab_3/InspectScan.png}
-	\captionof{figure}{Implementasi inspect untuk mengekstraksi object di addons Odoo}
-	\label{fig:asd}
-\end{center}
-Object yang dianalisis yaitu class yang merupakan turunan dari class odoo.models.MetaModel, dimana class MetaModel memiliki properties seperti  name, \_inherits , \_inherit, dan attribute\_rel. Hasil ekstrasi depedency module digabungkan melalui nama module PyCG 
+
+Object yang dianalisis yaitu \textit{class} yang merupakan turunan dari \textit{class} odoo.models.MetaModel, di mana \textit{class} MetaModel memiliki properti seperti  name, \_inherits , \_inherit, dan attribute\_rel. Hasil ekstrasi depedency module digabungkan melalui nama module PyCG 
 \\
-\subsubsection{Pre Procesinng}
-Graph yang dihasilkan dari proses ekstrasi dipisahkan antara module eksternal dan module internal. Module yang digunakan untuk pengelompokan adalah module internal, setiap call yang dilakukan memiliki nama call yang berupa gabungan antara nama fungsi / class / module /file di kode program. PyCG tidak memberikan informasi apakah nama call tersebut berupa tipe apa, untuk itu pengelompokan dilakukan secara Hybrid yaitu berdasarkan module dan file. 
+\subsubsection{Pengabungan dan Optimisasi Hasil Ekstraksi}
+Graph yang dihasilkan dari proses ekstrasi dipisahkan antara module eksternal dan module internal. Module yang digunakan untuk pengelompokan adalah module internal, setiap \textit{call} yang dilakukan memiliki nama \textit{call} yang berupa gabungan antara nama fungsi / \textit{class} / module /file di kode program. PyCG tidak memberikan informasi apakah nama \textit{call} tersebut berupa tipe apa, untuk itu pengelompokan dilakukan secara hybrid yaitu berdasarkan module dan file. 
 
-Nama call yang disatukan menjadi module adalah call yang memiliki awalan(root) addons atau odoo/addons dan nama call yang disatukan dengan file adalah nama call selain addons. Call yang dikelompokan memiliki nilai agregasi dari jumlah call. Jumlah call dapat digunakan sebagai weight yang dapat menunjukan kekuatan antara call satu sama lain, proses ini membentuk call baru yang lebih ringkas dan relevan dalam bentuk graph. Proses visualisasi call graph dilakukan melalui tools graphViz.
-\begin{center}
-	\includegraphics[width=14cm]{img/bab_3/filterCG.png}
-	\captionof{figure}{Menghilangkan Node diluar dari target}
-	\label{fig:asd}
-\end{center}
+Nama \textit{call} yang disatukan menjadi module adalah \textit{call} yang memiliki awalan(root) addons atau odoo/addons dan nama \textit{call} yang disatukan dengan file adalah nama \textit{call} selain addons. Call yang dikelompokkan memiliki nilai agregasi dari jumlah \textit{call}. Jumlah \textit{call} dapat digunakan sebagai weight yang dapat menunjukkan kekuatan antara \textit{call} satu sama lain, proses ini membentuk \textit{call} baru yang lebih ringkas dan relevan dalam bentuk \textit{graph}. 
 
 \subsubsection{Hierarchical Clustering}
-Graph yang berbentuk Adjacency list diubah menjadi adjacency matrix, proses normalisasi data dilakukan pada matrix. Yang kemudian matrix tersebut dibuat menjadi Distance Matrix, rumus jarak yang digunakan ada 3 yaitu Jaccard, Hamming dan Struktural. Masing-masing hasil jarak disatukan dengan rata-rata. 
+Graph yang berbentuk Adjacency list diubah menjadi adjacency matrix, proses normalisasi data dilakukan pada matrix. Tujuan normalisasi data agar nilai \textit{weight}(jumlah \textit{call}) dari relasi berkisar dari 1 hingga 0. Semakin banyak jumlah \textit{call} dilakukan maka nilai mendekati 1,kemudian matrix tersebut dibuat menjadi Distance Matrix, rumus jarak yang digunakan ada 2 yaitu Jaccard dan Struktural Similarity. Masing-masing hasil jarak disatukan dengan rata-rata. Jaccard menghasilkan hasil yang bagus pada remodularisasi perangkat lunak dan Struktural Similarity digunakan untuk melihat kedekatan dari sisi intesitas panggilan antara module.
+
 \begin{center}
-	\includegraphics[width=9cm]{img/bab_3/simJaccard.png}
-	\captionof{figure}{Jarak Jaccard}
+	\includegraphics[width=12cm]{img/bab_3/simJaccard.png}
+	\captionof{figure}{Perhitungan Jarak Jaccard}
 	\label{fig:asd}
 \end{center}
 \begin{center}
-	\includegraphics[width=9cm]{img/bab_3/simStr.png}
-	\captionof{figure}{Jarak Struktural}
-	\label{fig:asd}
-\end{center}
-\begin{center}
-	\includegraphics[width=14cm]{img/bab_3/distanceMatrix.png}
-	\captionof{figure}{Pembuatan Distance Matrix}
+	\includegraphics[width=12cm]{img/bab_3/simStr.png}
+	\captionof{figure}{Perhitungan Jarak Struktural}
 	\label{fig:asd}
 \end{center}
 
-Distance Matrix dapat dilihat nilai dengan ilustrasi Heatmap, dimana sumbu x dan y adalah semua module dan nilai kedekatanya dengan module lainnya. Pada tugas akhir ini menggunakan library SciPy yang memiliki fungsi Hierarchical Clustering dengan algoritma linkage. Hasil pengelompokan dapat ditampilan dalam bentuk dendogram.
 \begin{center}
-	\includegraphics[width=10cm]{img/bab_3/heatmap.png}
-	\captionof{figure}{Ilustrasi Heatmap}
+	\includegraphics[width=14cm]{img/bab_3/hasilJarak.png}
+	\captionof{figure}{Hasil Akhir Jarak}
+	\label{fig:asd}
+\end{center}
+Distance Matrix / Matrix kedekatan dapat dilihat nilai dengan ilustrasi Heatmap, di mana sumbu x dan y adalah semua module dan nilai kedekatannya dengan module lainnya. Semakin terang warna menunjukkan hubungan yang kuat antara module, perlu diketahui bahwa distance matrix merupakan matrix segitiga. Pada tugas akhir ini menggunakan library SciPy untuk melakukan proses \textit{clustering} yang memiliki fungsi Hierarchical Clustering.
+
+\begin{center}
+	\includegraphics[width=7cm]{img/bab_3/heatmap.png}
+	\captionof{figure}{Heatmap yang dihasilkan dari Distance Matrix}
+	\label{fig:asd}
+\end{center}
+
+Pemilihan pengelompokan dengan hierarchical agglomerative clustering dibandingkan Paritition clustering karena tidak mudah untuk mengetahui jumlah ideal \textit{cluster}. Untuk menentukan metode \textit{linkage} tugas akhir ini menggunakan single lingkage, average linkage, dan complete lingkage. Hasil dari masing-masing lingkage dipilih jumlah partisi yang ideal untuk \textit{microservice}. Penggunaan single lingkage memiliki kecenderungan menghasilkan banyak partisi yang berisi modul sedikit tetapi ada satu partisi memiliki banyak module sedangkan complete linkage menghasilkan partisi yang memiliki jumlah modul yang sama dengan partisi lainnya. Untuk Average lingkage menghasilkan bentuk partisi di antara complete lingkage dan single lingkage.
+
+Hasil pengelompokan dapat ditampilan dalam bentuk dendogram.  Di mana pengelompokan dari setiap linkage memiliki dampak berbeda yang bisa dilihat dari bentuk dan nilai kedekatan antar partisi melalui dendogram dan bentuk relasi. Warna pada garis keterhubungan module memiliki arti sebagai partisi tersendiri karena memiliki jarak yang jauh dari partisi lainnya. 
+\begin{center}
+	\includegraphics[width=9cm]{img/bab_3/singleLink.png}
+	\captionof{figure}{Dendogram Single Linkage}
 	\label{fig:asd}
 \end{center}
 \begin{center}
-	\includegraphics[width=14cm]{img/bab_3/Clustering.png}
-	\captionof{figure}{Proses Pengelompokan}
+	\includegraphics[width=9cm]{img/bab_3/averageLink.png}
+	\captionof{figure}{Dendogram Average Linkage}
+	\label{fig:asd}
+\end{center}
+\begin{center}
+	\includegraphics[width=9cm]{img/bab_3/completeLink.png}
+	\captionof{figure}{Dendogram Complete Linkage}
 	\label{fig:asd}
 \end{center}
 
 \subsubsection{Pemilihan Partisi}
-Pemilihan jumlah cluster/partisi perlu dilakukan dengan perhitungan yang dapat menentukan jumlah service yang ideal. Microservice yang ideal memiliki nilai coupling yang rendah dan nilai kohesi yang tinggi. Untuk itu tugas akhir ini menentukan partisi secara nilai struktural. 
+Pemilihan jumlah partisi perlu dilakukan dengan perhitungan yang dapat menentukan jumlah \textit{service} yang ideal. Microservice yang ideal memiliki nilai \textit{coupling} yang rendah dan nilai \textit{cohesion} yang tinggi. Untuk itu tugas akhir ini menentukan partisi dengan nilai struktural yang menggunakan persamaan 2.2 dan tidak memperhitungkan nilai \textit{coupling} external karena addons pada Odoo dibuat dengan framework Odoo. Hubungan module luar seperti library umumnya dilakukan oleh framework Odoo sendiri bukan oleh addons.
+
+Untuk pemilihan partisi harus mempertimbangkan nilai \textit{cohesion}, nilai \textit{coupling}, jumlah \textit{service}, dan apakah \textit{service} tersebut seimbang. Partisi yang akan menjadi \textit{service} diharapkan bisa independen. 
+
+Berikut adalah hasil nilai \textit{coupling} dan \textit{cohesion} masing-masing jumlah \textit{cluster}. Semakin tinggi jumlah \textit{cluster} maka nilai \textit{coupling} akan meningkat dan begitu pula sebaliknya untuk nilai \textit{cohesion}. Dari contoh data ditemukan bahwa \textit{cluster} yang ideal berjumlah 2 \textit{service}, karena ketika semakin banyak jumlah \textit{service} maka nilai \textit{coupling} meningkat dan sebaliknya nilai \textit{cohesion} menurun.
+
 \begin{center}
-	\includegraphics[width=14cm]{img/bab_3/dendogram.png}
-	\captionof{figure}{Dendogram yang dihasilkan dari Clustering}
-	\label{fig:asd}
-\end{center}
-Terdapat implementasi rumus yang digunakan FOne, InterCoup, Inter Coh dan NBCalls. Nilai FOne  yang menentukan apakah partisi dengan jumlah cluster tertentu miliki nilai coupling dan cohesion yang ideal. Terdapat modifikasi rumus pada FOne yaitu adanya pembagian jumlah cluster pada nilai cohesion agar microservice yang memiliki banyak service lebih baik dari pada service yang sedikit sehingga  microservice yang dibentuk bisa independen. 
-\begin{center}
-	\includegraphics[width=14cm]{img/bab_3/FOne.png}
-	\captionof{figure}{Implementasi FOne}
+	\includegraphics[width=14cm]{img/bab_3/cohVScoup.png}
+	\captionof{figure}{Perbandingan dari nilai Cohesion dan nilai Coupling dengan jumlah \textit{cluster}/partisi}
 	\label{fig:asd}
 \end{center}
 
-Pada InterCoup yaitu menghitung coupling antara partisi. Perhitungan call antar partisi dihasilkan dari nama call, nama call sebelumnya yang mungkin mengarah ke nama call dimana nama call tersebut sudah menjadi bagian besar dari partisi lain. Maka nama call tersebut diganti menjadi nama call partisi itu, jumlah call yang terjadi tetap disimpan dan dibuat adjacency matrix baru untuk menghitung call dengan bantuan fungsi CoupP.
-\begin{center}
-	\includegraphics[width=14cm]{img/bab_3/InterCoup.png}
-	\captionof{figure}{Implementasi InterCoup}
-	\label{fig:asd}
-\end{center}
-Fungsi CoupP menghitung berapa nilai coupling antara kedua class dengan class lainnya. Coup menggunakan fungsi NBCalls untuk mengetahui berapa jumlah relasi antara kedua class tersebut.
-\begin{center}
-	\includegraphics[width=14cm]{img/bab_3/CoupP.png}
-	\captionof{figure}{Implementasi Coup}
-	\label{fig:asd}
-\end{center}
-
-InterCoh menghitung cohesi dari setiap partisi di microservice. Setiap partisi yang dibentuk bila memiliki call maka call tersebut dihitung sebagai koneksi langsung dan koneksi tidak langsung ketika call diluar dari partisinya sendiri.
-\begin{center}
-	\includegraphics[width=14cm]{img/bab_3/InterCoh.png}
-	\captionof{figure}{Implementasi InterCoh}
-	\label{fig:asd}
-\end{center}
-
-Proses pencarian jumlah cluster dilakukan dari 1 cluster hingga semua cluster hanya memiliki 1 objek. dimulai dari pemotongan \textit{tree} dan menggabungkan class yang bersatu pada partisinya masing-masing dan kemudian memangil fungsi Fone. FOne menghasilkan nilai terendah (mendekati 0) adalah jumlah cluster yang terbaik untuk microservice.
-
-\begin{center}
-	\includegraphics[width=14cm]{img/bab_3/FOneMultiCore.png}
-	\includegraphics[width=14cm]{img/bab_3/BruteForceSearch.png}
-	\captionof{figure}{Penerapan Pemilihan Jumlah Cluster terbaik}
-	\label{fig:asd}
-\end{center}
-
-Berikut adalah nilai coupling dan cohes masing-masing jumlah cluster. Semakin tinggi jumlah cluster maka nilai coupling akan meningkat dan begitupula sebaliknya untuk nilai cohesion. Dari hasil yang ditemukan bahwa cluster yang ideal berjumlah 8-15 service.
-
-\begin{center}
-	\includegraphics[width=14cm]{img/bab_3/ResGood.png}
-	\includegraphics[width=14cm]{img/bab_3/ResBad.png}
-	\captionof{figure}{Nilai Coupling dan Cohesion setiap jumlah cluster}
-	\label{fig:asd}
-\end{center}
 
 \subsection{Dekomposisi Monolitik ke Microservice}
 \subsubsection{Pemisahan User Interface}
 Odoo adalah aplikasi ERP berbasis web, tampilan pada Odoo bisa dibuka pada broser yang kompatibel. Odoo menggunakan pendekatan SPA (Single Page Application) dan adanya server rendering untuk menghasilkan HTML. UI dapat memanggil API yang berada pada server yang sama, sehingga diperlukan pemisahan kepentingan. Benefit dari proses ini dapat meningkatan skalabilitas dan pengembangan bisa dilakukan secara independen.
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/monoUI.png}
-	\captionof{figure}{Arsitektur UI Monolit}
+	\captionof{figure}{Arsitektur UI Monolitik}
 	\label{fig:asd}
 \end{center}
-Proses pemisahan membutuhkan reverse proxy yang dapat menghubungkan web server dimana bertanggung jawab pada hal seperti file static(css,js,gambar) dan UI dengan web server lainnya. Tujuan adanya reverse proxy agar client hanya perlu mengetahui satu pintu masuk aplikasi yaitu reverse proxy itu sendiri dan tidak perlu mengetahui seluruh server yang ada di aplikasi.
+Proses pemisahan membutuhkan \textit{reverse} \textit{proxy} yang dapat menghubungkan web server di mana bertanggung jawab pada hal seperti file static(css,js,gambar) dan UI dengan web server lainnya. Tujuan adanya \textit{reverse} \textit{proxy} agar \textit{client} hanya perlu mengetahui satu pintu masuk aplikasi yaitu \textit{reverse} \textit{proxy} itu sendiri dan tidak perlu mengetahui seluruh server yang ada di aplikasi.
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/microUI.png}
 	\captionof{figure}{Arsitektur UI di Microservice}
@@ -196,22 +155,26 @@ Proses pemisahan membutuhkan reverse proxy yang dapat menghubungkan web server d
 \end{center}
 
 \subsubsection{Strategi Pemisahan Kode}
-Berdasarkan landasan teori terdapat beberapa strategi pemisahan kode aplikasi monolit, pada tugas akhir ini akan menggunakan 2 strategi yaitu pola Strangle dan pola Branch by Abstraction. Pola Strangle diterapkan karena pendekatan ini umum diterapkan dan lebih mudah pada suatu aplikasi yang sudah besar, dengan pola ini aplikasi monolit bisa berdiri bersamaan dengan service yang ingin dibangun atau dimigrasi. 
+Berdasarkan landasan teori terdapat beberapa strategi pemisahan kode aplikasi monolitik, pada tugas akhir ini akan menggunakan 2 strategi yaitu pola \textit{Strangle} dan pola Branch by Abstraction. Pola \textit{Strangle} diterapkan karena pendekatan ini umum diterapkan dan lebih mudah pada suatu aplikasi yang sudah besar, dengan pola ini aplikasi monolitik bisa berdiri bersamaan dengan \textit{service} yang ingin dibangun atau dimigrasi. 
+
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/strangelExMono.png}
-	\captionof{figure}{Struktur Module dan Keterhubungannya di Aplikasi Monolit}
+	\captionof{figure}{Struktur Module dan Keterhubungannya di Aplikasi Monolitik}
 	\label{fig:asd}
 \end{center}
 
-Terdapat 3 langkah utama dalam menerapkan pola strangle yaitu memilih bagian yang ingin dipindahkan, memindahkan aplikasi menjadi service yang berdiri sendiri, dan yang terakhir mengubah call dari monolith ke service yang baru dibuat. Tugas akhir ini milih bagian yang dipindahkan pada kasus bisnis yaitu 'Product', Product bisa dilakukan penambahan Product baru, perubahan atributnya, pencarian atau mendapatkan product dan penghapusan product.
+Terdapat 3 langkah utama dalam menerapkan pola \textit{strangle} yaitu memilih bagian yang ingin dipindahkan, memindahkan aplikasi menjadi \textit{service} yang berdiri sendiri, dan yang terakhir mengubah \textit{call} dari monolitik ke \textit{service} yang baru dibuat. Tugas akhir ini milih bagian yang dipindahkan pada kasus bisnis yaitu 'Product', Product bisa dilakukan penambahan Product baru, perubahan atributnya, pencarian atau mendapatkan product dan penghapusan product.
 
-Proses pemindahan module dibantu dengan hasil clustering yang sudah diproses sebelumnya sehingga dibuat untuk membuat microservice. Untuk menghubungkan antara bagian yang sudah dipisah dari monolit dengan bagian yang masih di monolit maka diperlukan penerapan pola Branch by Abstraction. Terdapat dua bagian utama yaitu abstract dan adapter. Abstract berperan menggantikan bagian yang sudah pisah menjadi service sehingga bagian lain di monolit tidak terdampak dan Adapter adalah implementasi sesungguhnya yang menghubungkan antara service dan aplikasi monolith.
+Proses pemindahan module dibantu dengan hasil clustering yang sudah diproses sebelumnya sehingga dibuat untuk membuat \textit{microservice}. Untuk menghubungkan antara bagian yang sudah dipisah dari monolitik dengan bagian yang masih di monolitik maka diperlukan penerapan pola Branch by Abstraction. Terdapat dua bagian utama yaitu abstract dan adapter. Abstract berperan menggantikan bagian yang sudah pisah menjadi \textit{service} sehingga bagian lain di monolitik tidak terdampak dan Adapter adalah implementasi sesungguhnya yang menghubungkan antara \textit{service} dan aplikasi monolitik.
+
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/strangelExMicro.png}
-	\captionof{figure}{Penerapan Pola Strangle dan Branch by Abstraction}
+	\captionof{figure}{Penerapan Pola \textit{Strangle} dan Branch by Abstraction}
 	\label{fig:asd}
 \end{center}
-Pemisahan kode mempengaruhi proses autentikasi, proses autentikasi pada aplikasi Odoo terdapat 2 cara yaitu melalui password atau API-Key. Odoo menyimpan sesi autentikasi di cookie namun bukan dalam format JWT tapi bentuk HTTP session. Untuk itu diperlukan modifikasi pada sistem autentikasi yang menggunakan format JWT agar setiap service tidak perlu menvalidasi berkali-kali apakah sesi itu valid. 
+
+Pemisahan kode mempengaruhi proses autentikasi, proses autentikasi pada aplikasi Odoo terdapat 2 cara yaitu melalui password atau API-Key. Odoo menyimpan sesi autentikasi di cookie namun bukan dalam format JWT tapi bentuk HTTP session. Untuk itu diperlukan modifikasi pada sistem autentikasi yang menggunakan format JWT agar setiap \textit{service} tidak perlu menvalidasi berkali-kali apakah sesi itu valid. 
+
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/stateDiagramLogin.png}
 	\captionof{figure}{State Diagram pada proses login}
@@ -219,21 +182,24 @@ Pemisahan kode mempengaruhi proses autentikasi, proses autentikasi pada aplikasi
 \end{center}
 
 Pada kasus bisnis untuk mendapatkan product, Odoo memiliki model framework yang memiliki fitur Object Relational Mapping(ORM), fitur controller dan fitur lainnya. Model framework diterapkan pada module addons ataupun odoo.addons, penggunaan model framework masih menjadi satu pada repo sehingga perubahan model dapat menyebabkan kerusakan di bagian addons lainnya. Model framework ini bisa diubah menjadi \textit{shared library} dan menjadi bentuk \textit{microservice chasis}.\\
+
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/seqDiagGet.png}
 	\captionof{figure}{Sequence Diagram pada kasus pengambilan data Product}
 	\label{fig:asd}
 \end{center}
 \subsubsection{Komunikasi antar service}
-Proses komunikasi antar service dilakukan melalui JSON-RPC karena RPC ini sudah kompatibel dengan aplikasi monolit yang dibangun. Apabila diperlukan penambahan metode komunikasi lainnya seperti gRPC maka harus dibangun service yang mengubah gRPC menjad JSON-RPC atau sebaliknya.  
+Proses komunikasi antar \textit{service} dilakukan melalui JSON-RPC karena Odoo sudah memiliki untuk setiap addonsnya RPC ini bisa berupa XML atau JSON. Apabila diperlukan penambahan metode komunikasi lainnya seperti gRPC maka harus dibangun \textit{service} yang mengubah gRPC menjadi JSON-RPC atau sebaliknya.  
 \\
-\subsubsection{Strategi Pemisahan database}
-Pemisahan database dilakukan bersama-sama dengan pemisahan kode karena pada Odoo sudah terdapat ORM yang mengelola database. Untuk menjaga konsistensi database antara service maka diterapkan SAGA dengan pendekatan Choreography. Untuk pengakses database monolit akan digunakan sebagai data access layer melalui API yang bisa berupa JSON-RPC. Proses seperti Insert, Update, Delete atau proses yang mengubah data maka harus melalui message broker agar pesan tidak hilang bila terjadi kegagalan disalah satu pihak. Untuk pengakses data seperti mencari dan mengambil data dapat melalui RPC.
+\subsubsection{Strategi Pemisahan \textit{database}}
+Pemisahan \textit{database} dilakukan setelah dilakukan pemisahan kode karena pada Odoo sudah terdapat ORM yang mengelola \textit{database}. Ketika \textit{database} ingin dipisahkan maka pengaksesan \textit{database} monolitik  digunakan sebagai data access layer melalui API yang bisa berupa JSON-RPC.
 \\
-\subsection{Deployment}
+\subsection{\textit{Deployment}}
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/Deployment.png}
-	\captionof{figure}{Diagram Deployment}
+	\captionof{figure}{Diagram \textit{Deployment}}
 	\label{fig:asd}
 \end{center}
-Tugas Akhir ini menggunakan API Gateway Kong \textit{(off-the-shelf)} karena Kong sudah memiliki fitur yang lengkap pada kasus migrasi aplikasi monolit ke microservice. Fitur itu berupa kemampuan untuk redireksi url untuk menerapkan proses strangle, adanya integrasi dengan Kubernetes untuk meningkatkan skalabilitas dan penemuan service, dan memiliki perfoma yang baik.
+Pendekatan \textit{Deployment} Service yang digunakan adalah pola \textit{container} karena \textit{container} memiliki proses\textit{deployment} yang ringan dan modern. Container ini bisa dijalankan melalui Virtual Machine atau langsung dari host, selain itu \textit{container} memiliki banyak keuntungan seperti mengenkapsulasi teknologi, setiap server instance terisolasi, performa juga tidak buruk.  
+
+Tugas Akhir ini menggunakan \textit{API Gateway} Kong \textit{(off-the-shelf)} karena Kong sudah memiliki fitur yang lengkap pada kasus migrasi aplikasi monolitik ke \textit{microservice}. Fitur itu berupa kemampuan untuk redireksi url untuk menerapkan proses \textit{strangle}, pemantauan \textit{service}, dan memiliki performa yang baik.
