@@ -189,7 +189,7 @@ Pada kasus bisnis untuk mendapatkan product, Odoo memiliki model framework yang 
 	\label{fig:asd}
 \end{center}
 \subsubsection{Komunikasi antar service}
-Proses komunikasi antar \textit{service} dilakukan melalui JSON-RPC karena Odoo sudah memiliki untuk setiap addonsnya RPC ini bisa berupa XML atau JSON. Apabila diperlukan penambahan metode komunikasi lainnya seperti gRPC maka harus dibangun \textit{service} yang mengubah gRPC menjadi JSON-RPC atau sebaliknya.  
+Proses komunikasi antar \textit{service} dilakukan melalui JSON-RPC karena Odoo sudah memiliki untuk setiap addonsnya RPC ini bisa berupa XML atau JSON. Komunikasi ini melalui protokol  HTTP agar bisa akses oleh browser.  
 \\
 \subsubsection{Strategi Pemisahan \textit{database}}
 Pemisahan \textit{database} dilakukan setelah dilakukan pemisahan kode karena pada Odoo sudah terdapat ORM yang mengelola \textit{database}. Ketika \textit{database} ingin dipisahkan maka pengaksesan \textit{database} monolitik  digunakan sebagai data access layer melalui API yang bisa berupa JSON-RPC.
