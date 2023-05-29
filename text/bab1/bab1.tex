@@ -4,51 +4,49 @@ Aplikasi \textit{Enterprise Resource Planning} (ERP) memiliki peran penting dala
 
 Dalam membangun aplikasi ERP dapat dibangun dengan arsitektur seperti monolitik, \textit{Service-Oriente Architecture} (SOA), dan Microservice (MSA) \cite{5FA}. Implementasi arsitektur ERP mempengaruhi aspek manajemen di perusahaan seperti biaya, kompleksitas perawatan dan cara penggunaan aplikasi \cite{612}.
 
-Arsitektur monolitik merupakan arsitektur paling sederhana dalam membangun aplikasi karena pengembangan yang mudah selama aplikasi berbentuk sederhana, walaupun demikian monolitik tidak mudah dilakukan \textit{scaling} dan dikembangkan secara berkelanjutan. SOA bisa membantu menyelesaikan permasalahan tersebut dengan sistem terdistribusi akan tetapi SOA memiliki kekurangan sama seperti monolitik \cite{5FA}. SOA sendiri dapat disamakan sebagai bentuk monolitik terdistribusi karena sistem memiliki banyak \textit{service} tapi seluruh sistem harus dilakukan \textit{deployment} bersamaan. Monolitik terdistribusi memiliki  \textit{coupling} yang tinggi dan bila dilakukan perubahan pada satu bagian dapat menyebabkan kerusakan pada bagian lain \cite{74C}.
+Arsitektur monolitik merupakan arsitektur paling sederhana dalam membangun aplikasi karena pengembangan yang mudah selama aplikasi berbentuk sederhana, walaupun demikian monolitik tidak mudah dilakukan \textit{scaling} dan sulit dikembangkan secara berkelanjutan. SOA bisa membantu menyelesaikan permasalahan tersebut dengan sistem terdistribusi akan tetapi SOA memiliki kekurangan sama seperti monolitik \cite{5FA}. SOA sendiri dapat disamakan sebagai bentuk monolitik terdistribusi karena sistem memiliki banyak \textit{service} tapi seluruh sistem harus dilakukan \textit{deployment} bersamaan. Monolitik terdistribusi memiliki  \textit{coupling} yang tinggi dan bila dilakukan perubahan pada satu bagian dapat menyebabkan kerusakan pada bagian lain \cite{74C}.
 
-\textit{Microservice} merupakan arsitektur modern yang cocok pada aplikasi perusahaan yang telah tumbuh dengan skala secara vertikal maupun horizontal, terdistribusi, dikembangkan secara berkelanjutan. Pada hal performa aplikasi yang dibangun dengan arsitektur \textit{microservice} memiliki performa yang lebih baik dari arsitektur monolitik karena berdasarkan hasil \textit{load test} yang dilakukan antar arsitektur menunjukkan \textit{microservice} dapat memberikan latensi yang rendah dan \textit{throughput} yang tinggi. Akan tetapi perlu diketahui bahwa tidak semua perusahaan harus menggunakan arsitektur \textit{microservice} bila hanya memiliki sumber daya yang kecil, aplikasi berbentuk sederhana dan tidak memiliki masalah dengan performa yang lambat pada aplikasi \cite{5FA}.
+\textit{Microservice} merupakan arsitektur modern yang cocok pada aplikasi perusahaan yang telah tumbuh dengan skala secara vertikal maupun horizontal, terdistribusi, dapat dikembangkan secara berkelanjutan, dan memiliki performa yang baik. Akan tetapi perlu diketahui bahwa tidak semua perusahaan harus menggunakan arsitektur \textit{microservice} bila hanya memiliki sumber daya yang kecil, aplikasi berbentuk sederhana dan tidak memiliki masalah dengan performa yang lambat pada aplikasi \cite{5FA}.
 
 Manfaat dari \textit{microservice} membuat banyak perusahaan melakukan migrasi aplikasi berarsitektur monolitik menjadi arsitektur \textit{microservice} seperti Netflix, eBay, Amazon, IBM, dan lainnya. Namun proses perubahan ini terbukti sulit dan mahal, salah satu tantangan terbesar yang harus dihadapi adalah bagaimana mengidentifikasi dan membagi komponen dari aplikasi monolitik. Komponen aplikasi ini kerap kali sangat \textit{cohesif} dan  \textit{coupled} karena sifat desain arsitektur monolitik \cite{ECD}.
 
-Untuk itu ada beberapa pendekatan untuk membagi komponen atau bisa disebut dekomposisi yaitu secara manual atau secara semi-otomatis \cite{5B1}. Pembagian secara manual dapat menggunakan konsep \textit{Domain Driven Design}, dekomposisi berdasarkan kemampuan bisnis, dan menggunakan pendekatan campuran lainnya \cite{6C1}. Pendekatan dekomposisi dengan cara manual tidak mudah karena mudah terjadi kesalahan dan membutuhkan banyak waktu  \cite{5B1}. Oleh sebab itu dikembangkan otomatisasi untuk dapat mengenali komponen dari aplikasi monolitik untuk membentuk \textit{microservice}. Dengan demikian masalah ini dapat diselesaikan dengan menggunakan algoritma \textit{clustering}. Sebelum melakukan pengelompokan yaitu membuat \textit{call graph} yang mengkodekan interaksi antara \textit{class} dari kode program. \textit{Graph} tersebut diolah menjadi matriks kemiripan sebelum dimasukkan ke dalam algoritma \textit{clustering} \cite{ECD}.
+Untuk itu ada beberapa pendekatan untuk membagi komponen atau bisa disebut dekomposisi yaitu secara manual atau secara semi-otomatis \cite{5B1}. Pembagian secara manual dapat menggunakan konsep \textit{Domain Driven Design}, dekomposisi berdasarkan kemampuan bisnis, dan menggunakan pendekatan campuran lainnya \cite{6C1}. Pendekatan dekomposisi dengan cara manual tidak mudah karena mudah terjadi kesalahan dan membutuhkan banyak waktu  \cite{5B1}. Oleh sebab itu dikembangkan otomatisasi untuk dapat mengenali komponen dari aplikasi monolitik untuk membentuk \textit{microservice}. Pengenalan komponen ini dapat diselesaikan dengan menggunakan algoritma \textit{clustering}. Sebelum melakukan pengelompokan yaitu membuat \textit{call graph} yang mengkodekan interaksi antara \textit{class} dari kode program. \textit{Graph} tersebut diolah menjadi matriks kemiripan sebelum dimasukkan ke dalam algoritma \textit{clustering} \cite{ECD}.
 
-Algoritma \textit{clustering} yang umum digunakan dan terbukti dapat melakukan modularisasi pada perangkat lunak yaitu \textit{Hierarchical Clustering}. \textit{Hierarchical Clustering} memiliki kompleksitas waktu yang lebih sedikit dibandingkan algoritma lainnya seperti algoritma \textit{hill-climbing} dan algoritma genetik. \textit{Hierarchical Clustering} mengelompokkan objek yang memiliki kesamaan ke dalam suatu partisi(\textit{cluster}) \cite{8EA}.
+Algoritma \textit{clustering} yang umum digunakan dan terbukti dapat melakukan modularisasi pada perangkat lunak yaitu \textit{Hierarchical Clustering}. \textit{Hierarchical Clustering} memiliki kompleksitas waktu yang lebih sedikit dibandingkan algoritma lainnya seperti algoritma \textit{hill-climbing} dan algoritma genetik. \textit{Hierarchical Clustering} mengelompokkan objek yang memiliki kesamaan ke dalam suatu partisi(\textit{cluster}) \cite{8EA}. Dalam membentuk partisi ini terdapat beberapa metode yang disebut linkage untuk menentukan partisi terdekat dengan sebuah objek yaitu  jarak maksimum (complete linkage), jarak minimum (single linkage) dan nilai rata-rata jarak (average linkage) \cite{3D3}.
 
-Pada penelitian ini akan melakukan dekomposisi aplikasi ERP yang memiliki arsitektur monolitik menjadi arsitektur \textit{microservice} dengan pendekatan menganalisis \textit{graph} yang dihasilkan dari kode program kemudian dilakukan pengelompokan secara \textit{Hierarchical Clustering}. Hasil dari pengelompokan akan diimplementasikan dan dilakukan \textit{load test} sehingga dapat diketahui latensi, jumlah \textit{throughput}, dan penggunaan sumber daya. Dengan ini diharapkan bisa menyelesaikan permasalahan yang terjadi di aplikasi ERP seperti kustomisasi dan skalabilitas.
+Pada penelitian ini akan melakukan dekomposisi aplikasi ERP yang memiliki arsitektur monolitik menjadi arsitektur \textit{microservice} dengan pendekatan menganalisis \textit{graph} yang dihasilkan dari kode program kemudian dilakukan pengelompokan secara \textit{Hierarchical Clustering}. Hasil dari pengelompokan akan diuji dengan melihat \textit{cohesion} dan \textit{coupling} kemudian dilakukan pemilihan bagian yang di implementasikan. Dengan ini diharapkan bisa menyelesaikan permasalahan yang terjadi ketika migrasi aplikasi seperti  mengenali komponen dan dapat dikembangkan secara berkelanjutan.
 
 \hfill \break
 
 \section{Rumusan Masalah}
 Berikut adalah rumusan masalah yang dibuat berdasarkan latar belakang diatas.
 \begin{enumerate}[nolistsep,leftmargin=0.5cm]
-  \item Bagaimana dekomposisi \textit{microservice} yang optimal melalui pendekatan \textit{Hierarchical Clustering}?
-  \item Bagaimana performa aplikasi ERP antara arsitektur monolitik dan arsitektur \textit{microservice} dalam kondisi beban yang tinggi?
-  \item Berapa besar penggunaan sumber daya dan skalabilitas aplikasi ERP yang digunakan pada arsitektur monolitik dibandingkan arsitektur \textit{microservice}?\\
+  \item Bagaimana nilai \textit{coupling} dan nilai \textit{cohesion} dari microservice yang dibuat \textit{Hierarchical Clustering}?
+  \item Bagaimana hasil dekomposisi yang dibuat dengan \textit{linkage} yang berbeda?
+  \item Bagaimana penerapan microservice dengan menggunakan hasil dekomposisi yang dihasilkan oleh \textit{hierarchical clustering}?\\
 \end{enumerate}
 
 \section{Tujuan Penelitian}
 Berdasarkan rumusan masalah di atas, maka tujuan penelitian ini adalah.
 \begin{enumerate}[nolistsep,leftmargin=0.5cm]
-  \item Menerapkan dekomposisi aplikasi ERP monolitik ke \textit{microservice} dengan pendekatan \textit{Hierarchical Clustering}.
+  \item Menerapkan \textit{Hierarchical Clustering} untuk dekomposisi aplikasi ERP monolitik ke \textit{microservice}
   \item Membuat \textit{microservice} yang memiliki nilai \textit{coupling} rendah dan nilai \textit{cohesion} tinggi.
-  \item Membandingkan performa dan sumber daya aplikasi ERP monolitik dengan \textit{microservice}. \\
+  \item Menemukan linkage yang  cocok untuk dekomposisi \textit{microservice} dengan \textit{Hierarchical Clustering} \\
 \end{enumerate}
 
 \section{Batasan Masalah}
 Agar penelitian ini menjadi lebih terarah, maka penulis membatasi masalah yang akan dibahas sebagai berikut.
 \begin{enumerate}[nolistsep,leftmargin=0.5cm]
-  \item Penyebaran aplikasi dilakukan dengan \textit{Docker}
   \item Aplikasi yang didekomposisi adalah aplikasi yang sudah dibangun sebelumnya dan disebarkan dengan arsitektur monolitik.
   \item Perubahan arsitektur tidak dapat menjaminkan secara keseluruhan fungsionalitas dari aplikasi, karena keterbatasan waktu dan pengujian.
-  \item Hanya bagian tertentu pada aplikasi ERP yang dilakukan dekomposisi yaitu di bagian modul \textit{point of sale}, modul produk , dan UI aplikasi (Modul Web) \\
+  \item Microservice yang diterapkan hanya pada bagian tertentu di aplikasi ERP yang dipilih.\\
 \end{enumerate}
 
 \section{Kontribusi Penelitian}
 Kontribusi yang diberikan pada penelitian ini adalah sebagai berikut.
 \begin{enumerate}[nolistsep,leftmargin=0.5cm]
   \item Memberikan langkah dalam melakukan dekomposisi aplikasi monolitik ke \textit{microservice} dengan \textit{Hierarchical Clustering}.
-  \item Mengetahui pengaruh dari performa aplikasi yang sudah dilakukan dekomposisi dengan uji beban pada aplikasi.
-  \item Membuat aplikasi \textit{microservice} yang memiliki nilai \textit{cohesion} tinggi dan nilai \textit{coupling} rendah.
+  \item Menghasilkan kelompok service yang ideal dari hasil dekomposisi.\\
 \end{enumerate}
 
 \section{Metodologi Penelitian}
@@ -56,14 +54,14 @@ Tahapan-tahapan yang akan dilakukan dalam pelaksanaan penelitian ini adalah seba
 \begin{enumerate}[nolistsep,leftmargin=0.5cm]
   \item Penelitian Pustaka \\
   Penelitian ini dimulai dengan studi kepustakaan yaitu mengumpulkan referensi baik dari buku, jurnal, atau artikel daring mengenai arsitektur \textit{microservice}, permasalahan pada aplikasi ERP dan dekomposisi monolitik ke \textit{microservice}.
-  \item Analisis
+  \item Analisis \\
   Dilakukan analisis permasalahan yang ada, batasan-batasan yang ditentukan, dan  kebutuhan-kebutuhan yang diperlukan untuk menyelesaikan permasalahan yang ditemukan.
   \item Perancangan \\
   Pada tahap ini dilakukan perancangan untuk melakukan dekomposisi dari aplikasi arsitektur monolitik ke arsitektur \textit{microservice} dengan pendekatan \textit{Hierarchical Clustering}.
   \item Implementasi \\
   Pada tahap ini mengimplementasikan hasil perancangan dekomposisi ke aplikasi \textit{microservice} pada aplikasi yang dibuat dengan arsitektur monolitik.
   \item Pengujian \\
-  Pada tahap ini  dilakukan pengujian pada aplikasi yang sudah di dekomposisi. Pengujian melalui uji beban akan dilakukan dengan perbandingan antara aplikasi monolitik dan aplikasi \textit{microservice}.\\ 
+  Pada tahap ini  dilakukan pengujian pada aplikasi yang sudah dikelompokkan oleh \textit{Hierarchical Clustering}. Pengujian mempertimbangkan nilai \textit{cohesion}, nilai \textit{coupling}, jumlah partisi, linkage dan melakukan pemilihan bagian untuk diimplementasikan menjadi microservice  \\ 
 \end{enumerate}
 
 \section{Sistematika Pembahasan}
@@ -75,10 +73,10 @@ Pendahuluan yang berisi latar belakang, rumusan masalah, tujuan penelitian, bata
 Landasan Teori yang berisi penjelasan dasar teori yang mendukung penelitian ini, seperti arsitektur monolitik, arsitektur \textit{microservice}, \textit{hierarchical clustering}, dan dekomposisi.
 
 \textbf{BAB 3: ANALISIS DAN PERANCANGAN}\\
-Analisis dan Perancangan yang berisi tahapan penerapan dekomposisi aplikasi monolitik ke \textit{microservice} dengan \textit{hierarchical clustering} dan penyebaran aplikasi melalui kontainer.
+Analisis dan Perancangan yang berisi tahapan penerapan dekomposisi aplikasi monolitik ke \textit{microservice} dengan \textit{hierarchical clustering}.
 
 \textbf{BAB 4: IMPLEMENTASI DAN PENGUJIAN}\\
-Implementasi dan Pengujian yang berisi pembangunan aplikasi dan pengujian dengan menyimulasikan dan mengevaluasi aplikasi yang telah didekomposisi.
+Implementasi dan Pengujian yang berisi pembangunan aplikasi dan pengujian yang mengevaluasi aplikasi yang didekomposisi.
 
 \textbf{BAB 5: KESIMPULAN DAN SARAN}\\
 Penutup yang berisi kesimpulan dari penelitian dan saran untuk penelitian lebih lanjut di masa mendatang.

@@ -319,12 +319,12 @@ Unsupervise Clustering adalah pengelompokan di mana tidak diberikan sebuah label
 		\label{fig:asd}
 	\end{center}
 
-	Ada beberapa metode untuk menentukan partisi terdekat yaitu dengan menghitung jarak maksimal antara objek partisi (complete lingkage), nilai rata-rata jarak(average lingkage) atau jarak minimum (single lingkage) \cite{3D3}. Proses untuk menghitung \textit{Hierarchical Agglomerative Clustering}(HAC) menghasilan stepwise matrix yang dapat digunakan untuk membuat dendogram. Proses ini menggunakan perbandingan jarak antar objek(X). Untuk mengabungkan hasil kumpulan jarak menggunakan algoritma linkage, hasil dari linkage digabungkan dan disimpan ke dalam array baru. Array yang baru(d) berisi jarak terbaru antar objek lainnya yang belum digabungkan. Proses berakhir ketika semua objek sudah terhitung keterhubungannya dari individu objek yang memiliki banyak partisi hingga menjadi satu partisi yang memiliki banyak objek \cite{09E}.
+	Ada beberapa metode untuk menentukan partisi terdekat yaitu dengan menghitung jarak maksimal antara objek partisi (complete lingkage), nilai rata-rata jarak(average lingkage) atau jarak minimum (single lingkage) \cite{3D3}. Proses untuk menghitung \textit{Hierarchical Agglomerative Clustering}(HAC) menghasilan stepwise matrix yang dapat digunakan untuk membuat dendogram. Proses ini menggunakan perbandingan jarak antar objek(r,s). Untuk mengabungkan hasil kumpulan jarak menggunakan algoritma linkage, hasil dari linkage digabungkan dan disimpan ke dalam array baru. Array yang baru(d) berisi jarak terbaru antar objek lainnya yang belum digabungkan. Proses berakhir ketika semua objek sudah terhitung keterhubungannya dari individu objek yang memiliki banyak partisi hingga menjadi satu partisi yang memiliki banyak objek \cite{2C9}.
 	
 	\begin{center}
 		\includegraphics[width=12cm]{img/bab_2/algo_hac.png}
-		\captionof{figure}{Algoritma \textit{Hierarchical Agglomerative Clustering} \cite{09E}}
-		\label{fig:asd}
+		\captionof{figure}{Algoritma Stephen C. Johnson \textit{Hierarchical Agglomerative Clustering} untuk Single Linkage dan Complete Linkage \cite{2C9}}
+		\label{fig:algo_hac}
 	\end{center}
 
 	\item \textit{Partitional Clustering} \\
@@ -589,7 +589,9 @@ Odoo memiliki struktur kode yang dibentuk sebagai module untuk setiap fiturnya. 
 	\end{longtable}
 \end{small}
 \endgroup
-Terdapat 2 jenis addons yaitu addons base dan addons. Yang membedakannya addons base harus ada di setiap aplikasi Odoo bila tidak ada aplikasi tidak dapat berjalan sedangkan addons bisa diganti sesuai keperluan bisnis. Pengelolaan \textit{database} dilakukan secara otomatis oleh ORM internal Odoo, Odoo memiliki framework yang bisa digunakan untuk menambahkan atau mengelola fitur atau addons. 
+Terdapat 2 jenis addons yaitu addons base dan addons. Yang membedakannya addons base harus ada di setiap aplikasi Odoo bila tidak ada aplikasi tidak dapat berjalan sedangkan addons bisa diganti sesuai keperluan bisnis. Pengelolaan \textit{database} dilakukan secara otomatis oleh Object Relational Mapping (ORM) internal Odoo, Odoo memiliki framework yang bisa digunakan untuk menambahkan atau mengelola fitur atau addons. 
+
+Komponen utama pada Odoo yaitu pada bagian ORM, bagian ini menghindari proses penulisan SQL secara manual dan memudahkan untuk dikembangkan lebih lanjut serta meningkatkan keamanan. Objek bisnis ditulis dalam bentuk class Python yang merupakan memiliki turunan dari Model, dimana model ini dapat di integrasikan ke dalam sistem. Model dapat dikonfigurasi berdasarkan pengaturan atributnya di class tersebut. Atribut yang paling utama yaitu {\_}name karena {\_}name harus akan diketahui oleh semua model di model Odoo.
 
 Tabel yang terbentuk pada konfigurasi umumnya bisa mencapai ±566 tabel bila semua module di install sementara itu jumlah tabel tanpa ada module terinstall adalah 99 tabel. Dari tabel tanpa ada module bisa diidentifikasi 27 tabel utama yang digunakan pada aplikasi. Berikut adalah diagram dari \textit{database} aplikasi Odoo, dengan attribute yang ditampilkan hanya sebuah key dari tabel. Nama depan tabel yang berinisial 'ir' artinya information repository dan 'res' artinya resource. Perbedaannya adalah 'res' menyimpan informasi yang digunakan dalam proses bisnis sedangkan 'ir' menyimpan informasi mengenai kebutuhan internal aplikasi.
  

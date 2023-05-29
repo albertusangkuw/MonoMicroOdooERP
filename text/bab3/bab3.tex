@@ -9,13 +9,14 @@ Pada bab ini menjelaskan analisis masalah yang diatasi, alur kerja dari perangka
 Arsitektur ERP yang digunakan pada Odoo yaitu arsitektur Service Oriented Architecture (SOA) dan masih dideploy secara monolitik, seperti yang sudah dijelaskan pada landasan teori. Arsitektur monolitik memiliki kelemahan dan permasalahan yang bisa diselesaikan dengan arsitektur \textit{microservice}. Aplikasi ERP juga diperlukan untuk memiliki skalabilitas yang baik dan kustomisasi.
 
 Namun untuk melakukan perubahan arsitektur harus dilakukan dekomposisi, proses dekomposisi sendiri tidak mudah karena proses dekomposisi masih membutuhkan analisis secara manual dan untuk mengidentifikasi \textit{service} sulit karena banyaknya pendekatan dan pertimbangan.
-Pada penelitian ini menggunakan pendekatan Hierarchical clustering untuk membantu menemukan \textit{service} yang tepat, di mana hierarchical clustering memberikan rekomendasi bagaimana pengelompokan \textit{service} berdasarkan pemilihan partisi terbaik.
-Proses dimulai dari melalukan analisis kode seperti Call Graph yang dihasilkan dari kode aplikasi Odoo. Hasil analisis kode di ekstraksi menjadi matrix untuk dilakukan hierarchical clustering. Cluster terbaik dipilih melalui nilai secara struktural yaitu nilai \textit{coupling}  dan \textit{cohesion}.
 
-Hasil terbaik dari clustering diimplementasikan menjadi \textit{service}, penelitian ini akan menggunakan strategi dengan pola \textit{strangle} untuk memecah kode di monolitik. Untuk dekomposisi pada data akan menggunakan strategi \textit{Aggregate Exposing Monolith}.
+Pada penelitian ini menggunakan pendekatan Hierarchical clustering untuk membantu menemukan \textit{service} yang tepat, di mana hierarchical clustering memberikan rekomendasi bagaimana pengelompokan \textit{service} berdasarkan pemilihan partisi.
 
-Microservice yang dibentuk akan dievaluasi melalui uji beban dan penggunaan sumber daya aplikasi untuk menentukan apakah dengan arsitektur \textit{microservice} dapat menyelesaikan permasalahan yang muncul pada arsitektur monolitik di aplikasi ERP.
-\\
+Proses dimulai dari melalukan analisis kode seperti Call Graph yang dihasilkan dari kode aplikasi Odoo. Hasil analisis kode di ekstraksi menjadi matrix untuk dilakukan hierarchical clustering. Partisi  dipilih melalui nilai secara struktural yaitu nilai \textit{coupling}  dan \textit{cohesion}.
+
+Hasil terbaik dari clustering disampling untuk di implementasikan menjadi \textit{service}, penelitian ini akan menggunakan strategi dengan pola \textit{strangle} untuk memecah kode di monolitik. Untuk dekomposisi pada data akan menggunakan strategi \textit{Aggregate Exposing Monolith}.
+
+
 
 \section{Kerangka Pemikiran}
 \begin{center}
@@ -77,10 +78,15 @@ Object yang dianalisis yaitu \textit{class} yang merupakan turunan dari \textit{
 \subsubsection{Pengabungan dan Optimisasi Hasil Ekstraksi}
 Graph yang dihasilkan dari proses ekstrasi dipisahkan antara module eksternal dan module internal. Module yang digunakan untuk pengelompokan adalah module internal, setiap \textit{call} yang dilakukan memiliki nama \textit{call} yang berupa gabungan antara nama fungsi / \textit{class} / module /file di kode program. PyCG tidak memberikan informasi apakah nama \textit{call} tersebut berupa tipe apa, untuk itu pengelompokan dilakukan secara hybrid yaitu berdasarkan module dan file. 
 
+% Ilustrasi pengabungan nilai agregasi  dengan Gambar  bila ada weight
+
 Nama \textit{call} yang disatukan menjadi module adalah \textit{call} yang memiliki awalan(root) addons atau odoo/addons dan nama \textit{call} yang disatukan dengan file adalah nama \textit{call} selain addons. Call yang dikelompokkan memiliki nilai agregasi dari jumlah \textit{call}. Jumlah \textit{call} dapat digunakan sebagai weight yang dapat menunjukkan kekuatan antara \textit{call} satu sama lain, proses ini membentuk \textit{call} baru yang lebih ringkas dan relevan dalam bentuk \textit{graph}. 
 
 \subsubsection{Hierarchical Clustering}
 Graph yang berbentuk Adjacency list diubah menjadi adjacency matrix, proses normalisasi data dilakukan pada matrix. Tujuan normalisasi data agar nilai \textit{weight}(jumlah \textit{call}) dari relasi berkisar dari 1 hingga 0. Semakin banyak jumlah \textit{call} dilakukan maka nilai mendekati 1,kemudian matrix tersebut dibuat menjadi Distance Matrix, rumus jarak yang digunakan ada 2 yaitu Jaccard dan Struktural Similarity. Masing-masing hasil jarak disatukan dengan rata-rata. Jaccard menghasilkan hasil yang bagus pada remodularisasi perangkat lunak dan Struktural Similarity digunakan untuk melihat kedekatan dari sisi intesitas panggilan antara module.
+
+% Ilustrasi CG yang abjacney ke matrix 
+% Detail Jackard tapi gimaan 
 
 \begin{center}
 	\includegraphics[width=12cm]{img/bab_3/simJaccard.png}
@@ -157,6 +163,8 @@ Proses pemisahan membutuhkan \textit{reverse} \textit{proxy} yang dapat menghubu
 \subsubsection{Strategi Pemisahan Kode}
 Berdasarkan landasan teori terdapat beberapa strategi pemisahan kode aplikasi monolitik, pada tugas akhir ini akan menggunakan 2 strategi yaitu pola \textit{Strangle} dan pola Branch by Abstraction. Pola \textit{Strangle} diterapkan karena pendekatan ini umum diterapkan dan lebih mudah pada suatu aplikasi yang sudah besar, dengan pola ini aplikasi monolitik bisa berdiri bersamaan dengan \textit{service} yang ingin dibangun atau dimigrasi. 
 
+Tugas Akhir ini menggunakan \textit{API Gateway} Kong \textit{(off-the-shelf)} karena Kong sudah memiliki fitur yang lengkap pada kasus migrasi aplikasi monolitik ke \textit{microservice}. Fitur itu berupa kemampuan untuk redireksi url untuk menerapkan proses \textit{strangle}, pemantauan \textit{service}, dan memiliki performa yang baik.
+
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/strangelExMono.png}
 	\captionof{figure}{Struktur Module dan Keterhubungannya di Aplikasi Monolitik}
@@ -188,18 +196,11 @@ Pada kasus bisnis untuk mendapatkan product, Odoo memiliki model framework yang 
 	\captionof{figure}{Sequence Diagram pada kasus pengambilan data Product}
 	\label{fig:asd}
 \end{center}
+
 \subsubsection{Komunikasi antar service}
 Proses komunikasi antar \textit{service} dilakukan melalui JSON-RPC karena Odoo sudah memiliki untuk setiap addonsnya RPC ini bisa berupa XML atau JSON. Komunikasi ini melalui protokol  HTTP agar bisa akses oleh browser.  
 \\
 \subsubsection{Strategi Pemisahan \textit{database}}
 Pemisahan \textit{database} dilakukan setelah dilakukan pemisahan kode karena pada Odoo sudah terdapat ORM yang mengelola \textit{database}. Ketika \textit{database} ingin dipisahkan maka pengaksesan \textit{database} monolitik  digunakan sebagai data access layer melalui API yang bisa berupa JSON-RPC.
-\\
-\subsection{\textit{Deployment}}
-\begin{center}
-	\includegraphics[width=14cm]{img/bab_3/Deployment.png}
-	\captionof{figure}{Diagram \textit{Deployment}}
-	\label{fig:asd}
-\end{center}
-Pendekatan \textit{Deployment} Service yang digunakan adalah pola \textit{container} karena \textit{container} memiliki proses\textit{deployment} yang ringan dan modern. Container ini bisa dijalankan melalui Virtual Machine atau langsung dari host, selain itu \textit{container} memiliki banyak keuntungan seperti mengenkapsulasi teknologi, setiap server instance terisolasi, performa juga tidak buruk.  
+\\ 
 
-Tugas Akhir ini menggunakan \textit{API Gateway} Kong \textit{(off-the-shelf)} karena Kong sudah memiliki fitur yang lengkap pada kasus migrasi aplikasi monolitik ke \textit{microservice}. Fitur itu berupa kemampuan untuk redireksi url untuk menerapkan proses \textit{strangle}, pemantauan \textit{service}, dan memiliki performa yang baik.

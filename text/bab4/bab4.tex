@@ -14,40 +14,9 @@ Berikut spesifikasi perangkat keras untuk proses implementasi dekomposisi:
 	\item Nama Produk : Macbook Air 2020 
 	\item Processor : Apple M1 8 Core CPU
 	\item Memori : 8 GB
-	\item Penyimpanan : 256 GB 
+	\item Penyimpanan : 256 GB \\
 \end{enumerate}
-Detail Spesifikasi perangkat keras di \textit{virtual machine}: 
 
-\begingroup
-\setlength{\LTleft}{-20cm plus -1fill}
-\setlength{\LTright}{\LTleft}
-\begin{small}
-	\begin{longtable}{|p{6.5cm}|p{3cm}|p{3cm}|}
-		\caption{Tabel Spesifikasi berserta aplikasi yang dijalankan di Virtual Machine}\\
-		\hline
-		\textbf{Virtual Machine} & \textbf{CPU} & \textbf{Memory}\\
-		\endfirsthead
-
-		\hline
-		Odoo Monolith &  \multirow{2}{*}{2 Core}  & \multirow{2}{*}{2 GB} \\
-		\cline{1-1}
-		 	PostgreSQL &  & \\
-		\hline
-		Odoo Monolith &  \multirow{5}{*}{2 Core}  & \multirow{5}{*}{2 GB} \\
-		\cline{1-1}
-		 	PostgreSQL &  & \\
-		\cline{1-1}
-			Kong Gateway &  &\\
-		\cline{1-1}
-			Point of Sale Service &  &\\
-		\cline{1-1}
-			Product Service &  &\\
-		\cline{1-1}
-			MariaDB &  &\\
-		\hline
-	\end{longtable}
-\end{small}
-\endgroup
 
 \subsection{Lingkungan Perangkat Lunak}
 Berikut lingkungan perangkat lunak:
@@ -56,7 +25,7 @@ Berikut lingkungan perangkat lunak:
 	\item Sistem Operasi: macOS Ventura
 	\item IDE : Visual Studio Code, GoLand 
 	\item Tools : Dbeaver, Postman, Docker, Primate
-	\item Bahasa Pemrograman: Python 3.8.2rc2, Go v1.20.4
+	\item Bahasa Pemrograman: Python 3.8.2rc2, Go v1.20.4 \\
 \end{enumerate}
 
 \section{Implementasi Perangkat Lunak}
@@ -462,32 +431,24 @@ Hasil pemilihan dapat membantu dalam membuat microservice yang memiliki nilai co
 
 \begin{figure}[htbp]
 	\centering
-	\begin{minipage}{1\textwidth}
-		\centering
-		\includegraphics[width=1\textwidth]{img/bab_4/cc_single.png}
-		\caption{Pemilihan Partisi terbaik menurut pendekatan Single Linkage }
-		\label{fig:cc_single}
-	\end{minipage}\hfill	
+	\includegraphics[width=0.8\textwidth]{img/bab_4/cc_single.png}
+	\caption{Pemilihan Partisi terbaik menurut pendekatan Single Linkage }
+	\label{fig:cc_single}
+	
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[h]
 	\centering
-	\begin{minipage}{1\textwidth}
-		\centering
-		\includegraphics[width=1\textwidth]{img/bab_4/cc_comp.png}
-		\caption{Pemilihan Partisi terbaik menurut pendekatan Complete Linkage }
-		\label{fig:cc_complete}
-	\end{minipage}\hfill	
+	\includegraphics[width=0.8\textwidth]{img/bab_4/cc_comp.png}
+	\caption{Pemilihan Partisi terbaik menurut pendekatan Complete Linkage }
+	\label{fig:cc_complete}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[h]
 	\centering
-	\begin{minipage}{1\textwidth}
-		\centering
-		\includegraphics[width=1\textwidth]{img/bab_4/cc_avg.png}
-		\caption{Pemilihan Partisi terbaik menurut pendekatan Average Linkage }
-		\label{fig:cc_avg}
-	\end{minipage}\hfill	
+	\includegraphics[width=0.8\textwidth]{img/bab_4/cc_avg.png}
+	\caption{Pemilihan Partisi terbaik menurut pendekatan Average Linkage }
+	\label{fig:cc_avg}
 \end{figure}
 
 
