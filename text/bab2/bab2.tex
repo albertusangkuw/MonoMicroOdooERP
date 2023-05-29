@@ -399,7 +399,7 @@ Kong Gateway adalah \textit{API Gateway} yang ringan, cepat, dan fleksibel serta
 Kong Gateway memiliki Kong Manager yaitu graphical user interface (GUI). Di mana menggunakan Kong Admin API untuk mengatur Kong Gateway. Kong Manager dapat menambahkan rute dan \textit{service} baru, mengaktifkan dan mematikan plugins, membuat grup untuk tim, dan penmantauan serta pengecheckan status \textit{service}. Plugins dapat menambahkan fitur pada Kong seperti rate limiting untuk mengkontrol jumlah request yang dikirimkan ke suatu servie dan pengaturan cache.
 \\
 \subsubsection{\textit{inspect} \cite{inspect}}
-Inspect adalah library bawaan dari python , di mana library ini memberikan fungsi untuk mengetahui informasi tentang object yang sedang hidup seperti module,class, method, fungsi, traceback, frame object, dan kode object. Terdapat 4 bagian pada library ini yaitu pengecheckan tipe data, mendapatkan kode program, inpeksi \textit{class} atau fungsi, dan memeriksa interpreter stack.
+Inspect adalah library bawaan dari python, di mana library ini memberikan fungsi untuk mengetahui informasi tentang object yang sedang hidup seperti module,class, method, fungsi, traceback, frame object, dan kode object. Terdapat 4 bagian pada library ini yaitu pengecheckan tipe data, mendapatkan kode program, inpeksi \textit{class} atau fungsi, dan memeriksa interpreter stack.
 
 Module yang digunakan pada tugas akhir ini:
 \begingroup
@@ -430,8 +430,8 @@ Module yang digunakan pada tugas akhir ini:
 \end{small}
 \endgroup
 
-\subsubsection{\textit{SciPY} \cite{scipy}}
-SciPY adalah koleksi algoritma matematika yang cocok dengan ekstensi NumPY di Python. SciPy memiliki module algoritma clustering yang dapat digunakan dan dapat dilakukan pemilihan metode yang mungkin dibutuhkan. Proses Perhitungan yang dilakukan SciPy sudah di optimalisasi dan efisien.
+\subsubsection{\textit{SciPy} \cite{scipy}}
+SciPy adalah koleksi algoritma matematika yang cocok dengan ekstensi NumPY di Python. SciPy memiliki module algoritma clustering yang dapat digunakan dan dapat dilakukan pemilihan metode yang mungkin dibutuhkan. Proses Perhitungan yang dilakukan SciPy sudah di optimalisasi dan efisien.
 
 Module algoritma yang digunakan pada tugas akhir ini:
 \begingroup
@@ -550,7 +550,7 @@ Struktur \textit{module} pada kode program di Odoo versi 16 yaitu ada folder deb
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_2/folder_odoo.png}
 	\captionof{figure}{Struktur Repository Odoo }
-	\label{fig:asd}
+	\label{fig:folderOdoo}
 \end{center}
 
 Odoo memiliki struktur kode yang dibentuk sebagai module untuk setiap fiturnya. Sehingga dari sisi server dan \textit{client} memiliki hubungan yang disatukan menjadi satu paket tersendiri. Di mana module adalah koleksi dari fungsi dan data untuk menyelesaikan satu tujuan. Modul pada Odoo bisa ditambahkan, diganti, diubah untuk menyesuaikan kebutuhan bisnis. Di mana pada pengguna module dilambangkan dengan nama Apps, tetapi tidak semua module adalah Apps. Modules juga bisa direfrensikan sebagai addons \cite{odoo}. 
@@ -567,7 +567,7 @@ Odoo memiliki struktur kode yang dibentuk sebagai module untuk setiap fiturnya. 
 		
 		\hline
 		    Business Objects
-		  & Object yang akan digunakan di module di mana setiap attribute secara otomatik dipetakan ke kolom \textit{database} dengan ORM
+		  & Object yang akan digunakan di module di mana setiap attribute secara otomatis dipetakan ke kolom \textit{database} dengan ORM
 		  & File python yang memiliki \textit{class}\\
 		\hline  
 		Objects Views
@@ -589,11 +589,24 @@ Odoo memiliki struktur kode yang dibentuk sebagai module untuk setiap fiturnya. 
 	\end{longtable}
 \end{small}
 \endgroup
+
 Terdapat 2 jenis addons yaitu addons base dan addons. Yang membedakannya addons base harus ada di setiap aplikasi Odoo bila tidak ada aplikasi tidak dapat berjalan sedangkan addons bisa diganti sesuai keperluan bisnis. Pengelolaan \textit{database} dilakukan secara otomatis oleh Object Relational Mapping (ORM) internal Odoo, Odoo memiliki framework yang bisa digunakan untuk menambahkan atau mengelola fitur atau addons. 
 
-Komponen utama pada Odoo yaitu pada bagian ORM, bagian ini menghindari proses penulisan SQL secara manual dan memudahkan untuk dikembangkan lebih lanjut serta meningkatkan keamanan. Objek bisnis ditulis dalam bentuk class Python yang merupakan memiliki turunan dari Model, dimana model ini dapat di integrasikan ke dalam sistem. Model dapat dikonfigurasi berdasarkan pengaturan atributnya di class tersebut. Atribut yang paling utama yaitu {\_}name karena {\_}name harus akan diketahui oleh semua model di model Odoo.
+Komponen utama pada Odoo yaitu pada bagian ORM, bagian ini menghindari proses penulisan SQL secara manual dan memudahkan untuk dikembangkan lebih lanjut serta meningkatkan keamanan. Objek bisnis ditulis dalam bentuk class Python yang merupakan turunan dari Model, dimana model ini dapat di integrasikan ke dalam sistem. Model dapat dikonfigurasi berdasarkan pengaturan atributnya di class tersebut. Atribut yang paling utama yaitu {\_}name karena {\_}name akan diketahui oleh semua model di model Odoo. Terdapat 3 bentuk turunan lainnya pada Model yaitu AbstractModel, Model, dan TransientModel. Perbedaan diantara Model ini adalah 'AbstractModel' tidak menyimpan data di database, 'Model' menyimpan data di database dan 'TransientModel' menyimpan data di database sementara dalam waktu tertentu.
 
-Tabel yang terbentuk pada konfigurasi umumnya bisa mencapai ±566 tabel bila semua module di install sementara itu jumlah tabel tanpa ada module terinstall adalah 99 tabel. Dari tabel tanpa ada module bisa diidentifikasi 27 tabel utama yang digunakan pada aplikasi. Berikut adalah diagram dari \textit{database} aplikasi Odoo, dengan attribute yang ditampilkan hanya sebuah key dari tabel. Nama depan tabel yang berinisial 'ir' artinya information repository dan 'res' artinya resource. Perbedaannya adalah 'res' menyimpan informasi yang digunakan dalam proses bisnis sedangkan 'ir' menyimpan informasi mengenai kebutuhan internal aplikasi.
+Model Odoo merupakan turuan dari class BaseModel dimana BaseModel memiliki metaclass yang disebut MetaModel, pada class BaseModel memiliki atribut yaitu {\_}name yaitu nama model dari class tersebut dengan format nama path dot (.) contohnya 'product.category', Penamaan ini mempengaruhi nama tabel pada database sehingga nama tabel di database berdasarkan contoh tersebut 'product{\_}category'. Atribut lainnya yaitu seperti {\_}inherit, {\_}inherits, dan comodel{\_}name.
+ 
+Model Odoo bisa memiliki banyak parent yang diturunkan sehingga tipe atribut {\_}inherit bisa berupa str atau list. Apabila atribut nama tidak ditentukan maka model tersebut akan mengupdate parent tersebut (termasuk datanya) sedangkan bila tidak maka model tersebut akan memiliki relasi dengan parent dan data dianggap sebagai data terpisah. Sedangkan attribute {\_}inherits menggunakan \textit{inheritance} dengan bentuk \textit{delegation}, dengan ini model memiliki referensi antar model lainnya tetapi model tersebut bukanlah menjadi sebuah model lain tersebut. Pada gambar \ref{fig:inheritModel} dapat dilihat lebih jelas ilustrasi inheritance pada model Odoo.
+
+\begin{center}
+	\includegraphics[width=14cm]{img/bab_2/inheritance_odoo.png}
+	\captionof{figure}{Inheritance pada Model Odoo}
+	\label{fig:inheritModel}
+\end{center}
+
+Atribut comodel{\_}name merupakan atribut yang dimiliki sebuah field relational odoo. Untuk membuat relasi dengan model lainnya seperti one-to-many, many-to-one dan many-to-many, dilakukan dengan menambahkan atribut dengan class field. Di comodel{\_}name merupakan string yang merepresentasikan {\_}name dari model yang ingin direlasikan. 
+
+Tabel yang terbentuk pada konfigurasi awal Odoo umumnya bisa mencapai ±566 tabel bila semua module di install sementara itu jumlah tabel tanpa ada module terinstall adalah 99 tabel. Dari tabel tanpa ada module bisa diidentifikasi 27 tabel utama yang digunakan pada aplikasi. Berikut adalah diagram dari \textit{database} aplikasi Odoo, dengan attribute yang ditampilkan hanya sebuah key dari tabel. Nama depan tabel yang berinisial 'ir' artinya information repository dan 'res' artinya resource. Perbedaannya adalah 'res' menyimpan informasi yang digunakan dalam proses bisnis sedangkan 'ir' menyimpan informasi mengenai kebutuhan internal aplikasi.\\
  
 \begin{center}
 	\includegraphics[width=14cm]{img/OdooCoreERD.png}
