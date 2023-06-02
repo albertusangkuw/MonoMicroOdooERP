@@ -6,7 +6,7 @@
 Pada bab ini menjelaskan analisis masalah yang diatasi, alur kerja dari perangkat lunak yang dikembangkan, arsitektur dan metode yang digunakan serta hasil evaluasi.\\
 
 \section{Analisis Masalah}
-Arsitektur ERP yang digunakan pada Odoo yaitu arsitektur monolitik, seperti yang sudah dijelaskan pada landasan teori. Arsitektur monolitik memiliki kelemahan dan permasalahan yang bisa diselesaikan dengan arsitektur \textit{microservice}. Aplikasi ERP juga diperlukan untuk memiliki skalabilitas yang baik dan kustomisasi.
+Arsitektur ERP yang digunakan pada Odoo yaitu arsitektur monolitik, seperti yang sudah dijelaskan pada landasan teori. Arsitektur monolitik memiliki kelemahan dan permasalahan yang bisa diselesaikan dengan arsitektur \textit{microservice}.
 
 Namun untuk melakukan perubahan arsitektur harus dilakukan dekomposisi, proses dekomposisi sendiri tidak mudah karena proses dekomposisi masih membutuhkan analisis secara manual dan untuk mengidentifikasi \textit{service} sulit karena banyaknya pendekatan dan pertimbangan.
 
@@ -23,7 +23,7 @@ Proses dimulai dari melalukan analisis kode seperti Call Graph yang dihasilkan d
 
 Penelitian akan dimulai dengan menggunakan kode sumber aplikasi yang dibuat dengan monolitik. Kode sumber dilakukan proses dekomposisi yaitu dengan analisis seperti mencari objek beserta atributnya, untuk mencari keterhubungan lebih lanjut tentang objek maka dilakukan pencarian pada fungsi-fungsi sehingga terbentuklah \textit{call graph} yang menunjukkan bagaimana keterhubungan masing-masing objek di aplikasi.
 
-Dari \textit{graph} yang sudah dibuat akan dilakukan pengelompokan dengan pendekatan Hierarchical Clustering. Di mana perlu ditentukan cara menghitung kedekatan antara objek dan pemilihan algoritma Linkage. Metode linkage yaitu menentukan jarak atau kemiripan antara semua objek. Untuk menentukan jarak ini bisa dengan rata-rata, maximum, dan minimum. 
+Dari \textit{graph} yang sudah dibuat akan dilakukan pengelompokan dengan algoritma Hierarchical Clustering. Pendekatan algoritma yang digunakan pada penelitian ini yaitu agglomerative, selain itu ditentukan cara menghitung kedekatan antara objek dan pemilihan algoritma Linkage. Metode linkage yaitu menentukan jarak atau kemiripan antara semua objek. Untuk menentukan jarak ini bisa dengan rata-rata, maximum, dan minimum. 
 
 Pengelompokan dari Hierarchical Clustering akan dipilih dengan mencari nilai \textit{cohesion} terendah dan  nilai \textit{coupling} tertinggi. Di mana \textit{coupling} mengevaluasi tingkat ketergantungan langsung dan tidak langsung antar objek. Semakin banyak dua objek menggunakan metode masing-masing semakin mereka menjadi satu kesatuan. Sedangkan  \textit{cohesion} akan mengevaluasi kekuatan interaksi antar objek. Biasanya, dua objek atau lebih menjadi interaktif jika metodenya menggunakan metodenya satu sama lain. Dengan membandingkan nilai  \textit{coupling}, \textit{cohesion}, linkage dan ukuran partisi maka dapat diketahui kelompok service yang ideal.
 

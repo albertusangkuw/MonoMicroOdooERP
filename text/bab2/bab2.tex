@@ -6,7 +6,8 @@ Pada bab ini menjelaskan beberapa teori dan jurnal yang berhubungan dengan perma
 \section{Tinjauan Pustaka}
 Pembahasan mengenai teori-teori tersebut dijelaskan sebagai berikut.
 \subsection{Monolitik}
-Monolitik yaitu suatu cara untuk melakukan penyebaran. Ketika semua fungsi dalam sistem harus disebarkan secara bersama-sama, maka itu merupakan sebuah monolitik \cite{74C}. Monolitik merupakan sebuah aplikasi perangkat lunak di mana setiap modulnya tidak bisa dieksekusi secara independen. Hal ini membuat monolitik sulit digunakan pada sistem terdistribusi tanpa bantuan penggunaan \textit{frameworks} atau solusi \textit{ad hoc} seperti Objek Jaringan, \textit{RMI} atau \textit{CORBA} \cite{0BD}.
+Monolitik yaitu suatu cara untuk melakukan penyebaran. Ketika semua fungsi dalam sistem harus disebarkan secara bersama-sama, maka itu merupakan sebuah monolitik \cite{74C}. Monolitik merupakan sebuah aplikasi perangkat lunak di mana setiap modulnya tidak bisa dieksekusi secara independen. Hal ini membuat monolitik sulit digunakan pada sistem terdistribusi tanpa bantuan penggunaan \textit{frameworks} atau solusi \textit{ad hoc} seperti Objek Jaringan, \textit{Remote Method Invocation (RMI)} atau \textit{
+	Common Object Request Broker Architecture (CORBA)} \cite{0BD}.
 
 Penggunaan pada bahasa pemrograman seperti \textit{Java},\textit{C/C++}, dan \textit{Python} pada pengembangan aplikasi di sisi \textit{server}, memiliki kemampuan dalam melakukan abstraksi untuk memecah kompleksitas program menjadi berupa modul. Namun, bahasa pemrograman ini dirancang untuk membuat \textit{artefacts} monolitik. Di mana abstraksi ini tergantung pada penggunaan berbagi sumber data pada komputer yang sama (memori, \textit{database}, \textit{file}) \cite{0BD}.
 
@@ -88,11 +89,11 @@ Keuntungan dari menggunakan arsitektur \textit{Microservice}  \cite{ECD,74C,1C7}
 Tantangan dari menggunakan arsitektur \textit{Microservice}  \cite{ECD,74C,1C7}:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Menemukan \textit{service} yang tepat itu sulit\\
-	Salah satu tantang terbesar dari membuat \textit{microservice} yaitu tidak adanya cara yang pasti bagaimana untuk melakukan dekomposisi dengan baik. Di mana \textit{service} yang didekomposisi dengan tepat tidak mudah ditemukan dan bila dilakukan dengan tidak benar dapat sebaliknya membuat \textit{distributed monolith}. 
+	Salah satu tantangan terbesar dari membuat \textit{microservice} yaitu tidak adanya cara yang pasti bagaimana untuk melakukan dekomposisi dengan baik. Di mana \textit{service} yang didekomposisi dengan tepat tidak mudah ditemukan dan bila dilakukan dengan tidak benar dapat sebaliknya membuat \textit{distributed monolith}. 
 	\item Memiliki kompleksitas karena merupakan suatu terdistribusi\\
 	Setiap \textit{service} untuk berkomunikasi antar \textit{service} memiliki tantangan masing-masing seperti latensi, konsistensi data, dan kondisi ketika beberapa \textit{service} mengalami kegagalan. \textit{Microservice} juga meningkatkan kompleksitas operasional oleh karena itu untuk melakukan \textit{deployment} sebaiknya menggunakan proses otomatisasi.
 	\item \textit{Deployment} yang melibatkan beberapa service\\
-	Untuk melakukan \textit{deployment} ini dibutuhkan koordinasi antara tim pengembang \textit{servic} ketika menambahkan atau mengubah fitur yang berdampak pada beberapa \textit{service} maka dari itu harus dibuat perencanaan \textit{deployment} berdasarkan ketergantungan antar \textit{service}.
+	Untuk melakukan \textit{deployment} ini dibutuhkan koordinasi antara tim pengembang \textit{servic}e ketika menambahkan atau mengubah fitur yang berdampak pada beberapa \textit{service} maka dari itu harus dibuat perencanaan \textit{deployment} berdasarkan ketergantungan antar \textit{service}.
 \end{enumerate}	
 
 \subsubsection{Permasalahan dan Pola penyelesaiannya}
@@ -126,7 +127,7 @@ Arsitektur \textit{Microservice} memiliki banyak hal yang harus dipertimbangkan 
 	Discovery adalah bagaimana \textit{service} bisa ditemukan agar bisa berkomunikasi, terdapat beberapa pendekatan yang bisa dilakukan seperti \textit{service} ditemukan dari \textit{client} atau dari server dan proses registrasi bisa dilakukan secara sendiri atau melalui pihak ke-3.
 
 	Eksternal API adalah bagaimana aplikasi pengguna berinteraksi dengan \textit{service}.
-	Ada 2 cara untuk aplikasi berinteraksi yaitu \textit{API Gateway} dan \textit{Backend for Frontend}. Proses \textit{Deployment} \textit{microservice} memiliki proses yang kompleks karena \textit{service} yang dikelola bisa berjumlah 10 hingga ratusan \textit{service}, sehingga diperlukan proses otomatisasi yang bisa mengelola \textit{service} dan proses \textit{scaling} bisa diatur berdasarkan kebutuhan. Cara melakukan\textit{deployment} bisa dengan \textit{container}, \textit{virtual machine}, \textit{serverless}, atau menggunakan platform\textit{deployment} \\	
+	Ada 2 cara untuk aplikasi berinteraksi yaitu \textit{API Gateway} dan \textit{Backend for Frontend}. Proses \textit{Deployment} \textit{microservice} memiliki proses yang kompleks karena \textit{service} yang dikelola bisa berjumlah 10 hingga ratusan \textit{service}, sehingga diperlukan proses otomatisasi yang bisa mengelola \textit{service} dan proses \textit{scaling} bisa diatur berdasarkan kebutuhan. Cara melakukan \textit{deployment} bisa dengan \textit{container}, \textit{virtual machine}, \textit{serverless}, atau menggunakan platform \textit{deployment} \\	
 \end{enumerate}	
 
 \subsection{\textit{Enterprise Resource Planning}}
@@ -311,7 +312,7 @@ Unsupervise Clustering adalah pengelompokan di mana tidak diberikan sebuah label
 		\label{fig:asd}
 	\end{center}
 
-	Pendekatan \textit{Agglomerative} dimulai dari setiap objek memiliki partisi masing-masing dan terpisah, kemudian algoritma mengukur nilai \textit{proximity matrix} setiap objek untuk menentukan berapa banyak penggabungan partisi lain yang perlu dilakukan. Proses dilakukan berulang kali dan jumlah partisi akan berkurang hingga tersisa satu partisi, satu partisi ini memiliki keseluruhan objek. Sedangkan pendekatan secara \textit{divisive} melakukan hal yang sama seperti \textit{Agglomerative} namun prosesnya terbalik yaitu dimulai dari satu partisi \cite{2C9}.
+	Pendekatan \textit{Agglomerative} dimulai dari setiap objek memiliki partisi masing-masing dan terpisah, kemudian algoritma mengukur nilai \textit{proximity matrix} setiap objek untuk menentukan berapa banyak penggabungan partisi lain yang perlu dilakukan. Proses dilakukan berulang kali dan jumlah partisi akan berkurang hingga tersisa satu partisi, satu partisi ini memiliki keseluruhan objek. Sedangkan pendekatan secara \textit{divisive} melakukan hal yang sama seperti \textit{Agglomerative} namun prosesnya terbalik yaitu dimulai dari satu partisi oleh karena itu pendekatan ini berbedanya hanya dalam hal pemilihan prosedur daripada membuat klasifikasi yang berbeda \cite{2C9}.
 
 	\begin{center}
 		\includegraphics[width=12cm]{img/bab_2/agVSDiv.png}
@@ -319,7 +320,7 @@ Unsupervise Clustering adalah pengelompokan di mana tidak diberikan sebuah label
 		\label{fig:asd}
 	\end{center}
 
-	Ada beberapa metode untuk menentukan partisi terdekat yaitu dengan menghitung jarak maksimal antara objek partisi (complete lingkage), nilai rata-rata jarak(average lingkage) atau jarak minimum (single lingkage) \cite{3D3}. Proses untuk menghitung \textit{Hierarchical Agglomerative Clustering}(HAC) menghasilan stepwise matrix yang dapat digunakan untuk membuat dendogram. Proses ini menggunakan perbandingan jarak antar objek(r,s). Untuk mengabungkan hasil kumpulan jarak menggunakan algoritma linkage, hasil dari linkage digabungkan dan disimpan ke dalam array baru. Array yang baru(d) berisi jarak terbaru antar objek lainnya yang belum digabungkan. Proses berakhir ketika semua objek sudah terhitung keterhubungannya dari individu objek yang memiliki banyak partisi hingga menjadi satu partisi yang memiliki banyak objek \cite{2C9}.
+	Ada beberapa metode untuk menentukan partisi terdekat yaitu dengan menghitung jarak maksimal antara objek partisi (complete lingkage), nilai rata-rata jarak(average lingkage) atau jarak minimum (single lingkage) \cite{3D3}. Proses untuk menghitung \textit{Hierarchical Agglomerative Clustering}(HAC) menghasilkan stepwise matrix yang dapat digunakan untuk membuat dendogram. Proses ini menggunakan perbandingan jarak antar objek(r,s). Untuk mengabungkan hasil kumpulan jarak menggunakan algoritma linkage, hasil dari linkage digabungkan dan disimpan ke dalam array baru. Array yang baru(d) berisi jarak terbaru antar objek lainnya yang belum digabungkan. Proses berakhir ketika semua objek sudah terhitung keterhubungannya dari individu objek yang memiliki banyak partisi hingga menjadi satu partisi yang memiliki banyak objek \cite{2C9}.
 	
 	\begin{center}
 		\includegraphics[width=12cm]{img/bab_2/algo_hac.png}
