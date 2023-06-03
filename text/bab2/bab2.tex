@@ -349,18 +349,21 @@ Untuk mengetahui apakah pengelompokan yang dihasilkan dari proses \textit{cluste
 
 	\begin{equation}
 		F O n e(M)=\frac{1}{2}(I n t e r C o u p(M)+I n t e r C o h(M))
+		\label{eq:fone}
 	\end{equation}
 	
 	Nilai Internal Coupling dapat dihitung dari jumlah koneksi secara langsung atau tidak langsung melalui ketergantungan di antara \textit{class}(CoupP) dengan jumlah kemungkinan koneksi yang bisa terjadi di antara \textit{class} (NbPossiblePairs). Ketika dua \textit{class} semakin banyak menggunakan fungsi satu sama yang lain, maka semakin tinggi nilai kopelnya. 
 
 	\begin{equation}
 		I n t e r C o u p(M)=\frac{\sum C o u p P(P)}{N b P o s s i b l e P a i r s}
+		\label{eq:intercoup}
 	\end{equation}
 	
 	Perbandingan nilai \textit{coupling} antara dua \textit{class} dihitung oleh fungsi CoupP, fungsi CoupP membagi jumlah \textit{call} yang terjadi(NbCals) antara 2 \textit{class}(C1,C2) dengan total \textit{call} yang dilakukan \textit{class} tersebut(TotalNbCalls).
 
 	\begin{equation}
 		C o u p P(C1,C2)={\frac{N b C a l s(C1,C2)+N b C a l s(C2,C1)}{T o t a l N b C a l l s}}
+		\label{eq:coup}
 	\end{equation}	
 	
 	Perhitungan nilai \textit{coupling} eksternal, dilakukan sama dengan perhitungan nilai \textit{coupling} internal tapi yang membedakannya adalah hanya menghitung jumlah \textit{call} kepada \textit{class} eksternal.
@@ -369,6 +372,7 @@ Untuk mengetahui apakah pengelompokan yang dihasilkan dari proses \textit{cluste
 	
 	\begin{equation}
 		I n t e r C o h(M)=\frac{N b D i r e c t C o n n e c t i o n s}{N b P o s s i b l e C o n n e c t i o n s}
+		\label{eq:interCoh}
 	\end{equation}
 	
 	\item \textit{Data Autonomy Class} \cite{5B1}\\

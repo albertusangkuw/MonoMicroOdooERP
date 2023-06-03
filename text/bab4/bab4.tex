@@ -436,7 +436,10 @@ Distance Matrix dimasukan kedalam fungsi calculateCluster dengan metode ada 3 ya
 Pada bagian ini, dibahas mengenai evaluasi dan pengujian tentang bagaimana hasil dekomposisi aplikasi monolitik menjadi microservice dengan menggunakan proses Hierarchical Clustering.
 
 \subsection{Pemilihan Partisi}
-Banyaknya partisi dan jumlah node, membuat proses pemilihan partisi atau kelompok service terbaik harus dilakukan secara otomatisasi. Untuk mengetahui jumlah partisi yang tepat dilakukan pengukuran dari nilai coupling dan nilai kohesinya yang dihasilkan dari pengelompokan tersebut. Terdapat fungsi yang akan menghitung dari 1 partisi/service hingga jumlah maximum partisi. 
+Banyaknya partisi dan jumlah node, membuat proses pemilihan partisi atau kelompok service terbaik harus dilakukan secara otomatis. Hasil pemilihan dapat menentukan microservice yang memiliki nilai cohesion yang tinggi dan nilai coupling yang rendah.
+
+\subsubsection{Implementasi Pemilihan}
+  Pemilihan dimulai dengan menggunakan linkage matrix(Z / hasil dari Hierarchical Clustering) untuk setiap metode linkage yang berbeda. Untuk mengetahui jumlah partisi yang tepat dilakukan pengukuran dari nilai coupling dan nilai kohesinya yang dihasilkan dari pengelompokan tersebut. Terdapat fungsi yang akan menghitung dari 1 partisi/service hingga jumlah maximum partisi.
 
 \begingroup
 \setlength{\LTleft}{-20cm plus -1fill}
@@ -511,8 +514,20 @@ Banyaknya partisi dan jumlah node, membuat proses pemilihan partisi atau kelompo
 \end{small}
 \endgroup
 
-Hasil pemilihan membantu dalam membuat microservice yang memiliki nilai cohesion yang tinggi dan nilai coupling yang rendah. Untuk itu dilakukan perbadingan bagaiman nilai coupling dan cohesion dari jumlah service/partisi yang dimulai dari 1 (monolit) hingga 335 (semua partisi menjadi service individu) dengan setiap linkage yang berbeda.  
+Proses perhitungan dimulai dari fungsi calculateFOne (Rumus \ref{eq:fone}), fungsi ini akan mengubah linkage matrix (Z), menjadi bentuk graph yang menggambarkan keterhubungan antar service dan module didalamnya. Hasil graph tersebut diubah menjadi matriks adjacency dimana isi matriks tersebut merupakan nilai keterhubungan antara service/partisi. Perhitungan Coupling (Rumus \ref{eq:intercoup}) dan Cohesion (Rumus \ref{eq:interCoh}) dilakukan dengan evaluasi \textit{Structural and Behavioral Dependencies}. 
+Hasil dari proses ini berupa \textit{dictionary} yang memiliki isi nilai coupling, nilai cohesion dan ukuran service.
 
+\begin{center}
+	\includegraphics[width=14cm]{img/bab_4/coding_evaluasi.png}
+	\captionof{figure}{Implementasi untuk melakukan menghitung FOne (coupling dan cohesion)}
+	\label{fig:coding_evaluasi}
+\end{center}
+
+
+\subsubsection{Evaluasi Pemilihan}
+Hasil Implementasi dapat divisualisasikan dan dianalisis lebih lanjut agar dapat menentukan linkage dan jumlah service yang ideal. 
+
+Untuk itu dilakukan perbadingan bagaimana nilai coupling dan cohesion dari jumlah service/partisi yang dimulai dari 1 (monolit) hingga 335 (semua partisi menjadi service individu) dengan setiap linkage yang berbeda.
 
 \begin{center}
 	\includegraphics[width=10cm]{img/bab_4/cc_single.png}
@@ -522,7 +537,7 @@ Hasil pemilihan membantu dalam membuat microservice yang memiliki nilai cohesion
 
  Pada grafik \ref{fig:cc_single}, hasil dekomposisi menggunakan linkage single memiliki hasil yang buruk untuk coupling tetapi masih memiliki cohesion yang bagus. Nilai coupling menurun drastis ketika jumlah service mencapai 25 service. Jumlah service yang memiliki nilai coupling rendah dan cohesion yang tinggi berkisar dari 25 service ke atas dan dibawah 150 sevice. Ketika jumlah service melebihi 150 service nilai coupling terus meningkat ketika dan nilai cohesion terus memburuk.
  
- \begin{center}
+\begin{center}
 	\includegraphics[width=10cm]{img/bab_4/cc_comp.png}
 	\captionof{figure}{Perbandingan Coupling \& Cohesion menurut pendekatan Complete Linkage}
 	\label{fig:cc_complete}
@@ -559,7 +574,7 @@ Average & 0.14 & 0.51 & 0.83  & 0.61 & 0.7  & 1 \\
 
 Dari tabel \ref{tab:link_stat} dilihat linkage complete memiliki coupling yang tinggi dan cohesion yang rendah dibandingkan linkage lainnya. Untuk linkage average memiliki nilai coupling dan nilai cohesion yang lebih baik  bila dibandingkan dengan linkage complete tetapi lebih buruk bila dibandingkan dengan linkage single. Nilai  minimum dan maksimum dari cohesion memiliki nilai yang sama tetapi memiliki rata-rata yang berbeda. 
 
-Untuk mengetahui lebih detail bagaimana struktur service dikelompokan, maka untuk setiap linkage, jumlah module dari setiap partisi/service dicari nilai rentang, minimum, dan maksimum untuk setiap jumlah ukuran partisi tertentu (1, 2, 5, 10, 15, 25, 50 , 75, 90, 110, 130, 150, 175, 195, 208 , 220, 232,  245, 275, 290, 305, 325, 335).
+Untuk mengetahui lebih detail bagaimana struktur service dikelompokan, maka untuk setiap linkage, jumlah module dari setiap partisi/service dicari nilai rentang, minimum, dan maksimum untuk setiap jumlah ukuran partisi tertentu (1, 2, 5, 10, 15, 25, 50 , 75, 90, 110, 130, 150, 175, 195, 200, 208 , 220, 232,  245, 275, 290, 305, 325, 335). Jumlah Module yang ditampilkan adalah jumlah modulenya diikuti dengan jumlah kemunculannya / Frekuensi yang dilambangkan dengan 'x'.
 
 \colorlet{mycolor}{blue!20}
 \begingroup
@@ -570,14 +585,13 @@ Untuk mengetahui lebih detail bagaimana struktur service dikelompokan, maka untu
 	\caption{Perbandingan Ukuran Service yang dihasilkan oleh Single Linkage}
 	\label{tab:service_stat_single} \\
 	\hline
-	\textbf{Jumlah} & \textbf{Jumlah Module (Frekuensi)} & \textbf{Coupling} & \textbf{Cohesion} & \multicolumn{3}{c|}{\textbf{Statistik Jumlah Module}} \\
+	\textbf{Ukuran Service} & \textbf{Jumlah Module} & \textbf{Coupling} & \textbf{Cohesion} & \multicolumn{3}{c|}{\textbf{Statistik Jumlah Module}} \\
 	\cline{5-7}
 	&  &  &  & \textbf{MIN} & \textbf{MAX} & \textbf{RANGE} \\
 	\hline
 	\endfirsthead
 	\hline  
 	1 & 335(1x) & 0.0 & 1.0 & 335 & 335 & 0 \\   \hline
-	\rowcolor{mycolor}
 2 & 333(1x), 2(1x) & 0.67 & 1.0 & 2 & 333 & 331 \\   \hline
 5 & 326(1x), 5(1x), 2(1x), 1(2x) & 1.33 & 1.0 & 1 & 326 & 325 \\   \hline
 10 & 319(1x), 5(1x), 2(3x), 1(5x) & 0.52 & 1.0 & 1 & 319 & 318 \\   \hline
@@ -591,6 +605,7 @@ Untuk mengetahui lebih detail bagaimana struktur service dikelompokan, maka untu
 150 & 169(1x), 3(3x), 2(11x), 1(135x) & 0.1 & 0.91 & 1 & 169 & 168 \\   \hline
 175 & 133(1x), 6(1x), 3(3x), 2(17x), 1(153x) & 0.18 & 0.85 & 1 & 133 & 132 \\   \hline
 195 & 96(1x), 8(1x), 6(1x), 5(1x), 3(5x), 2(19x), 1(167x) & 0.22 & 0.81 & 1 & 96 & 95 \\   \hline
+200 & 89(1x), 8(1x), 5(1x), 4(1x), 3(5x), 2(23x), 1(168x) & 0.25 & 0.79 & 1 & 89 & 88 \\   \hline
 208 & 66(1x), 11(1x), 8(1x), 6(1x), 5(1x), 4(1x), 3(5x), 2(23x), 1(174x) & 0.28 & 0.76 & 1 & 66 & 65 \\   \hline
 220 & 60(1x), 8(1x), 6(1x), 5(2x), 4(1x), 3(5x), 2(23x), 1(186x) & 0.31 & 0.74 & 1 & 60 & 59 \\   \hline
 232 & 60(1x), 8(1x), 6(1x), 5(2x), 3(4x), 2(16x), 1(207x) & 0.33 & 0.74 & 1 & 60 & 59 \\   \hline
@@ -615,7 +630,7 @@ Pada tabel \ref{tab:service_stat_single} dapat dilihat bahwa jumlah service yang
 		\caption{Perbandingan Ukuran Service yang dihasilkan oleh Complete Linkage}
 		\label{tab:service_stat_complete} \\
 		\hline
-		\textbf{Jumlah} & \textbf{Jumlah Module} & \textbf{Coupling} & \textbf{Cohesion} & \multicolumn{3}{c|}{\textbf{Statistik Jumlah Module}} \\
+		\textbf{Ukuran Service} & \textbf{Jumlah Module} & \textbf{Coupling} & \textbf{Cohesion} & \multicolumn{3}{c|}{\textbf{Statistik Jumlah Module}} \\
 		\cline{5-7}
 		&  &  &  & \textbf{MIN} & \textbf{MAX} & \textbf{RANGE} \\
 		\hline
@@ -635,6 +650,7 @@ Pada tabel \ref{tab:service_stat_single} dapat dilihat bahwa jumlah service yang
 150 & 16(1x), 15(1x), 6(3x), 5(3x), 4(5x), 3(26x), 2(62x), 1(49x) & 0.68 & 0.65 & 1 & 16 & 15 \\   \hline
 175 & 16(1x), 15(1x), 5(1x), 4(5x), 3(20x), 2(72x), 1(75x) & 0.65 & 0.65 & 1 & 16 & 15 \\   \hline
 195 & 14(1x), 8(1x), 5(1x), 4(4x), 3(19x), 2(66x), 1(103x) & 0.61 & 0.65 & 1 & 14 & 13 \\   \hline
+200 & 12(1x), 6(1x), 5(1x), 4(4x), 3(19x), 2(65x), 1(109x) & 0.59 & 0.65 & 1 & 12 & 11 \\   \hline
 208 & 9(1x), 5(1x), 4(4x), 3(19x), 2(65x), 1(118x) & 0.57 & 0.65 & 1 & 9 & 8 \\   \hline
 220 & 5(1x), 4(3x), 3(20x), 2(62x), 1(134x) & 0.54 & 0.65 & 1 & 5 & 4 \\   \hline
 232 & 5(1x), 4(3x), 3(17x), 2(56x), 1(155x) & 0.55 & 0.65 & 1 & 5 & 4 \\   \hline
@@ -657,7 +673,7 @@ Pada tabel \ref{tab:service_stat_complete} dapat dilihat bahwa jumlah service ya
 	\caption{Perbandingan Ukuran Service yang dihasilkan oleh Average Linkage}
 	\label{tab:service_stat_average} \\
 	\hline
-	\textbf{Jumlah} & \textbf{Jumlah Module} & \textbf{Coupling} & \textbf{Cohesion} & \multicolumn{3}{c|}{\textbf{Statistik Jumlah Module}} \\
+	\textbf{Ukuran Service} & \textbf{Jumlah Module} & \textbf{Coupling} & \textbf{Cohesion} & \multicolumn{3}{c|}{\textbf{Statistik Jumlah Module}} \\
 	\cline{5-7}
 	&  &  &  & \textbf{MIN} & \textbf{MAX} & \textbf{RANGE} \\
 	\hline
@@ -677,6 +693,7 @@ Pada tabel \ref{tab:service_stat_complete} dapat dilihat bahwa jumlah service ya
 150 & 13(2x), 10(2x), 8(1x), 6(5x), 5(5x), 4(1x), 3(16x), 2(56x), 1(62x) & 0.56 & 0.67 & 1 & 13 & 12 \\   \hline
 175 & 13(2x), 10(1x), 8(1x), 6(4x), 5(5x), 4(1x), 3(14x), 2(49x), 1(98x) & 0.49 & 0.67 & 1 & 13 & 12 \\   \hline
 195 & 13(1x), 10(2x), 8(1x), 6(3x), 5(4x), 4(1x), 3(11x), 2(47x), 1(125x) & 0.46 & 0.67 & 1 & 13 & 12 \\   \hline
+200 & 13(1x), 10(1x), 8(1x), 6(3x), 5(5x), 4(1x), 3(11x), 2(47x), 1(130x) & 0.45 & 0.67 & 1 & 13 & 12 \\   \hline
 208 & 13(1x), 10(1x), 8(1x), 6(2x), 5(4x), 4(2x), 3(10x), 2(47x), 1(140x) & 0.44 & 0.67 & 1 & 13 & 12 \\   \hline
 220 & 10(1x), 6(1x), 5(5x), 4(3x), 3(11x), 2(50x), 1(149x) & 0.49 & 0.66 & 1 & 10 & 9 \\   \hline
 232 & 6(1x), 5(4x), 4(2x), 3(14x), 2(48x), 1(163x) & 0.52 & 0.65 & 1 & 6 & 5 \\   \hline
@@ -693,14 +710,15 @@ Pada tabel \ref{tab:service_stat_average} dapat dilihat bahwa jumlah service dib
 
 Dari hasil perbandingan ukuran service yang dihasilkan oleh masing-masing linkage pada kasus dekomposisi aplikasi monolitik Odoo, menunjukan bahwa complete linkage tidak cocok untuk melakukan dekomposisi karena service yang dibentuk besar dan memiliki nilai coupling tinggi. Sedangkan single linkage kurang ideal walaupun memiliki coupling yang rendah dan cohesion yang tinggi namun service yang dibuat tidak dikelompokan secara seimbang dan memiliki nilai rentang yang besar, karena ada service yang memiliki jumlah sangat besar. Untuk Average linkage dapat membentuk service yang ideal karena ukuran service tidak terlalu besar dilihat dari nilai rentangnya dan memiliki nilai couplingnya rendah serta nilai cohesionnya cukup tinggi. 
 
-Pemilihan jumlah service yang ideal pada Average linkage, tidak bisa ditentukan secara pasti karena terdapat \textit{trade-off} untuk setiap kenaikan jumlah service. Oleh karena itu rentang jumlah service yang ideal adalah bisa dari 175, 195, 208, 220, 232 , 245. Jumlah service yang tidak ideal adalah dibawah $\pm 150 / \pm 175$ service karena nilai rentang service cukup tinggi yaitu diatas 12 module dan diatas $\pm 245$ service karena nilai coupling lebih tinggi dibandingkan nilai cohesionnya. \\
+Pemilihan jumlah service yang ideal pada Average linkage, tidak bisa ditentukan secara pasti karena terdapat \textit{trade-off} untuk setiap kenaikan jumlah service. Oleh karena itu rentang jumlah service yang ideal adalah bisa dari 175, 195, 208, 200, 220, 232 , 245. Jumlah service yang tidak ideal adalah dibawah $\pm 150 / \pm 175$ service karena nilai rentang isi module service cukup tinggi yaitu diatas 12 module dan diatas $\pm 245$ service karena nilai coupling lebih tinggi dibandingkan nilai cohesionnya. \\
 
+\pagebreak
 
 \subsection{Dekomposisi Monolitik \textit{ ke Microservice}}
 Pada bagian ini menjelaskan bagaimana penerapan microservice dengan menggunakan hasil dekomposisi yang dihasilkan oleh hierarchical clustering. 
 
 \subsubsection{Pemilihan Service}
-Pada tugas akhir ini memilih untuk menggunakan hasil Hierarchical Clustering dengan Average Linkage dengan jumlah service sebesar  $\pm 220$. Hasil evaluasi sebelumnya menunjukan nilai coupling sebesar 0.66, nilai cohesion sebesar 0.49 dan nilai rentang sebesar 9. Detail isi dari setiap module untuk setiap partisi yang dikelompokan dapat dilihat pada Tabel. \ref{tab:daftar_module_final} 
+Pada tugas akhir ini memilih untuk menggunakan hasil Hierarchical Clustering dengan Average Linkage dengan jumlah service sebesar 200. Hasil evaluasi sebelumnya menunjukan nilai coupling sebesar 0.67, nilai cohesion sebesar 0.45 dan nilai rentang jumlah modulenya sebesar 12. Detail isi dari setiap module untuk setiap partisi yang dikelompokan dapat dilihat pada Tabel. \ref{tab:daftar_module_final} 
 
 \begingroup
 \setlength{\LTleft}{-20cm plus -1fill}
@@ -714,81 +732,88 @@ Pada tugas akhir ini memilih untuk menggunakan hasil Hierarchical Clustering den
 		\\
 		\endfirsthead
 		\hline  
-		1 & auth{\_}totp{\_}mail \\ \hline
-		2 & base.models.res{\_}users, fleet, sales{\_}team, membership \\ \hline
+		1 & auth{\_}totp{\_}mail, base.wizard.base{\_}partner{\_}merge, base.models.ir{\_}sequence, contacts, base.models.ir{\_}asset \\ \hline
+		2 & base.models.res{\_}users, fleet, sales{\_}team, iap, account{\_}check{\_}printing, base{\_}vat, partner{\_}autocomplete, snailmail{\_}account, snailmail, membership \\ \hline
 		3 & auth{\_}signup, portal \\ \hline
 		4 & web \\ \hline
 		5 & hr{\_}work{\_}entry{\_}contract, resource, hr{\_}work{\_}entry, hr{\_}holidays, hr{\_}contract \\ \hline
-		6 & base.models.ir{\_}http \\ \hline
+		6 & base.models.ir{\_}http, google{\_}recaptcha \\ \hline
 		7 & base.models.res{\_}config, digest, base{\_}geolocalize, auth{\_}ldap, auth{\_}password{\_}policy \\ \hline
 		8 & base.models.res{\_}partner, uom, base{\_}sparse{\_}field \\ \hline
 		9 & website{\_}sale{\_}loyalty, sale{\_}loyalty \\ \hline
-		10 & loyalty, sale, account, product, analytic, hr{\_}expense, purchase{\_}stock, purchase, project, lunch \\ \hline
+		10 & loyalty, sale, stock, account, product, analytic, point{\_}of{\_}sale, hr{\_}expense, purchase{\_}stock, purchase, mrp, project, lunch \\ \hline
 		13 & delivery, delivery{\_}mondialrelay \\ \hline
-		14 & stock, point{\_}of{\_}sale, mrp \\ \hline
-		20 & website{\_}event{\_}track, website{\_}event, website{\_}event{\_}exhibitor, website{\_}event{\_}meet, website{\_}event{\_}track{\_}quiz \\ \hline
-		22 & event, link{\_}tracker, mass{\_}mailing \\ \hline
-		25 & website{\_}forum, website{\_}slides, website{\_}blog, website{\_}crm{\_}partner{\_}assign \\ \hline
-		32 & base.models.image{\_}mixin, base.models.avatar{\_}mixin \\ \hline
-		35 & hr{\_}recruitment, hr \\ \hline
-		46 & google{\_}calendar, microsoft{\_}calendar \\ \hline
-		56 & portal{\_}rating \\ \hline
-		57 & base{\_}install{\_}request, base.models.ir{\_}module, base.wizard.base{\_}module{\_}uninstall, base{\_}import{\_}module, base.wizard.base{\_}export{\_}language \\ \hline
-		58 & base.models.ir{\_}qweb \\ \hline
-		59 & base.models.ir{\_}ui{\_}view, base.models.report{\_}layout \\ \hline
-		80 & pos{\_}discount, pos{\_}sale \\ \hline
-		101 & base.models.res{\_}bank \\ \hline
-		133 & transifex \\ \hline
-		159 & microsoft{\_}outlook, google{\_}gmail \\ \hline
-		181 & sale{\_}mrp \\ \hline
-		216 & pos{\_}loyalty \\ \hline
-		217 & mass{\_}mailing{\_}event{\_}sms \\ \hline
-		218 & spreadsheet{\_}dashboard \\ \hline
-		219 & crm{\_}livechat \\ \hline
-		220 & sale{\_}purchase{\_}stock \\ \hline
+		14 & payment, base.models.res{\_}company \\ \hline
+		17 & calendar, rating, survey, sms, phone{\_}validation, gamification, bus, privacy{\_}lookup \\ \hline
+		20 & http{\_}routing \\ \hline
+		22 & mail, crm \\ \hline
+		32 & hr{\_}recruitment{\_}skills, hr{\_}skills \\ \hline
+		56 & pos{\_}epson{\_}printer{\_}restaurant, pos{\_}restaurant \\ \hline
+		57 & website{\_}event{\_}booth{\_}sale, website{\_}sale{\_}slides \\ \hline
+		58 & base.models.ir{\_}model, base.models.ir{\_}ui{\_}menu, hr{\_}timesheet{\_}attendance \\ \hline
+		80 & website{\_}event{\_}meet{\_}quiz \\ \hline
+		101 & website{\_}event{\_}booth{\_}exhibitor \\ \hline
+		133 & account{\_}qr{\_}code{\_}sepa \\ \hline
+		159 & mass{\_}mailing{\_}event{\_}track{\_}sms \\ \hline
+		200 & sale{\_}purchase{\_}stock \\ \hline
 	\end{longtable}
 \end{small}
 \endgroup
 
-Service yang dipilih untuk dilakukan implementasi dekomposisi yaitu  service / partisi ke-10  pada module addons.product dan partisi ke-14 pada modul  addons.point{\_}of{\_}sale. Di dalam module ini terdapat beberapa model yang dapat dilakukan dekomposisi berikut isi model dari module yang dipilih ditampilkan pada Tabel. \ref{fig:findme}.
+Service yang dipilih untuk dilakukan implementasi dekomposisi yaitu  service ke-10  yang memiliki module addons.product dan addons.point{\_}of{\_}sale,  kemudian service ke-17 yang memiliki modul calendar. Di dalam masing-masing module ini terdapat beberapa model yang dapat dilakukan dekomposisi, berikut pada Tabel. \ref{tab:detail_model} berisi model dari module yang dipilih dan keterhubungannya yang ditemukan pada proses pengelompokan.
 
+\begin{longtable}{|c|p{4cm}|p{7cm}|}
+	\caption{Daftar Model untuk masing-masing Module}
+	\label{tab:detail_model}\\
+	\hline
+	\multicolumn{2}{|c|}{\textbf{Addons/Module - Model}} &  \textbf{Detail Relasi \& Jumlah Panggilannya}\\
+	\hline
+	\endfirsthead
+	\hline
+	\multicolumn{2}{|c|}{\textbf{Addons/Module - Model}} & \textbf{Detail Relasi \& Jumlah Panggilannya}\\
+	\hline
+	\endhead
+	\hline
+	\endfoot
+	\hline
+	\endlastfoot
 
+	\multirow{16}{*}{product.models} &  product{\_}product &  mail.models: 2, product.models: 17, base.models: 2 \\ \cline{2-3}  &  product{\_}attribute &  product.models: 5, base.models: 2 \\ \cline{2-3}  &  product{\_}pricelist &  base.models: 5, product.models: 10 \\ \cline{2-3}  &  product{\_}pricelist{\_}item &  product.models: 8, base.models: 2 \\ \cline{2-3}  &  product{\_}template &  mail.models: 2, base.models: 6, product.models: 51, uom.models: 2 \\ \cline{2-3}  &  decimal{\_}precision &  decimal{\_}precision: 1, product.models: 0 \\ \cline{2-3}  &  product{\_}category &  product.models: 0, base.models: 2 \\ \cline{2-3}  &  product{\_}packaging &  base.models: 3, product.models: 1 \\ \cline{2-3}  &  product{\_}supplierinfo &  base.models: 5, product.models: 2 \\ \cline{2-3}  &  product{\_}tag &  base.models: 2, product.models: 3 \\ \cline{2-3}  &  res{\_}company &  base.models: 1, product.models: 0 \\ \cline{2-3}  &  res{\_}config{\_}settings &  base.models: 1, product.models: 0 \\ \cline{2-3}  &  res{\_}country{\_}group &  base.models: 1, product.models: 1 \\ \cline{2-3}  &  res{\_}currency &  base.models: 1, product.models: 0 \\ \cline{2-3}  &  res{\_}partner &  base.models: 1, product.models: 1 \\ \cline{2-3}  &  uom{\_}uom &  uom.models: 1, product.models: 0 \\
 
-% Tabel model dan nilai weight dll 
+	\hline
+\multirow{22}{*}{point{\_}of{\_}sale.models} &  res{\_}config{\_}settings &  base.models: 1, product.models: 4, point{\_}of{\_}sale.models: 5, account.models: 2 \\ \cline{2-3}  &  pos{\_}payment{\_}method &  base.models: 3, point{\_}of{\_}sale.models: 3, account.models: 3 \\ \cline{2-3}  &  stock{\_}picking &  stock.models: 4, point{\_}of{\_}sale.models: 8 \\ \cline{2-3}  &  pos{\_}category &  point{\_}of{\_}sale.models: 1, base.models: 2 \\ \cline{2-3}  &  res{\_}partner &  base.models: 1, point{\_}of{\_}sale.models: 1 \\ \cline{2-3}  &  pos{\_}config &  product.models: 3, base.models: 9, point{\_}of{\_}sale.models: 31, account.models: 5, stock.models: 3 \\ \cline{2-3}  &  pos{\_}session &  stock.models: 1, point{\_}of{\_}sale.models: 86 \\ \cline{2-3}  &  pos{\_}order &  point{\_}of{\_}sale.models: 37 \\ \cline{2-3}  &  account{\_}bank{\_}statement &  account.models: 1, point{\_}of{\_}sale.models: 1 \\ \cline{2-3}  &  account{\_}journal &  account.models: 1, point{\_}of{\_}sale.models: 1 \\ \cline{2-3}  &  account{\_}move &  account.models: 2, point{\_}of{\_}sale.models: 2 \\ \cline{2-3}  &  account{\_}payment &  account.models: 2, point{\_}of{\_}sale.models: 2 \\ \cline{2-3}  &  account{\_}tax &  account.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  barcode{\_}rule &  barcodes.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  chart{\_}template &  account.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  digest &  digest.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  pos{\_}bill &  base.models: 2, point{\_}of{\_}sale.models: 1 \\ \cline{2-3}  &  pos{\_}payment &  account.models: 1, base.models: 2, point{\_}of{\_}sale.models: 2 \\ \cline{2-3}  &  product &  product.models: 2, point{\_}of{\_}sale.models: 1, uom.models: 2 \\ \cline{2-3}  &  res{\_}company &  base.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  stock{\_}rule &  stock.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  stock{\_}warehouse &  stock.models: 2, point{\_}of{\_}sale.models: 0 \\
+
+	\hline
+	\multirow{13}{*}{calendar.models} &  calendar{\_}event &  mail.models: 3, calendar.models: 43, base.models: 6 \\ \cline{2-3}  &  calendar{\_}alarm{\_}manager &  calendar.models: 4 \\ \cline{2-3}  &  res{\_}users &  base.models: 1, calendar.models: 1 \\ \cline{2-3}  &  res{\_}partner &  base.models: 1, calendar.models: 6 \\ \cline{2-3}  &  calendar{\_}recurrence &  calendar.models: 28, base.models: 2 \\ \cline{2-3}  &  calendar{\_}attendee &  base.models: 6, calendar.models: 3 \\ \cline{2-3}  &  calendar{\_}alarm &  base.models: 2, mail.models: 1, calendar.models: 0 \\ \cline{2-3}  &  calendar{\_}event{\_}type &  base.models: 2, calendar.models: 0 \\ \cline{2-3}  &  calendar{\_}filter &  base.models: 4, calendar.models: 0 \\ \cline{2-3}  &  ir{\_}http &  base.models: 1, calendar.models: 0 \\ \cline{2-3}  &  mail{\_}activity &  mail.models: 1, calendar.models: 1 \\ \cline{2-3}  &  mail{\_}activity{\_}mixin &  mail.models: 1, calendar.models: 1 \\ \cline{2-3}  &  mail{\_}activity{\_}type &  mail.models: 1, calendar.models: 0 \\
+	\hline
+\end{longtable}
 
 \subsubsection{\textit{Endpoint API}}
-Pada Tabel \ref{tab:endpoint-api} dijelaskan endpoint dan routing yang dipakai dalam masing-masing service. Endpoint tersebut digunakan untuk melakukan uji beban dan pengukuran penggunaan sumber daya dengan sistem monolitik yang sudah dibuat.  
-
-Untuk Client berkomunikasi dengan service maka harus melalui API Gateway dan setiap service untuk mencari service lainnya dapat diarahkan oleh API Gateway. API Gateway membuat rute berdasarkan URL path yang sudah dikonfigurasi sebelumnya serta service dan API Gateway berada di jaringan yang sama.
+Model yang dibuat pada tugas akhir ini yaitu model 'calendar\_event\_type', 'product\_tag', dan 'pos\_category', pada Tabel \ref{tab:endpoint-api} dijelaskan endpoint dan routing yang dipakai dalam masing-masing service.   Untuk Client berkomunikasi dengan service maka harus melalui API Gateway dan setiap service untuk mencari service lainnya dapat diarahkan oleh API Gateway. API Gateway membuat rute berdasarkan URL path yang sudah dikonfigurasi sebelumnya serta service dan API Gateway berada di jaringan yang sama.
 
 Berikut IP Address dan port yang digunakan setiap service:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item Kong Gateway $\rightarrow$ 172.18.0.5:8000
 	\item Monolitik $\rightarrow$ 172.18.0.55:8069
-	\item Product Service $\rightarrow$ 172.18.0.51:1323
-	\item Point of Sale Service $\rightarrow$ 172.18.0.52:1323
+	\item Service 10 (Product dan Point of Sale) $\rightarrow$ 172.18.0.51:1323
+	\item Service 17 (Calendar) $\rightarrow$ 172.18.0.52:1324
 \end{enumerate}
 
 \begingroup
-\setlength{\tabcolsep}{6pt} % Adjust the column separation as needed
+\setlength{\tabcolsep}{6pt}
 \begin{small}
 	\begin{longtable}{|c|p{3cm}|p{3cm}|p{6cm}|}
-	\caption{Tabel Endpoint API} \label{tab:endpoint-api} \\
+		\caption{Tabel Endpoint API} \label{tab:endpoint-api} \\
 	\hline
-	\textbf{Metode} & \textbf{Route} & \textbf{Body} & \textbf{Keterangan} \\
+		\textbf{Metode} & \textbf{Route} & \textbf{Body} & \textbf{Keterangan} \\
 	\hline
 	\endfirsthead
-	
-	\multicolumn{4}{c}%
-	{{\tablename\ \thetable{} -- Lanjutan dari halaman sebelumnya}} \\
 	\hline
 	\textbf{Metode} & \textbf{Route} & \textbf{Body} & \textbf{Keterangan} \\
 	\hline
 	\endhead
-	
-	\hline \multicolumn{4}{|r|}{{Lanjutan di halaman berikutnya}} \\ \hline
+	\hline
 	\endfoot
-	
 	\hline
 	\endlastfoot
 	
@@ -799,26 +824,30 @@ Berikut IP Address dan port yang digunakan setiap service:
 	POST & /destroy & JSON, Format: JSON-RPC & Menghilangkan sesi autentikasi pengguna \\
 	\hline
 	
-	\multicolumn{4}{|c|}{Point of Sales Service (/web/dataset/call\_kw/pos.category/*)} \\
+	\multicolumn{4}{|c|}{Service 10 (/web/dataset/call\_kw/product.tag/*  \& /web/dataset/call\_kw/pos.category/* )} \\
 	\hline
 	POST & /read & JSON, Format: JSON-RPC & Mendapatkan data Point Of Sale Category \\
 	\hline
 	POST & /create & JSON, Format: JSON-RPC & Menambahkan data Point Of Sale Category \\
 	\hline
-	
-	\multicolumn{4}{|c|}{Product Service (/web/dataset/call\_kw/product.tag/*)} \\
-	\hline
 	POST & /read & JSON, Format: JSON-RPC & Mendapatkan data Tag pada product\\
 	\hline
-	POST & /create & JSON, Format: JSON-RPC & Menambahkan  data Tag pada product \\
+	POST & /create & JSON, Format: JSON-RPC & Menambahkan data Tag pada product \\
+	\hline
+	
+	\multicolumn{4}{|c|}{Service 17 (/web/dataset/call\_kw/calendar.event.type/*)} \\
+	\hline
+	POST & /read & JSON, Format: JSON-RPC & Mendapatkan data tipe event\\
+	\hline
+	POST & /create & JSON, Format: JSON-RPC & Menambahkan  data tipe event baru\\
 	\hline
 	
 	\end{longtable}
 	\end{small}
 \endgroup
 
-\subsubsection{ Daftar Class}
-Pada bagian ini dijelaskan class yang digunakan PosCategory dan ProductTag :
+\subsubsection{Daftar Class}
+Pada bagian ini dijelaskan class yang digunakan Service 10 dan Service 17:
 
 \begin{longtable}{|c|p{3cm}|p{3cm}|p{4cm}|}
 	\caption{Tabel class yang digunakan}
@@ -828,26 +857,22 @@ Pada bagian ini dijelaskan class yang digunakan PosCategory dan ProductTag :
 	\hline
 	\endfirsthead
 	\hline
-	\multicolumn{4}{|c|}{\textbf{Dilanjutkan di Halaman Selanjutnya}} \\
-	\hline
 	\textbf{Class} & \textbf{Atribut} & \textbf{Tipe Data} & \textbf{Keterangan} \\
 	\hline
 	\endhead
 	\hline
-	\multicolumn{4}{|c|}{\textbf{Lanjutan Isi Tabel Sebelumnya}} \\
-	\hline
 	\endfoot
 	\hline
 	\endlastfoot
-	ResUser & UID & int & Class yang menyimpan informasi mengenai pengguna aplikasi/ Odoo. Hampir semua aktivitas pengguna harus dicatat dan harus divalidasi melalui GroupID. Informasi ini dimasukan dari nilai JWT yang disimpan client \\
+	ResUser & UID & int & Class yang menyimpan informasi mengenai pengguna aplikasi/ Odoo. \\
 	\cline{2-3}
-	& DisplayName & string & \\
+	& DisplayName & string & Hampir semua aktivitas pengguna harus dicatat dan harus divalidasi melalui GroupID. \\
 	\cline{2-3}
-	& GroupID & int & \\
+	& GroupID & int & Informasi ini dimasukan dari nilai JWT yang disimpan client. \\
 	\hline
-	AccessControlList & GroupID & int & Class yang menyimpan hak akses suatu model atau resource dan dapat dilihat nilai GroupID. Hak akses ini dikomunikasikan dalam waktu tertentu oleh masing-masing service.  \\
+	AccessControlList & GroupID & int & Class yang menyimpan hak akses suatu model atau resource dan dapat dilihat nilai GroupID.  \\
 	\cline{2-3}
-	& ModelID & int & \\
+	& ModelID & int & Hak akses ini dikomunikasikan dalam waktu tertentu oleh masing-masing service. \\
 	\cline{2-3}
 	& Read & bool & \\
 	\cline{2-3}
@@ -858,11 +883,11 @@ Pada bagian ini dijelaskan class yang digunakan PosCategory dan ProductTag :
 	& Unlink & bool & \\
 	\hline
 
-	\multicolumn{4}{|c|}{\textbf{Point of Sales}} \\
+	\multicolumn{4}{|c|}{\textbf{Service 10 (Product dan Point of Sales)}} \\
 	\hline
-	PosCategory & ID & uint & PosCategory atau Point of Sales Category adalah untuk membantu mengelola barang yang yang didagangkan melalui Point of Sale. Kategori ini bisa memiliki tingkatan kategori dan gambar dari kategori tersebut. \\
+	PosCategory & ID & uint & PosCategory atau Point of Sales Category adalah untuk membantu mengelola barang yang yang didagangkan melalui Point of Sale. \\
 	\cline{2-3}
-	& ParentID & uint & \\
+	& ParentID & uint & Kategori ini bisa memiliki tingkatan kategori dan gambar dari kategori tersebut. \\
 	\cline{2-3}
 	& Name & string & \\
 	\cline{2-3}
@@ -879,20 +904,18 @@ Pada bagian ini dijelaskan class yang digunakan PosCategory dan ProductTag :
 	& WriteUID & ResUser & \\
 
 	\hline
-	PosCategoryImage & UID & int & Merupakan object yang menyimpan informasi gambar yang dimiliki oleh kategori. Gambar disimpan didatabase dan memiliki IdAttachment yang diketahui oleh sistem monolith\\
+	PosCategoryImage & UID & int & Merupakan object yang menyimpan informasi gambar yang dimiliki oleh kategori. \\
 	\cline{2-3}
-	& ImageBase64 & string & \\
+	& ImageBase64 & string & Gambar disimpan didatabase dan memiliki IdAttachment yang diketahui oleh sistem monolith\\
 	\cline{2-3}
 	& AttachmentId & int & \\
 	\cline{2-3}
 	& ImageSizeByte & int & \\
-	\hline
 
-	\multicolumn{4}{|c|}{\textbf{Product}} \\
 	\hline
-	ProductTag & ID & uint & Product Tag adalah model yang mengelola banyak label untuk memudahkan pencarian disuatu  produk. Product Tag memiliki satu nama yang unik tetapi bisa dimiliki oleh banyak produk template atau produk-produk (varian) \\
+	ProductTag & ID & uint & Product Tag adalah model yang mengelola banyak label untuk memudahkan pencarian disuatu  produk. \\
 	\cline{2-3}
-	& Color & uint & \\
+	& Color & uint & Product Tag memiliki satu nama yang unik tetapi bisa dimiliki oleh banyak produk template atau produk-produk (varian). \\
 	\cline{2-3}
 	& Name & string & \\
 	\cline{2-3}
@@ -908,104 +931,66 @@ Pada bagian ini dijelaskan class yang digunakan PosCategory dan ProductTag :
 	\cline{2-3}
 	& ProductProduct & int[] & \\
 	\hline
+
+	\multicolumn{4}{|c|}{\textbf{Service 17 (Calendar)}} \\
+	\hline
+	MeetingType & ID & uint & \multirow{6}{4cm}{Meeting Type adalah model yang mengelola banyak label yang terhubung dengan event di menu Calendar} \\
+	\cline{2-3}
+	& Color & uint & \\
+	\cline{2-3}
+	& Name & string & \\
+	\cline{2-3}
+	& CreateAt & Timestamp & \\
+	\cline{2-3}
+	& CreatUID & ResUser & \\
+	\cline{2-3}
+	& WriteAt & Timestamp & \\
+	\cline{2-3}
+	& WriteUID & ResUser & \\
+	\hline
 \end{longtable}
 
 \subsubsection{\textit{Docker} }
 Pada tugas akhir ini menggunakan teknologi Docker untuk membangun dan mendistribusikan aplikasi dalam bentuk container. Setiap service akan terhubung pada jaringan yang sama. Setiap service termasuk aplikasi monolih memiliki image yang bisa dilakukan deployment antar platform. 
-
-Berikut adalah inisialisasi untuk membuat container dari masing-masing service, setiap serive berada di jaringan internal odoo yang sudah ditentukan sebelum. Tujuannya agar pemetaan service bisa dilukan dengan target ip yang konsisten.
 
 \begin{lstlisting}[style=mystyle, language=sh, caption={Shell Script untuk pembuatan jaringan }]
 $ docker network create --subnet=172.18.0.0/16 mono-net
 $ docker network create --subnet=172.18.0.0/16 odoo-ms-net	
 \end{lstlisting} 
 
+Berikut adalah inisialisasi untuk membuat container dari masing-masing service, setiap serive berada di jaringan internal odoo yang sudah ditentukan sebelum. Tujuannya agar pemetaan service bisa dilukan dengan target ip yang konsisten.
+
 \begin{lstlisting}[style=mystyle, language=sh, caption={Shell Script untuk pembuatan container }]
-$ docker run -d --name odoo-kong-gateway \
-	--network=odoo-ms-net \
-	--ip 172.18.0.5 \
-	-v "$(pwd):/kong/declarative/" \
-	-e "KONG_DATABASE=off" \
-	-e "KONG_DECLARATIVE_CONFIG=/kong/declarative/kong.yml" \
-	-e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
-	-e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
-	-e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
-	-e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
-	-e "KONG_ADMIN_LISTEN=0.0.0.0:8001" \
-	-p 8000:8000 \
-	-p 8001:8001 \
-	-p 8002:8002 \
-	-p 8003:8003 \
-	kong/kong-gateway:latest 
 $ docker run -v "/ubuntu/local":/home/odoo/shared_data --net odoo-ms-net  --ip 172.18.0.55 --name odoo-mono -p :8069  -d odoo-mono
 $ docker run --net odoo-ms-net --ip 172.18.0.54 --name odoo-mariadb -e MYSQL_ROOT_PASSWORD=mariadb -p 3306:3306 -d mariadb 
 $ docker run --net odoo-ms-net  --ip 172.18.0.11 --name postgres-odoo -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
 \end{lstlisting} 
 
-\subsubsection{ \textit{Kong}}
+\subsubsection{\textit{Kong}}
 Proses selanjutnya yaitu membuat Api Gateway, tugas akhir ini menggunakan Kong sebagai api gateway. Konfigurasi Kong yang digunakan tidak menggunakan database tetapi berupa konfigurasi statik berupa file .yml/.json. Tugas akhir ini menggunakan yml.
+
+\begin{lstlisting}[style=mystyle, language=sh, caption={Shell Script untuk pembuatan container }]
+$ docker run -d --name odoo-kong-gateway \
+--network=odoo-ms-net --ip 172.18.0.5  -v "$(pwd):/kong/declarative/" \
+-e "KONG_DATABASE=off" 		\
+-e "KONG_DECLARATIVE_CONFIG=/kong/declarative/kong.yml" \
+-e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
+-e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \		
+-e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
+-e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
+-e "KONG_ADMIN_LISTEN=0.0.0.0:8001" \
+-p 8000:8000  -p 8001:8001 -p 8002:8002 -p 8003:8003 \
+kong/kong-gateway:latest 
+\end{lstlisting} 
 
 Endpoint yang diset adalah keterangan service (ip address,port,protocol) dan routing (metode, apakah host di rewrite ketika dialihkan). Dengan api gateway client hanya perlu mengetahui endpoint pusat kong yaitu :8000. Ketika pencarian rute url tidak ditemukan maka otomatis diarah service monolith (odoo-mono).
 
-\begin{lstlisting}[style=mystyle, language=sh, caption={Konfigurasi Service Monolith }]
-- name: odoo-mono
-  port: 8069
-  protocol: http
-  host: 172.18.0.55
-  routes:
-  - name: odoo-mono-route
-    methods:
-        - GET
-        - POST
-        - PUT
-        - DELETE
-        - PATCH
-        - HEAD
-        - OPTION
-    paths:
-    - /
-    strip_path: false
-    preserve_host: true
-\end{lstlisting} 
-
-\begin{lstlisting}[style=mystyle, language=sh, caption={Konfigurasi Service Point of Sale }]
-- name: odoo-pos
-  port: 1323
-  protocol: http
-  host: 172.18.0.51
-  path: /jsonrpc
-  routes:
-  - name: odoo-pos-route
-    methods:
-        - POST
-    paths:
-    - /web/dataset/call_kw/pos.category/create
-    - /web/dataset/call_kw/pos.category/write
-    - /web/dataset/call_kw/pos.category/unlink
-    - /web/dataset/call_kw/pos.category/read
-    strip_path: false
-    preserve_host: true
-\end{lstlisting} 
-
-\begin{lstlisting}[style=mystyle, language=sh, caption={Konfigurasi Service Product }]
-- name: odoo-product
-  port: 1323
-  protocol: http
-  host: 172.18.0.52
-  path: /jsonrpc
-  routes:
-  - name: odoo-product-route
-    methods:
-        - POST
-    paths:
-    - /web/dataset/call_kw/product.tag/create
-    - /web/dataset/call_kw/product.tag/write
-    - /web/dataset/call_kw/product.tag/unlink
-    - /web/dataset/call_kw/product.tag/read
-    strip_path: false
-    preserve_host: true	
-\end{lstlisting} 
-	
+\begin{center}
+	\includegraphics[width=14cm]{img/bab_4/kong_yml.png}
+	\captionof{figure}{Konfigurasi kong-declarative di kong.yml}
+	\label{fig:kong_yml}
+\end{center}
+ 	
 \subsubsection{Penerapan JSON Web  Token(JWT)}
 Perubahan migrasi arsitektur dari monolith ke microservice, membuat diperlukan sistem pengelolaan hak akses yang stateless. Sehingga service tidak sering harus berkomunikasi satu sama lain terutama pada hal informasi yang sama. Token disimpan didalam cookie client, sehingga baik dari client yang melalui user-interface atau pun secara langsung API, bisa diidentifikasi selama client tersebut memberikan token di cookie ketika meminta data.
 
@@ -1028,46 +1013,61 @@ Perubahan migrasi arsitektur dari monolith ke microservice, membuat diperlukan s
 \end{lstlisting} 
 
 
-Untuk menambahkan JWT bisa dituliskan pada proses login sendiri seperti pada \ref{fig:sessionRoute} file py yaitu addons / web/ controlers / session.py . Pada route  /web/session/authenticate 
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.7\textwidth]{img/bab_4/sessionRoute.png}
-	\caption{Penggalan Kode untuk disisipi proses JWT}
-	\label{fig:sessionRoute}
-\end{figure}
+Untuk menambahkan JWT dapat dituliskan pada proses login sendiri seperti pada \ref{fig:sessionRoute} file py yaitu addons / web/ controlers / session.py . Pada route  /web/session/authenticate 
 
-Data yang disimpan oleh JWT penting diketahui secara umum service, seperti pengguna, konteks pengguna(bahasa, zona waktu), perusahaan, dan database(db).  Perusahaan dan database diperlukan karena odoo memiliki fitur untuk memilih database dan untuk memanggil  aplikasi monolith(Odoo) harus diketahui databasenya. JWT ini dibuat oleh aplikasi monolith ketika login dan dihapus ketika logout atau sesi sudah habis(exp). Masa hidup JWT sama dengan masa hidup session-token yaitu 3 bulan.
+\begin{center}
+	\includegraphics[width=12cm]{img/bab_4/sessionRoute.png}
+	\captionof{figure}{Penggalan Kode untuk disisipi proses JWT}
+	\label{fig:sessionRoute}
+\end{center}
+
+Data yang disimpan oleh JWT penting diketahui secara umum service, seperti pengguna, konteks pengguna(bahasa, zona waktu), perusahaan, dan database(db).  Perusahaan dan database diperlukan karena Odoo memiliki fitur untuk memilih database dan untuk memanggil  aplikasi monolith(Odoo) harus diketahui databasenya. JWT ini dibuat oleh aplikasi monolith ketika login dan dihapus ketika logout atau sesi sudah habis(exp). Masa hidup JWT sama dengan masa hidup session-token yaitu 3 bulan.
 
 Untuk menghancurkan sesi maka ditambahakan mekanisme berupa cookie yang menunjukan bahwa jwt sudah tidak valid. Kemudian cookie tersebut akan dicek oleh fungsi di odoo / http.py / Request.savesession untuk menghapus cookie dengan nama 'jwt' . 
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{img/bab_4/triggerCookieDel.png}
-	\caption{Potongan Kode untuk memberikan validasi bawah JWT tidak valid}
-	\label{fig:example}
-\end{figure}
 
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{img/bab_4/removeCookie.png}
-	\caption{Potongan Kode untuk memberikan validasi bawah JWT tidak valid}
-	\label{fig:example}
-\end{figure}
+\begin{center}
+	\includegraphics[width=10cm]{img/bab_4/triggerCookieDel.png}
+	\captionof{figure}{Potongan Kode untuk memberikan validasi bawah JWT tidak valid}
+	\label{fig:triggerCookieDel}
+\end{center}
+
+\begin{center}
+	\includegraphics[width=14cm]{img/bab_4/removeCookie.png}
+	\captionof{figure}{Potongan Kode untuk memberikan validasi bawah JWT tidak valid}
+	\label{fig:removeCookie}
+\end{center}
 
 Pada gambar \ref{fig:jwt_proof}, merupakan tangkapan layar pada ResponseHeader melalui DevTools di Browser. Pada gambar bagian kiri terdapat bagian response ketika cookie dengan key JWT berhasil di'set' oleh server, dan pada gambar sisi kanan menunjukan reponse ketika cookie pada JWT dihilangkan.
 
+\begin{center}
+	\includegraphics[width=14cm]{img/bab_4/jwt_proof.png}
+	\captionof{figure}{Ilustrasi JWT di Cookie}
+	\label{fig:jwt_proof}
+\end{center}
+
+% ss bagian service yang menghanlde jwt  golang
 
 \subsubsection{Pola Strangle}
 Perubahan arsitektur dari aplikasi monolith menjadi microservice membutuhkan banyak resiko dan sumber daya untuk itu perubahan sebaiknya tidak mengurangi atau memperburuk aplikasi yang sudah jadi. Setiap proses bisnis odoo selalu mengimplementasikan class MetaModel. MetaModel membantu pengembang bisa membuat cepat aplikasi tapi MetaModel memiliki keterkaitan dengan model lainnya tinggi. Model di Odoo bisa mengelola data seperti menyimpan di database, memanggil model lainnya, data untuk tampilan(Frontend), dan hal lainnya.
 
 Di MetaModel terdapat fungsi umum dan fungsi internal yang bisa di'override'. Fungsi tersebut dapat dijadikan sebuah adapter. Fungsi utama yang selalu ada pada model yaitu fungsi create, browse, unlink, \_read dan read. Fungsi dan metode tersebut berfungsi untuk mengelola data. Model Adapter dibuat untuk mengabstraksi pengelolaan data sehingga implementasi logic bisa dipindahkan atau dialihkan ke service lainnya dan dikomunikasikan melalui panggilan RPC.  
 
+% ss pola strange di abstranya  kita bagi dua side by side
+
 Adapter yang dibuat juga memiliki kemampuan mengelola datanya karena data yang simpan hanyalah data yang diperlukan oleh sistem lainnya, seperti ID yang digunakan sebagai referensi hubungan antar module. Adapter akan mengelola data secara langsung dari database karena adapter harus berkomunikasi dahulu kepada service yang memiliki tanggung jawab data tersebut.
 
+% ss pola adapternya jadi isinya apa saja side by side
+
 Ketika ditemukan bahwa data yang berbeda maka dilakukan Update dan didapatkan bila tidak ada, namun ketika data tersebut sebelumnya ada tetapi ketika dicek ditemukan tidak ada. Maka adapter akan mencoba menghapus data tersebut, hal ini akan membuat efek berkelanjutan dengan sistem yang lain. Bila ternyata data tersebut tidak dapat dihapus maka data tersebut hanya bisa didapatkan dan tidak bisa diubah.
+
+% ss untuk read dari golang
 
 Pada pemisahan  model PosCategory, proses penyimpanan data baru dapat memiliki sebuah gambar. Untuk itu ketika ada penyimpana gambar maka gambar disimpan pada database untuk dicatat dan kemudian dikirimkan kepada aplikasi monolith untuk data melalui model ir.attachment di RPC agar gambar bisa diakses melalui web. Setiap model pada Odoo memiliki hak akses kepada grup tertentu. Hak akses bisa diasumsikan jarang berubah untuk karena itu agar service mengetahui apakah seorang user memiliki hak akses. Service memiliki jadwal melaui cron job untuk mengecheck apakah ada akses grup baru.
 
 Service diminta untuk mencatat siapa dan kapan data berubah. Sehingga ada relasi kepada res.user relasi ini hanya memiliki ID, DisplayName, dan GroupID. Informasi ini didapatkan melalui data JWT yang dikirimkan oleh client sebelumnya.
+
+% ss hasil insert data dari UI jadi benar benar dibuktikan 
+% ss bukti dari log servernya mono dan service 10
 
 \subsubsection{Analisis Hasil Dekomposisi}
 Jelaskan module  Pos  Pos Categ, ini contoh kalo hanya satu
