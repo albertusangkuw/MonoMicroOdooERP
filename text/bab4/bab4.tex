@@ -1047,31 +1047,66 @@ Pada gambar \ref{fig:jwt_proof}, merupakan tangkapan layar pada ResponseHeader m
 
 % ss bagian service yang menghanlde jwt  golang
 
-\subsubsection{Pola Strangle}
+\subsubsection{Pola \textit{Strangle Fig} dan \textit{Branch by Abstraction}}
 Perubahan arsitektur dari aplikasi monolith menjadi microservice membutuhkan banyak resiko dan sumber daya untuk itu perubahan sebaiknya tidak mengurangi atau memperburuk aplikasi yang sudah jadi. Setiap proses bisnis odoo selalu mengimplementasikan class MetaModel. MetaModel membantu pengembang bisa membuat cepat aplikasi tapi MetaModel memiliki keterkaitan dengan model lainnya tinggi. Model di Odoo bisa mengelola data seperti menyimpan di database, memanggil model lainnya, data untuk tampilan(Frontend), dan hal lainnya.
 
 Di MetaModel terdapat fungsi umum dan fungsi internal yang bisa di'override'. Fungsi tersebut dapat dijadikan sebuah adapter. Fungsi utama yang selalu ada pada model yaitu fungsi create, browse, unlink, \_read dan read. Fungsi dan metode tersebut berfungsi untuk mengelola data. Model Adapter dibuat untuk mengabstraksi pengelolaan data sehingga implementasi logic bisa dipindahkan atau dialihkan ke service lainnya dan dikomunikasikan melalui panggilan RPC.  
 
-% ss pola strange di abstranya  kita bagi dua side by side
+
+\begin{center}
+	\includegraphics[width=14cm]{img/bab_4/strangle_1.png}
+	\captionof{figure}{Penerapan Class Abstract}
+	\label{fig:strangle_1}
+\end{center}
 
 Adapter yang dibuat juga memiliki kemampuan mengelola datanya karena data yang simpan hanyalah data yang diperlukan oleh sistem lainnya, seperti ID yang digunakan sebagai referensi hubungan antar module. Adapter akan mengelola data secara langsung dari database karena adapter harus berkomunikasi dahulu kepada service yang memiliki tanggung jawab data tersebut.
 
-% ss pola adapternya jadi isinya apa saja side by side
+
+\begin{center}
+	\includegraphics[width=14cm]{img/bab_4/strangle_2.png}
+	\captionof{figure}{Penerapan Class Adapter}
+	\label{fig:strangle_2}
+\end{center}
 
 Ketika ditemukan bahwa data yang berbeda maka dilakukan Update dan didapatkan bila tidak ada, namun ketika data tersebut sebelumnya ada tetapi ketika dicek ditemukan tidak ada. Maka adapter akan mencoba menghapus data tersebut, hal ini akan membuat efek berkelanjutan dengan sistem yang lain. Bila ternyata data tersebut tidak dapat dihapus maka data tersebut hanya bisa didapatkan dan tidak bisa diubah.
 
-% ss untuk read dari golang
+\begin{center}
+	\includegraphics[width=14cm]{img/bab_4/strangle_3.png}
+	\captionof{figure}{Penerapan di Sisi Service-10 di kasus menambahkan PosCategory}
+	\label{fig:strangle_3}
+\end{center}
 
 Pada pemisahan  model PosCategory, proses penyimpanan data baru dapat memiliki sebuah gambar. Untuk itu ketika ada penyimpana gambar maka gambar disimpan pada database untuk dicatat dan kemudian dikirimkan kepada aplikasi monolith untuk data melalui model ir.attachment di RPC agar gambar bisa diakses melalui web. Setiap model pada Odoo memiliki hak akses kepada grup tertentu. Hak akses bisa diasumsikan jarang berubah untuk karena itu agar service mengetahui apakah seorang user memiliki hak akses. Service memiliki jadwal melaui cron job untuk mengecheck apakah ada akses grup baru.
 
-Service diminta untuk mencatat siapa dan kapan data berubah. Sehingga ada relasi kepada res.user relasi ini hanya memiliki ID, DisplayName, dan GroupID. Informasi ini didapatkan melalui data JWT yang dikirimkan oleh client sebelumnya.
+Service diminta untuk mencatat siapa dan kapan data berubah. Sehingga ada relasi kepada res.user relasi ini hanya memiliki ID, DisplayName, dan GroupID. Informasi ini didapatkan melalui data JWT yang dikirimkan oleh client sebelumnya. \\
 
 % ss hasil insert data dari UI jadi benar benar dibuktikan 
 % ss bukti dari log servernya mono dan service 10
 
+% Jelaskan module  Product Product.tag, contoh yang ada hubungannya
+% bagaimana penerapannya microservice apakah hasil yang dibuat oleh  r
+% Jelaskan module  Pos  Pos Categ, ini contoh kalo hanya satu
+% Jelaskan hasil implementasi dengan UI web bahw amodule , bahwa bisa dilakukan pola strange, ss Postman dan 
+
 \subsubsection{Analisis Hasil Dekomposisi}
-Jelaskan module  Pos  Pos Categ, ini contoh kalo hanya satu
+Hasil Dekomposisi yang sudah diimplementasikan dengan 2 sampel service yaitu service ke-10 dan service ke-17. Didalam microservice yang dibangun terdapat 3 aplikasi yaitu aplikasi monolitik yang sudah dimodifikasi, Service ke-10(Product dan Point of Sale) dan Service ke-17 (Calendar). Untuk mengetahui apakah bagian yang didekomposisi oleh proses Hierarchical Clustering relevan dan dapat diimplementasikan make dapat dilihat melalui struktur tabel yang terbentuk ketika melakukan implementasi.
 
-Jelaskan module  Product Product.tag, contoh yang ada hubungannya
+Pada service ke-10 terdapat 2 model yang diimplementasikan yaitu product.tag dan pos.category, Odoo yang memiliki ORM sudah otomatis mengubah nama "dot" menjadi "underscore" sehingga bila dilihat dari nama tabel yang terbentuk akan memiliki nama "product\_tag" dan "pos\_category". Berikut adalah diagram database (\ref{fig:db_1})  yang menunjukan bagaimana keterhubungan antara model dengan model lainnya. 
 
-Jelaskan hasil implementasi dengan UI web bahw amodule , bahwa bisa dilakukan pola strange, ss Postman dan 
+\begin{center}
+	\includegraphics[width=12cm]{img/bab_4/db_1.png}
+	\captionof{figure}{Diagram Database dari Product Tag dan Pos Category}
+	\label{fig:db_1}
+\end{center}
+
+Hasil proses clustering sebelumnya mengelompokan 2 module yaitu product dan point of sale(POS) menjadi service sendiri. Dari diagram database menunjukan bahwa memang benar model product.tag dan pos.category memiliki keterhubungan satu sama lain yaitu melalui model product.template untuk itulah mengapa 2 modules isi disatukan menjadi service yang sama.  
+
+Pada service ke-17 terdapat 1 model yang diimplementasikan yaitu  'calendar.event.type' dan nama yang terbentuk pada tabel adalah 'calendar\_event\_type'. Service ke-17 ini memiliki isi module yang berbeda dengan service ke-10, jika dilihat berdasarkan nama modulenya didalamnya. Berikut keterhubungannya yang dapat dilihat melalui diagram database (\ref{fig:db_2}).
+
+\begin{center}
+	\includegraphics[width=12cm]{img/bab_4/db_2.png}
+	\captionof{figure}{Diagram Database dari Calendar Event Type}
+	\label{fig:db_2}
+\end{center}
+
+Diagram database menunjukan tidak ada hubungan dengan tabel yang terbentuk dari module product ataupun point of sale(POS), sehingga service ke-17 bisa berdiri sendiri. Dari diagram juga terlihat bahwa ke dua service ini memiliki hubungan yang sama dengan module lain seperti dengan ir.attachment, res.users, res.groups, res.company, dan ir.model. 
