@@ -9,13 +9,13 @@ Pada bab ini berisi kesimpulan dan saran dari hasil pengujian yang telah dilakuk
 \section{Kesimpulan}
 Berikut kesimpulan dan rangkuman dari penerapan \textit{Microservice} dengan \textit{Hierarchical Clustering} untuk dekomposisi monolitik pada \textit{Enterprise Resource Planning} yang sudah dilakukan.
 %  nilai coupling dan cohesion yang dibuat 
-%  hasil dekomposisi dengan linkage berbeda
+%  hasil dekomposisi dengan \textit{linkage} berbeda
 %  penerapan microser dengan hasil dekomposis hc 
 
 \begin{enumerate}[nolistsep,leftmargin=0.5cm]
-    \item Berdasarkan Tabel 4.7,  Tabel 4.8, dan Tabel 4.9 menunjukan linkage yang cocok untuk membuat kelompok service yang memiliki rentang jumlah module yang kecil tetapi masih memiliki coupling dan cohesion yang baik adalah Average linkage.
-    \item Berdasarkan Gambar 4.23, Gambar 4.24,  dan Gambar 4.25. Menunjukan Hierarchical Clustering dapat membuat Microservice yang memiliki nilai coupling yang kecil dan nilai cohesion yang tinggi dengan jumlah partisi tertentu. Jumlah partisi yang ditemukan dapat membuat Microservice yang ideal dalam rentang jumlah service yang ideal adalah dari 175-245 service dengan Average Linkage. 
-    \item Berdasarkan Gambar 4.34  dan Gambar 4.35 dapat dilihat dari struktur database yang terbentuk ketika dilakukan implementasi. Struktur tabel menunjukan Hierarchical Clustering dapat memisahkan module yang tidak terhubung dan service yang memiliki hubungan kuat dikelompokan menjadi satu seperti pada Tabel 4.10 di partisi ke-10 pada Module Product dan Module Point of Sale. Kemudian module yang tidak memiliki hubungan dengan module lain seperti Module Calendar di partisi ke-17 tidak dikelompokan menjadi satu dengan Module Product atau Module Point of Sale, sehingga hasil dari proses Hierarchical Clustering relevan.\\
+    \item Berdasarkan Tabel 4.7,  Tabel 4.8, dan Tabel 4.9 menunjukan \textit{linkage} yang cocok untuk membuat kelompok service yang memiliki rentang jumlah module yang kecil tetapi masih memiliki coupling dan cohesion yang baik adalah \textit{Average} \textit{linkage}.
+    \item Berdasarkan Gambar 4.23, Gambar 4.24,  dan Gambar 4.25. Menunjukan \textit{Hierarchical Clustering} dapat membuat Microservice yang memiliki nilai coupling yang kecil dan nilai cohesion yang tinggi dengan jumlah partisi tertentu. Jumlah partisi yang ditemukan dapat membuat Microservice yang ideal dalam rentang jumlah service yang ideal adalah dari 175-245 service dengan \textit{Average} \textit{Linkage}. 
+    \item Berdasarkan Gambar 4.34  dan Gambar 4.35 dapat dilihat dari struktur database yang terbentuk ketika dilakukan implementasi. Struktur tabel menunjukan \textit{Hierarchical Clustering} dapat memisahkan module yang tidak terhubung dan service yang memiliki hubungan kuat dikelompokan menjadi satu seperti pada Tabel 4.10 di partisi ke-10 pada Module Product dan Module Point of Sale. Kemudian module yang tidak memiliki hubungan dengan module lain seperti Module Calendar di partisi ke-17 tidak dikelompokan menjadi satu dengan Module Product atau Module Point of Sale, sehingga hasil dari proses \textit{Hierarchical Clustering} relevan.\\
 \end{enumerate}
 
 \section{Saran}
@@ -23,5 +23,5 @@ Saran  untuk pengembangan dekomposisi aplikasi monolitik dengan \textit{Hierarch
 \begin{enumerate}[nolistsep,leftmargin=0.5cm]
     \item  Diperlukan penelitian lebih lanjut dengan aplikasi aplikasi \textit{Enterprise Resource Planning} yang berbeda 
     \item  Mempertimbangkan tipe  \textit{coupling} yang berbeda dalam menentukan suatu hubungan antara objek
-    \item  Menggunakan linkage selain \textit{single}, \textit{complete}, dan \textit{average}
+    \item  Menggunakan \textit{linkage} selain \textit{single}, \textit{complete}, dan \textit{average}
 \end{enumerate}

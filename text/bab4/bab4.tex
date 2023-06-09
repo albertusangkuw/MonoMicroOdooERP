@@ -29,10 +29,10 @@ Berikut lingkungan perangkat lunak:
 \end{enumerate}
 
 \section{Implementasi Proses Clustering}
-Pada bagian ini, dijelaskan mengenai proses, fungsi, dan metode yang digunakan dalam proses clustering untuk menemukan kelompok service di aplikasi monolitik yaitu Odoo.
+Pada bagian ini, dijelaskan mengenai proses, fungsi, dan metode yang digunakan dalam proses \textit{clustering} untuk menemukan kelompok service di aplikasi monolitik yaitu Odoo.
 
 \subsection{Pengambilan Source Code}
-Proses ini pengambilan source code aplikasi Odoo bisa melalui source code repository di github.com. Source code tersebut digunakan untuk proses clustering dan proses dekomposisi dari monolitik ke microservice. Pada tugas akhir ini menggunakan Odoo v16 pada commit yang bisa direferensikan SHA1 375d0db3. 
+Proses ini pengambilan source code aplikasi Odoo bisa melalui source code repository di github.com. Source code tersebut digunakan untuk proses \textit{clustering} dan proses dekomposisi dari monolitik ke microservice. Pada tugas akhir ini menggunakan Odoo v16 pada commit yang bisa direferensikan SHA1 375d0db3. 
 \begin{lstlisting}[style=mystyle, language=sh, caption={Shell Script Git untuk pengambilan source code}]
 $ git init
 $ git remote add origin https://github.com/odoo/odoo
@@ -40,11 +40,11 @@ $ git fetch origin 375d0db3694419942a95e58212295b4186085e61:refs/remotes/origin/
 $ git checkout 375d0db3694419942a95e58212295b4186085e61
 \end{lstlisting} 
 
-\subsection{Pembuatan Call Graph}
-Untuk membuat call graph dari source code aplikasi dapat menggunakan alat PyCG. PyCG harus terlebih dahulu di install bisa melalui pip. PyCG menganalisis kode program Python melalui package yang diberikan, untuk nama folder / package yang mengandung karakter "." harus diubah menjadi karakter lain karena PyCG membacanya dalam bentuk package Python. 
+\subsection{Pembuatan \textit{Call Graph}}
+Untuk membuat\textit{call graph} dari source code aplikasi dapat menggunakan alat PyCG. PyCG harus terlebih dahulu di install bisa melalui pip. PyCG menganalisis kode program Python melalui package yang diberikan, untuk nama folder / package yang mengandung karakter "." harus diubah menjadi karakter lain karena PyCG membacanya dalam bentuk package Python. 
 
 Proses analisis  dilakukan pada package odoo.addons dengan pengecualian folder test(pengujian). Hasil PyCG berupa .json yang kemudian diproses selanjutnya, proses ini membutuhkan waktu yang cukup lama karena besarnya aplikasi.
-\begin{lstlisting}[style=mystyle, language=sh, caption={Shell Script untuk pembuatan call graph}]
+\begin{lstlisting}[style=mystyle, language=sh, caption={Shell Script untuk pembuatan\textit{call graph}}]
 $ pip install pycg
 $ py_files=$(find addons -type f -name "*.py"  -not -path "*/tests/*")
 $ pycg  --package addons  $py_files -o odooAddons.json
@@ -52,7 +52,7 @@ $ pycg  --package addons  $py_files -o odooAddons.json
 
 \begin{center}
 	\includegraphics[width=10cm]{img/bab_4/hasil_run_pycg.png}
-	\captionof{figure}{Waktu pembuatan call graph dengan PyCG}
+	\captionof{figure}{Waktu pembuatan\textit{call graph} dengan PyCG}
 	\label{fig:hasil_run_pycg}
 \end{center}
 
@@ -125,7 +125,7 @@ Fungsi scanModuleWithInspect yang dapat dilihat pada gambar \ref{fig:def_inspect
 
 Module bisa memiliki banyak module \verb|->| sub-modul(file) \verb|->| class / def / var /object. Untuk mengetahui apakah sebuah module memilikinya maka digunakan \verb|inspect.getmember|. Hasil keluaran \verb|inspect.getmember| berupa array dimana \verb|['nama_objek', isi_object]|. 
 
-Setiap member bisa berisi bermacam-macam data dan berupa metadata. Apabila module memiliki sub-module make dicari kembali class-nya dari sub-module tersebut. Fungsi ini hanya berfokus mencari class pada sebuah module/sub dengan tipe odoo.models.MetaModel, jika terdapat class yang memiliki tipe MetaModel. Maka dilakukan pengecekan apakah object tersebut memiliki attribute {\_}name, {\_}inherit, {\_}inherits, attribute{\_}rel, dan comodel{\_}name. 
+Setiap member bisa berisi bermacam-macam data dan berupa metadata. Apabila module memiliki sub-module make dicari kembali class-nya dari sub-module tersebut. Fungsi ini hanya berfokus mencari class pada sebuah module/sub dengan tipe odoo.models.MetaModel, jika terdapat class yang memiliki tipe MetaModel. Maka dilakukan pengecekan apakah objek tersebut memiliki attribute {\_}name, {\_}inherit, {\_}inherits, attribute{\_}rel, dan comodel{\_}name. 
 
 Masing-masing atribute ini seperti yang sudah dijelaskan pada tinjauan objek memiliki makna yang penting untuk menentukan relasi antar class. Attribute kemudian simpan di variabel dictionary(key,value) dengan key adalah nama module dan relasi serta namanya, isi datanya berupa string yang merepresentasikan sebuah nama model di Odoo seperti 'res.users'. 
 
@@ -145,7 +145,7 @@ Hasil dari pembuatan dependency model ini yaitu berupa graph yang disimpan di li
 \end{center}
 
 \subsection{Pengabungan Hasil Ekstraksi}
-Hubungan ketergantungan yang sudah dihasilkan dari PyCG dan inspect, diproses dan dijadikan satu kesatuan sebelum dilakukan proses clustering. Hal yang diproses seperti menghapus node yang tidak terpakai atau diluar dari Odoo seperti keterhubungan dengan library ke-3.  
+Hubungan ketergantungan yang sudah dihasilkan dari PyCG dan inspect, diproses dan dijadikan satu kesatuan sebelum dilakukan proses \textit{clustering}. Hal yang diproses seperti menghapus node yang tidak terpakai atau diluar dari Odoo seperti keterhubungan dengan library ke-3.  
 
 \begingroup
 \setlength{\LTleft}{-20cm plus -1fill}
@@ -173,13 +173,13 @@ Hubungan ketergantungan yang sudah dihasilkan dari PyCG dan inspect, diproses da
 
 		 addPrefixFolder
 		& cg,root,listPackage
-		 & Menambahkan awal root dari call graph yang dihasilkan dari PyCG(JSON) dan disatukan berdasarkan nama modulenya  \\
+		 & Menambahkan awal root dari\textit{call graph} yang dihasilkan dari PyCG(JSON) dan disatukan berdasarkan nama modulenya  \\
 		 
 		 \hline  
 
 		 mergeCGOdooWithAddons
 		& cgOdoo,cgAddons
-		 & Mengabungkan call graph dari odoo dan addons yang sudah memiliki prefix  \\
+		 & Mengabungkan\textit{call graph} dari odoo dan addons yang sudah memiliki prefix  \\
 
 
 		 \hline  
@@ -192,7 +192,7 @@ Hubungan ketergantungan yang sudah dihasilkan dari PyCG dan inspect, diproses da
 		
 		 updateCGwInspect
 		& listModuleName, moduleNameMapping, callGraph
-		 & Mengabungkan hasil relasi yang ditemukan di library inspect ke call graph  \\
+		 & Mengabungkan hasil relasi yang ditemukan di library inspect ke\textit{call graph}  \\
 
 		 \hline
 	\end{longtable}
@@ -205,7 +205,7 @@ Hubungan ketergantungan yang sudah dihasilkan dari PyCG dan inspect, diproses da
 	\label{fig:ekstraksi_1}
 \end{center}
 
-Proses penggabungan dimulai dengan mengimport file JSON yang dihasilkan oleh PyCG. File JSON tersebut diubah menjadi bentuk call graph di dictionary(key,value). Nama node yang dihasilkan PyCG tidak lengkap karena dilakukan scan melalui odoo/addons maka tidak ada prefix atau parentnya yang lengkap, untuk itu dilakukan penambahaan nama module didepan nama node "addons" sehingga yang awalannya langsung merupakan nama package / addons seperti "product.models" maka menjadi "addons.product.models". Tujuan dilakukan ini agar node di graph dari PyCG memiliki tingkatan yang sama dengan nama package odoo. Penambahan ini menggunakan fungsi addPrefixFolder dan getListRootPackage.
+Proses penggabungan dimulai dengan mengimport file JSON yang dihasilkan oleh PyCG. File JSON tersebut diubah menjadi bentuk\textit{call graph} di dictionary(key,value). Nama node yang dihasilkan PyCG tidak lengkap karena dilakukan scan melalui odoo/addons maka tidak ada prefix atau parentnya yang lengkap, untuk itu dilakukan penambahaan nama module didepan nama node "addons" sehingga yang awalannya langsung merupakan nama package / addons seperti "product.models" maka menjadi "addons.product.models". Tujuan dilakukan ini agar node di graph dari PyCG memiliki tingkatan yang sama dengan nama package odoo. Penambahan ini menggunakan fungsi addPrefixFolder dan getListRootPackage.
 
 \begin{center}
 	\includegraphics[width=13cm]{img/bab_4/ekstraksi_2.png}
@@ -213,7 +213,7 @@ Proses penggabungan dimulai dengan mengimport file JSON yang dihasilkan oleh PyC
 	\label{fig:ekstraksi_2}
 \end{center}
 
-Isi dari graph dilakukan pembuangan pada node yang tidak diinginkan untuk dikelompokan, karena tugas besar ini berfokus pada mengelompokan pada bagian module addons / proses bisnis maka setiap relasi ke package diluar  odoo dan addons akan dihilangkan dari graph. Proses ini dilakukan oleh fungsi filterCGNode, fungsi tersebut membuat graph baru dari graph yang memiliki informasi call graph original dan menghapus node yang tidak memiliki hubungan apapun. Fungsi filterCGNode juga memberikan nilai setiap hubungan call sebesar 1, nilai ini akan digunakan sebagai weight atau jumlah call ke suatu node. Call Graph yang dihasilkan dari PyCG tidak memberikan jumlah call sehingga semua call diasumsikan memiliki nilai panggilan sebesar 1. Proses pengubahan dan penyerderhanaan graph dilakukan oleh fungsi filterCGNode.
+Isi dari graph dilakukan pembuangan pada node yang tidak diinginkan untuk dikelompokan, karena tugas besar ini berfokus pada mengelompokan pada bagian module addons / proses bisnis maka setiap relasi ke package diluar  odoo dan addons akan dihilangkan dari graph. Proses ini dilakukan oleh fungsi filterCGNode, fungsi tersebut membuat graph baru dari graph yang memiliki informasi\textit{call graph} original dan menghapus node yang tidak memiliki hubungan apapun. Fungsi filterCGNode juga memberikan nilai setiap hubungan call sebesar 1, nilai ini akan digunakan sebagai weight atau jumlah call ke suatu node. \textit{Call Graph} yang dihasilkan dari PyCG tidak memberikan jumlah call sehingga semua call diasumsikan memiliki nilai panggilan sebesar 1. Proses pengubahan dan penyerderhanaan graph dilakukan oleh fungsi filterCGNode.
 
 \begin{center}
 	\includegraphics[width=9cm]{img/bab_4/ekstraksi_3.png}
@@ -221,7 +221,7 @@ Isi dari graph dilakukan pembuangan pada node yang tidak diinginkan untuk dikelo
 	\label{fig:ekstraksi_3}
 \end{center}
 
-Pada gamber \ref{fig:ekstraksi_3} dapat terlihat jumlah awal node yang awalnya sebesar 27.521 setelah difilter menjadi sebesar 15.953. Node leaf yaitu fungsi yang ditemukan tidak memanggil node lain, untuk itu node tersebut dihilangkan. Proses selanjutnya yaitu mengabungkan call graph dengan hasil inspect, sebelumnya hasil inspect disimpan pada variabel listModuleName dan moduleNameMapping. 
+Pada gamber \ref{fig:ekstraksi_3} dapat terlihat jumlah awal node yang awalnya sebesar 27.521 setelah difilter menjadi sebesar 15.953. Node leaf yaitu fungsi yang ditemukan tidak memanggil node lain, untuk itu node tersebut dihilangkan. Proses selanjutnya yaitu mengabungkan\textit{call graph} dengan hasil inspect, sebelumnya hasil inspect disimpan pada variabel listModuleName dan moduleNameMapping. 
 
 \begin{center}
 	\includegraphics[width=10cm]{img/bab_4/ekstraksi_4.png}
@@ -238,7 +238,7 @@ Pada inspect dapat diketahui jumlah berapa hubungan antara sebuah module, sepert
 \end{center}
 
 \subsection{Optimisasi Hasil Ekstraksi}
-Hasil graph yang sudah digabungkan dari hasil ekstraksi harus diproses kembali agar pengelompokan yang dilakukan oleh Hierarchical Clustering terarah. Pada Tugas akhir ini pengelompokan dilakukan berdasarkan proses bisnisnya, proses bisnis tersebut berada pada module yang dinamakan 'addons'. Setiap panggilan kepada suatu addons / node harus diagregasikan untuk dijadikan \textit{weight} yang berkisar 0 (tidak ada relasi) hingga 1 (memiliki relasi yang kuat)
+Hasil graph yang sudah digabungkan dari hasil ekstraksi harus diproses kembali agar pengelompokan yang dilakukan oleh \textit{Hierarchical Clustering} terarah. Pada Tugas akhir ini pengelompokan dilakukan berdasarkan proses bisnisnya, proses bisnis tersebut berada pada module yang dinamakan 'addons'. Setiap panggilan kepada suatu addons / node harus diagregasikan untuk dijadikan \textit{weight} yang berkisar 0 (tidak ada relasi) hingga 1 (memiliki relasi yang kuat)
 
 
 \begingroup
@@ -264,7 +264,7 @@ Hasil graph yang sudah digabungkan dari hasil ekstraksi harus diproses kembali a
 		 \hline
 		 updateCGWeight
 		& callGraphFiltered, callGraphWeight
-		 & Membuat call graph yang memiliki nilai berbobot (weighted graph) berdasarkan jumlah panggilan(call) dengan cara menjumlahkan call yang dipanggil dari module \\
+		 & Membuat\textit{call graph} yang memiliki nilai berbobot (weighted graph) berdasarkan jumlah panggilan(call) dengan cara menjumlahkan call yang dipanggil dari module \\
 
 		 
 		 \hline 
@@ -281,7 +281,7 @@ Hasil graph yang sudah digabungkan dari hasil ekstraksi harus diproses kembali a
 		 \hline  
 		createAdjacentMatrix
 		& graphSource
-		 & Membuat adjacency matrix dari graph  \\
+		 & Membuat \textit{adjacency} \textit{matrix} dari graph  \\
 		
 		 \hline  
 		 
@@ -311,15 +311,15 @@ Penambahan relasi node di tree yang dilakukan oleh fungsi setRelation yaitu beru
 	\label{fig:optimasi_3}
 \end{center}
 
-Proses selanjutnya yaitu membuat graph baru yang hanya berisi module addons, proses ini dilakukan oleh fungsi initKeyCG. Fungsi akan membaca direktori dari path odoo/addons dan hanya menambahkan bila module tersebut adalah package (folder). Kemudian graph baru diperbarui isi relasinya dengan fungsi updateCGWeight. Fungsi updateCGWeight menggunakan odooTree dan call graph baru. Kemudian dilakukan pengecekan apakah graph yang dibuat lengkap dan dibuat menjadi Adjacency Matrix.  Dari gambar \ref{fig:optimasi_4} dapat dilihat terdapat 335 objek yang akan dilakukan proses hierarchical clustering.
+Proses selanjutnya yaitu membuat graph baru yang hanya berisi module addons, proses ini dilakukan oleh fungsi initKeyCG. Fungsi akan membaca direktori dari path odoo/addons dan hanya menambahkan bila module tersebut adalah package (folder). Kemudian graph baru diperbarui isi relasinya dengan fungsi updateCGWeight. Fungsi updateCGWeight menggunakan odooTree dan\textit{call graph} baru. Kemudian dilakukan pengecekan apakah graph yang dibuat lengkap dan dibuat menjadi \textit{Adjacency} \textit{Matrix}.  Dari gambar \ref{fig:optimasi_4} dapat dilihat terdapat 335 objek yang akan dilakukan proses \textit{Hierarchical Clustering}.
 
 \begin{center}
 	\includegraphics[width=9cm]{img/bab_4/optimisasi_4.png}
-	\captionof{figure}{Proses Optimisasi Graph dan Pembuatan Adjacency Matrik}
+	\captionof{figure}{Proses Optimisasi Graph dan Pembuatan \textit{Adjacency} Matrik}
 	\label{fig:optimasi_4}
 \end{center}
 
-Hasil dari proses ini dapat dilihat pada gambar \ref{fig:optimasi_5}, dapat dilihat pengabungan panggilan yang diagregasikan berdasarkan module addons. Proses ini juga menghitung berapa relasi dalam dirinya sendiri, tujuan perhitungan ini untuk mengetahui berapa besar kohesi didalam module. Jumlah relasi kepada diri sendiri tidak ditambahkan pada Adjacency matrix, dan matriks yang dibuat juga dilakukan column-wise normalization seperti yang dijelaskan pada bagian Urutan Proses Global.  
+Hasil dari proses ini dapat dilihat pada gambar \ref{fig:optimasi_5}, dapat dilihat pengabungan panggilan yang diagregasikan berdasarkan module addons. Proses ini juga menghitung berapa relasi dalam dirinya sendiri, tujuan perhitungan ini untuk mengetahui berapa besar kohesi didalam module. Jumlah relasi kepada diri sendiri tidak ditambahkan pada \textit{Adjacency} \textit{matrix}, dan matriks yang dibuat juga dilakukan column-wise normalization seperti yang dijelaskan pada bagian Urutan Proses Global.  
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_4/optimisasi_5.png}
@@ -329,15 +329,15 @@ Hasil dari proses ini dapat dilihat pada gambar \ref{fig:optimasi_5}, dapat dili
 
 
 \subsection{Hierarchical Clustering}
-Proses ini dilakukan untuk menemukan pengelompokan dari adjacency matrix. Matrix adjacency(Matrix keterhubungan) harus dihitung untuk mendapatkan nilai kedekatannya, perhitungan tersebut menghasilkan Distance Matrix(Matrik kedekatan). Pada tugas akhir ini menggunakan nilai kedekatan berdasarkan nilai Jaccard dan Struktural Similarity. 
+Proses ini dilakukan untuk menemukan pengelompokan dari \textit{adjacency} \textit{matrix}. \textit{Matrix} \textit{adjacency}(Matriks keterhubungan) harus dihitung untuk mendapatkan nilai kedekatannya, perhitungan tersebut menghasilkan \textit{Distance} \textit{Matrix}(Matrik kedekatan). Pada tugas akhir ini menggunakan nilai kedekatan berdasarkan nilai Jaccard dan Struktural Similarity. 
 
 \begin{center}
 	\includegraphics[width=12cm]{img/bab_4/hc_1.png}
-	\captionof{figure}{Implementasi Perhitungan Distance Matrix dengan Jaccard dan Struktural Similarity}
+	\captionof{figure}{Implementasi Perhitungan \textit{Distance} \textit{Matrix} dengan Jaccard dan Struktural Similarity}
 	\label{fig:hc_1}
 \end{center}
 
-Matriks kedekatan bisa ditampilan dalam bentuk heatmap. Heatmap dapat memberikan bagaimana intensitas kedekatan antar module addons Odoo. Pada gambar \ref{fig:heatmap_gambar} dapat dilihat semakin kuning atau cerah maka semakin tinggi intensitas hubungannya sedangkan semakin hijau atau redup maka intensitas hubungannya rendah. heatmap ini dihasilkan dari matrix segitiga sehingga hasil dari heatmap sisi kiri sama dengan heatmap sisi kanan.
+Matriks kedekatan bisa ditampilan dalam bentuk heatmap. Heatmap dapat memberikan bagaimana intensitas kedekatan antar module addons Odoo. Pada gambar \ref{fig:heatmap_gambar} dapat dilihat semakin kuning atau cerah maka semakin tinggi intensitas hubungannya sedangkan semakin hijau atau redup maka intensitas hubungannya rendah. heatmap ini dihasilkan dari matriks segitiga sehingga hasil dari heatmap sisi kiri sama dengan heatmap sisi kanan.
 
 \begin{center}
 	\includegraphics[width=7cm]{img/bab_4/HeatmapModule.png}
@@ -372,39 +372,39 @@ Matriks kedekatan bisa ditampilan dalam bentuk heatmap. Heatmap dapat memberikan
 
 		 calculateDistanceMatrix
 		& adjMatrix
-		 & Menghitung distance matrix dengan masukan adjacency matrix  \\
+		 & Menghitung \textit{distance} \textit{matrix} dengan masukan \textit{adjacency} \textit{matrix}  \\
 
 		 \hline  
 
 		 visualizeHeatmap
-		& matrix, title
+		& \textit{matrix}, title
 		 & Membuat visualisasi heatmap  \\
 
 		 \hline  
 
 		 calculateCluster
 		& y, {\_}method
-		 & Melakukan proses clustering dengan linkage function tertentu ({\_}method) dan distance matrix (y) \\
+		 & Melakukan proses \textit{clustering} dengan \textit{linkage} function tertentu ({\_}method) dan \textit{distance} \textit{matrix} (y) \\
 
 		 \hline
 		
 		 visualizeDendogram
 		& z, {\_}method
-		 & Menampilakan dendogram dari hierarchical clustering  \\
+		 & Menampilakan dendogram dari \textit{Hierarchical Clustering}  \\
 
 		 \hline
 	\end{longtable}
 \end{small}
 \endgroup
 
-Distance Matrix dimasukan kedalam fungsi calculateCluster dengan metode ada 3 yaitu average, min, max. Hasil cluster dari hierarchical clustering bisa divisualisasi dalam bentuk dendogram. Hasil dendogram memiliki distance/jarak antar module dan label module. Dari gambar \ref{fig:dd_single} module cenderung dikelompokan dengan jumlah yang kecil (1-2) dan ketika dihubungkan memiliki jarak yang jauh. Pada pendekatan \ref{fig:dd_complete} module dikelompokan dan memiliki ukuran module yang besar untuk setiap partisi/service. Sedangkan pendekatan \ref{fig:dd_avg} memiliki bentuk campuran antara ukuran module yang besar dan module yang berukuran kecil.
+Distance \textit{Matrix} dimasukan kedalam fungsi calculateCluster dengan metode ada 3 yaitu \textit{average}, min, max. Hasil cluster dari \textit{Hierarchical Clustering} bisa divisualisasi dalam bentuk dendogram. Hasil dendogram memiliki \textit{distance}/jarak antar module dan label module. Dari gambar \ref{fig:dd_single} module cenderung dikelompokan dengan jumlah yang kecil (1-2) dan ketika dihubungkan memiliki jarak yang jauh. Pada pendekatan \ref{fig:dd_complete} module dikelompokan dan memiliki ukuran module yang besar untuk setiap partisi/service. Sedangkan pendekatan \ref{fig:dd_avg} memiliki bentuk campuran antara ukuran module yang besar dan module yang berukuran kecil.
 
 \begin{figure}[htbp]
 	\centering
 	\begin{minipage}{1\textwidth}
 		\centering
 		\includegraphics[width=1\textwidth]{img/bab_4/single_dd.png}
-		\caption{Dendogram Single Linkage }
+		\caption{Dendogram \textit{Single} \textit{Linkage} }
 		\label{fig:dd_single}
 	\end{minipage}\hfill	
 \end{figure}
@@ -414,7 +414,7 @@ Distance Matrix dimasukan kedalam fungsi calculateCluster dengan metode ada 3 ya
 	\begin{minipage}{1\textwidth}
 		\centering
 		\includegraphics[width=1\textwidth]{img/bab_4/complete_dd.png}
-		\caption{Dendogram Complete Linkage }
+		\caption{Dendogram \textit{Complete} \textit{Linkage} }
 		\label{fig:dd_complete}
 	\end{minipage}\hfill	
 \end{figure}
@@ -424,7 +424,7 @@ Distance Matrix dimasukan kedalam fungsi calculateCluster dengan metode ada 3 ya
 	\begin{minipage}{1\textwidth}
 		\centering
 		\includegraphics[width=1\textwidth]{img/bab_4/avg_dd.png}
-		\caption{Dendogram Average Linkage }
+		\caption{Dendogram \textit{Average} \textit{Linkage} }
 		\label{fig:dd_avg}
 	\end{minipage}\hfill	
 \end{figure}
@@ -433,13 +433,13 @@ Distance Matrix dimasukan kedalam fungsi calculateCluster dengan metode ada 3 ya
 
 
 \section{Evaluasi dan Pengujian}
-Pada bagian ini, dibahas mengenai evaluasi dan pengujian tentang bagaimana hasil dekomposisi aplikasi monolitik menjadi microservice dengan menggunakan proses Hierarchical Clustering.
+Pada bagian ini, dibahas mengenai evaluasi dan pengujian tentang bagaimana hasil dekomposisi aplikasi monolitik menjadi microservice dengan menggunakan proses \textit{Hierarchical Clustering}.
 
 \subsection{Pemilihan Partisi}
 Banyaknya partisi dan jumlah node, membuat proses pemilihan partisi atau kelompok service terbaik harus dilakukan secara otomatis. Hasil pemilihan dapat menentukan microservice yang memiliki nilai cohesion yang tinggi dan nilai coupling yang rendah.
 
 \subsubsection{Implementasi Pemilihan}
-  Pemilihan dimulai dengan menggunakan linkage matrix(Z / hasil dari Hierarchical Clustering) untuk setiap metode linkage yang berbeda. Untuk mengetahui jumlah partisi yang tepat dilakukan pengukuran dari nilai coupling dan nilai kohesinya yang dihasilkan dari pengelompokan tersebut. Terdapat fungsi yang akan menghitung dari 1 partisi/service hingga jumlah maximum partisi.
+  Pemilihan dimulai dengan menggunakan \textit{linkage} \textit{matrix}(Z / hasil dari \textit{Hierarchical Clustering}) untuk setiap metode \textit{linkage} yang berbeda. Untuk mengetahui jumlah partisi yang tepat dilakukan pengukuran dari nilai coupling dan nilai kohesinya yang dihasilkan dari pengelompokan tersebut. Terdapat fungsi yang akan menghitung dari 1 partisi/service hingga jumlah maximum partisi.
 
 \begingroup
 \setlength{\LTleft}{-20cm plus -1fill}
@@ -461,7 +461,7 @@ Banyaknya partisi dan jumlah node, membuat proses pemilihan partisi atau kelompo
 
 		 cutTreeToCluster
 		& ct
-		 & Membuat cluster dari tree yang dihasilkan clustering  \\
+		 & Membuat cluster dari tree yang dihasilkan \textit{clustering}  \\
 
 		 \hline  
 
@@ -491,7 +491,7 @@ Banyaknya partisi dan jumlah node, membuat proses pemilihan partisi atau kelompo
 		 
 		 FOne
 		& m , rm
-		 & Implementasi dari rumus 2.3 dan perhitungan skor clustering melalui jumlah partisi, nilai coupling dan nilai cohesion \\
+		 & Implementasi dari rumus 2.3 dan perhitungan skor \textit{clustering} melalui jumlah partisi, nilai coupling dan nilai cohesion \\
 
 		 \hline
 		 calculateFOne
@@ -506,7 +506,7 @@ Banyaknya partisi dan jumlah node, membuat proses pemilihan partisi atau kelompo
 
 		 \hline
 		 visualizeQualityCluster
-		& qualityCluster, linkageType
+		& qualityCluster, \textit{linkage}Type
 		 & Menampilkan plot perbandingan coupling dan cohesion dengan jumlah service  \\
 
 		 \hline
@@ -514,7 +514,7 @@ Banyaknya partisi dan jumlah node, membuat proses pemilihan partisi atau kelompo
 \end{small}
 \endgroup
 
-Proses perhitungan dimulai dari fungsi calculateFOne (Rumus \ref{eq:fone}), fungsi ini akan mengubah linkage matrix (Z), menjadi bentuk graph yang menggambarkan keterhubungan antar service dan module didalamnya. Hasil graph tersebut diubah menjadi matriks adjacency dimana isi matriks tersebut merupakan nilai keterhubungan antara service/partisi. Perhitungan Coupling (Rumus \ref{eq:intercoup}) dan Cohesion (Rumus \ref{eq:interCoh}) dilakukan dengan evaluasi \textit{Structural and Behavioral Dependencies}. 
+Proses perhitungan dimulai dari fungsi calculateFOne (Rumus \ref{eq:fone}), fungsi ini akan mengubah \textit{linkage} \textit{matrix} (Z), menjadi bentuk graph yang menggambarkan keterhubungan antar service dan module didalamnya. Hasil graph tersebut diubah menjadi matriks \textit{adjacency} dimana isi matriks tersebut merupakan nilai keterhubungan antara service/partisi. Perhitungan Coupling (Rumus \ref{eq:intercoup}) dan Cohesion (Rumus \ref{eq:interCoh}) dilakukan dengan evaluasi \textit{Structural and Behavioral Dependencies}. 
 Hasil dari proses ini berupa \textit{dictionary} yang memiliki isi nilai coupling, nilai cohesion dan ukuran service.
 
 \begin{center}
@@ -525,35 +525,35 @@ Hasil dari proses ini berupa \textit{dictionary} yang memiliki isi nilai couplin
 
 
 \subsubsection{Evaluasi Pemilihan}
-Hasil Implementasi dapat divisualisasikan dan dianalisis lebih lanjut agar dapat menentukan linkage dan jumlah service yang ideal. 
+Hasil Implementasi dapat divisualisasikan dan dianalisis lebih lanjut agar dapat menentukan \textit{linkage} dan jumlah service yang ideal. 
 
-Untuk itu dilakukan perbadingan bagaimana nilai coupling dan cohesion dari jumlah service/partisi yang dimulai dari 1 (monolit) hingga 335 (semua partisi menjadi service individu) dengan setiap linkage yang berbeda.
+Untuk itu dilakukan perbadingan bagaimana nilai coupling dan cohesion dari jumlah service/partisi yang dimulai dari 1 (monolit) hingga 335 (semua partisi menjadi service individu) dengan setiap \textit{linkage} yang berbeda.
 
 \begin{center}
 	\includegraphics[width=10cm]{img/bab_4/cc_single.png}
-	\captionof{figure}{Perbandingan Coupling \& Cohesion menurut pendekatan Single Linkage}
+	\captionof{figure}{Perbandingan Coupling \& Cohesion menurut pendekatan \textit{Single} \textit{Linkage}}
 	\label{fig:cc_single}
 \end{center}
 
- Pada grafik \ref{fig:cc_single}, hasil dekomposisi menggunakan linkage single memiliki hasil yang buruk untuk coupling tetapi masih memiliki cohesion yang bagus. Nilai coupling menurun drastis ketika jumlah service mencapai 25 service. Jumlah service yang memiliki nilai coupling rendah dan cohesion yang tinggi berkisar dari 25 service ke atas dan dibawah 150 sevice. Ketika jumlah service melebihi 150 service nilai coupling terus meningkat ketika dan nilai cohesion terus memburuk.
+ Pada grafik \ref{fig:cc_single}, hasil dekomposisi menggunakan \textit{linkage} \textit{single} memiliki hasil yang buruk untuk coupling tetapi masih memiliki cohesion yang bagus. Nilai coupling menurun drastis ketika jumlah service mencapai 25 service. Jumlah service yang memiliki nilai coupling rendah dan cohesion yang tinggi berkisar dari 25 service ke atas dan dibawah 150 sevice. Ketika jumlah service melebihi 150 service nilai coupling terus meningkat ketika dan nilai cohesion terus memburuk.
  
 \begin{center}
 	\includegraphics[width=10cm]{img/bab_4/cc_comp.png}
-	\captionof{figure}{Perbandingan Coupling \& Cohesion menurut pendekatan Complete Linkage}
+	\captionof{figure}{Perbandingan Coupling \& Cohesion menurut pendekatan \textit{Complete} \textit{Linkage}}
 	\label{fig:cc_complete}
 \end{center}
 
-Pada grafik \ref{fig:cc_complete}, hasil dekomposisi menggunakan linkage complete memiliki coupling yang tinggi sejak dari jumlah service 1 ke atas hingga sekitar 175 service. Nilai Coupling membaik ketika jumlah service mencapai   $\pm 200$  hingga  $\pm 240$, ketika jumlah service melebihi  $\pm 240$ nilai menjadi semakin memburuk coupling. Untuk nilai cohesion turun secara perlahan ketika jumlah service mencapai  $\pm 50$.
+Pada grafik \ref{fig:cc_complete}, hasil dekomposisi menggunakan \textit{linkage} \textit{complete} memiliki coupling yang tinggi sejak dari jumlah service 1 ke atas hingga sekitar 175 service. Nilai Coupling membaik ketika jumlah service mencapai   $\pm 200$  hingga  $\pm 240$, ketika jumlah service melebihi  $\pm 240$ nilai menjadi semakin memburuk coupling. Untuk nilai cohesion turun secara perlahan ketika jumlah service mencapai  $\pm 50$.
 
 \begin{center}
 	\includegraphics[width=10cm]{img/bab_4/cc_avg.png}
-	\captionof{figure}{Perbandingan Coupling \& Cohesion menurut pendekatan Average Linkage }
+	\captionof{figure}{Perbandingan Coupling \& Cohesion menurut pendekatan \textit{Average} \textit{Linkage} }
 	\label{fig:cc_avg}
 \end{center}
 
-Pada grafik \ref{fig:cc_avg}, hasil dekomposisi menggunakan Average linkage memiliki nilai coupling yang cukup tinggi ketika jumlah service sebesar  $\pm 25$. Nilai coupling meningkat secara tajam ketika jumlah service diatas  $\pm 2$ dan mulai menurun saat jumlah service berkisar  $\pm 100$ - $\pm 210$. Ketika jumlah service melebihi  $\pm 210$ nilai coupling semakin memburuk. Untuk nilai cohesion, memiliki nilai yang tinggi saat jumlah service berkisar  $\pm 2$ -  $\pm 25$, ketika jumlah service diatas  $\pm 25$ nilai cohesion menurun drastis hingga jumlah service  $\pm 75$. Nilai cohesion tidak lagi meningkat dan turun perlahan ketika jumlah service bertambah banyak.
+Pada grafik \ref{fig:cc_avg}, hasil dekomposisi menggunakan \textit{Average} \textit{linkage} memiliki nilai coupling yang cukup tinggi ketika jumlah service sebesar  $\pm 25$. Nilai coupling meningkat secara tajam ketika jumlah service diatas  $\pm 2$ dan mulai menurun saat jumlah service berkisar  $\pm 100$ - $\pm 210$. Ketika jumlah service melebihi  $\pm 210$ nilai coupling semakin memburuk. Untuk nilai cohesion, memiliki nilai yang tinggi saat jumlah service berkisar  $\pm 2$ -  $\pm 25$, ketika jumlah service diatas  $\pm 25$ nilai cohesion menurun drastis hingga jumlah service  $\pm 75$. Nilai cohesion tidak lagi meningkat dan turun perlahan ketika jumlah service bertambah banyak.
 
-Nilai copling dan cohesion yang dihasilkan bisa dilakukan analisis lebih lanjut seperti melihat nilai maksimum, nilai minimum, dan nilai rata-rata pada nilai coupling dan cohesion untuk setiap linkage.
+Nilai copling dan cohesion yang dihasilkan bisa dilakukan analisis lebih lanjut seperti melihat nilai maksimum, nilai minimum, dan nilai rata-rata pada nilai coupling dan cohesion untuk setiap \textit{linkage}.
 
 \begin{table}[ht]
 \centering
@@ -568,13 +568,13 @@ Complete & 0.40 & 0.65 & 1.33 & 0.61 & 0.67 & 0.99 \\
 Average & 0.14 & 0.51 & 0.83  & 0.61 & 0.7  & 1 \\
 \hline
 \end{tabular}
-\caption{Tabel  Nilai maximum, rata-rata, dan minimum untuk setiap linkage}
+\caption{Tabel  Nilai maximum, rata-rata, dan minimum untuk setiap \textit{linkage}}
 \label{tab:link_stat}
 \end{table}
 
-Dari tabel \ref{tab:link_stat} dilihat linkage complete memiliki coupling yang tinggi dan cohesion yang rendah dibandingkan linkage lainnya. Untuk linkage average memiliki nilai coupling dan nilai cohesion yang lebih baik  bila dibandingkan dengan linkage complete tetapi lebih buruk bila dibandingkan dengan linkage single. Nilai  minimum dan maksimum dari cohesion memiliki nilai yang sama tetapi memiliki rata-rata yang berbeda. 
+Dari tabel \ref{tab:link_stat} dilihat \textit{linkage} \textit{complete} memiliki coupling yang tinggi dan cohesion yang rendah dibandingkan \textit{linkage} lainnya. Untuk \textit{linkage} \textit{average} memiliki nilai coupling dan nilai cohesion yang lebih baik  bila dibandingkan dengan \textit{linkage} \textit{complete} tetapi lebih buruk bila dibandingkan dengan \textit{linkage} \textit{single}. Nilai  minimum dan maksimum dari cohesion memiliki nilai yang sama tetapi memiliki rata-rata yang berbeda. 
 
-Untuk mengetahui lebih detail bagaimana struktur service dikelompokan, maka untuk setiap linkage, jumlah module dari setiap partisi/service dicari nilai rentang, minimum, dan maksimum untuk setiap jumlah ukuran partisi tertentu (1, 2, 5, 10, 15, 25, 50 , 75, 90, 110, 130, 150, 175, 195, 200, 208 , 220, 232,  245, 275, 290, 305, 325, 335). Jumlah Module yang ditampilkan adalah jumlah modulenya diikuti dengan jumlah kemunculannya / Frekuensi yang dilambangkan dengan 'x'.
+Untuk mengetahui lebih detail bagaimana struktur service dikelompokan, maka untuk setiap \textit{linkage}, jumlah module dari setiap partisi/service dicari nilai rentang, minimum, dan maksimum untuk setiap jumlah ukuran partisi tertentu (1, 2, 5, 10, 15, 25, 50 , 75, 90, 110, 130, 150, 175, 195, 200, 208 , 220, 232,  245, 275, 290, 305, 325, 335). Jumlah Module yang ditampilkan adalah jumlah modulenya diikuti dengan jumlah kemunculannya / Frekuensi yang dilambangkan dengan 'x'.
 
 \colorlet{colorGood}{green!25!white}
 \colorlet{colorOK}{yellow!25!white}
@@ -584,7 +584,7 @@ Untuk mengetahui lebih detail bagaimana struktur service dikelompokan, maka untu
 \setlength{\LTright}{\LTleft}
 \begin{small}
 \begin{longtable}{|c|p{4cm}|c|c|c|c|c|}
-	\caption{Perbandingan Ukuran Service yang dihasilkan oleh Single Linkage}
+	\caption{Perbandingan Ukuran Service yang dihasilkan oleh \textit{Single} \textit{Linkage}}
 	\label{tab:service_stat_single} \\
 	\hline
 	\textbf{Ukuran Service} & \textbf{Jumlah Module} & \textbf{Coupling} & \textbf{Cohesion} & \multicolumn{3}{c|}{\textbf{Statistik Jumlah Module}} \\
@@ -621,7 +621,7 @@ Untuk mengetahui lebih detail bagaimana struktur service dikelompokan, maka untu
 \end{small}
 \endgroup
 
-Pada tabel \ref{tab:service_stat_single} dapat dilihat bahwa jumlah service yang dibuat oleh single linkage tidak merata dalam membagi modulenya, banyak service yang hanya memiliki jumlah modul kecil sekitar 1-3 module tetapi ada satu service yang sangat besar yang memiliki 100-200 module. Service yang memiliki module sangat banyak itu hilang ketika jumlah service / partisi mencapai $\pm 275$, namun nilai coupling dan cohesion ketika jumlah service sebesar $\pm 275$ tidak bagus karena lebih tinggi nilai coupling dibandingkan nilai cohesionnya.
+Pada tabel \ref{tab:service_stat_single} dapat dilihat bahwa jumlah service yang dibuat oleh \textit{single} \textit{linkage} tidak merata dalam membagi modulenya, banyak service yang hanya memiliki jumlah modul kecil sekitar 1-3 module tetapi ada satu service yang sangat besar yang memiliki 100-200 module. Service yang memiliki module sangat banyak itu hilang ketika jumlah service / partisi mencapai $\pm 275$, namun nilai coupling dan cohesion ketika jumlah service sebesar $\pm 275$ tidak bagus karena lebih tinggi nilai coupling dibandingkan nilai cohesionnya.
 
 
 \begingroup
@@ -629,7 +629,7 @@ Pada tabel \ref{tab:service_stat_single} dapat dilihat bahwa jumlah service yang
 \setlength{\LTright}{\LTleft}
 \begin{small}
 \begin{longtable}{|c|p{4cm}|c|c|c|c|c|}
-		\caption{Perbandingan Ukuran Service yang dihasilkan oleh Complete Linkage}
+		\caption{Perbandingan Ukuran Service yang dihasilkan oleh \textit{Complete} \textit{Linkage}}
 		\label{tab:service_stat_complete} \\
 		\hline
 		\textbf{Ukuran Service} & \textbf{Jumlah Module} & \textbf{Coupling} & \textbf{Cohesion} & \multicolumn{3}{c|}{\textbf{Statistik Jumlah Module}} \\
@@ -665,14 +665,14 @@ Pada tabel \ref{tab:service_stat_single} dapat dilihat bahwa jumlah service yang
 \end{small}
 \endgroup
 
-Pada tabel \ref{tab:service_stat_complete} dapat dilihat bahwa jumlah service yang dibuat oleh complete linkage cenderung membentuk service yang besar karena dilihat dari jumlah module yang dimiliki oleh setiap service, namun nilai rentang dari besarnya sebuah service lebih kecil. Di sisi lain nilai coupling dan cohesion yang dihasilkan buruk walaupun jumlah service masih sedikit bila dibandingkan dengan linkage lain.
+Pada tabel \ref{tab:service_stat_complete} dapat dilihat bahwa jumlah service yang dibuat oleh \textit{complete} \textit{linkage} cenderung membentuk service yang besar karena dilihat dari jumlah module yang dimiliki oleh setiap service, namun nilai rentang dari besarnya sebuah service lebih kecil. Di sisi lain nilai coupling dan cohesion yang dihasilkan buruk walaupun jumlah service masih sedikit bila dibandingkan dengan \textit{linkage} lain.
 
 \begingroup
 \setlength{\LTleft}{-20cm plus -1fill}
 \setlength{\LTright}{\LTleft}
 \begin{small}
 \begin{longtable}{|c|p{4cm}|c|c|c|c|c|}
-	\caption{Perbandingan Ukuran Service yang dihasilkan oleh Average Linkage}
+	\caption{Perbandingan Ukuran Service yang dihasilkan oleh \textit{Average} \textit{Linkage}}
 	\label{tab:service_stat_average} \\
 	\hline
 	\textbf{Ukuran Service} & \textbf{Jumlah Module} & \textbf{Coupling} & \textbf{Cohesion} & \multicolumn{3}{c|}{\textbf{Statistik Jumlah Module}} \\
@@ -708,19 +708,19 @@ Pada tabel \ref{tab:service_stat_complete} dapat dilihat bahwa jumlah service ya
 \end{small}
 \endgroup
 
-Pada tabel \ref{tab:service_stat_average} dapat dilihat bahwa jumlah service dibuat oleh average linkage memiliki service yang tidak terlalu besar bila dilihat dari nilai maksimum jumlah module dan terdapat service yang berukuran kecil (1 modul). Dari nilai coupling dan nilai cohesion, average linkage memiliki nilai yang bagus karena nilai coupling masih dibawah nilai cohesion. 
+Pada tabel \ref{tab:service_stat_average} dapat dilihat bahwa jumlah service dibuat oleh \textit{average} \textit{linkage} memiliki service yang tidak terlalu besar bila dilihat dari nilai maksimum jumlah module dan terdapat service yang berukuran kecil (1 modul). Dari nilai coupling dan nilai cohesion, \textit{average} \textit{linkage} memiliki nilai yang bagus karena nilai coupling masih dibawah nilai cohesion. 
 
-Dari hasil perbandingan ukuran service yang dihasilkan oleh masing-masing linkage pada kasus dekomposisi aplikasi monolitik Odoo, menunjukan bahwa complete linkage tidak cocok untuk melakukan dekomposisi karena service yang dibentuk besar dan memiliki nilai coupling tinggi. Sedangkan single linkage kurang ideal walaupun memiliki coupling yang rendah dan cohesion yang tinggi namun service yang dibuat tidak dikelompokan secara seimbang dan memiliki nilai rentang yang besar, karena ada service yang memiliki jumlah sangat besar. Untuk Average linkage dapat membentuk service yang ideal karena ukuran service tidak terlalu besar dilihat dari nilai rentangnya dan memiliki nilai couplingnya rendah serta nilai cohesionnya cukup tinggi. 
+Dari hasil perbandingan ukuran service yang dihasilkan oleh masing-masing \textit{linkage} pada kasus dekomposisi aplikasi monolitik Odoo, menunjukan bahwa \textit{complete} \textit{linkage} tidak cocok untuk melakukan dekomposisi karena service yang dibentuk besar dan memiliki nilai coupling tinggi. Sedangkan \textit{single} \textit{linkage} kurang ideal walaupun memiliki coupling yang rendah dan cohesion yang tinggi namun service yang dibuat tidak dikelompokan secara seimbang dan memiliki nilai rentang yang besar, karena ada service yang memiliki jumlah sangat besar. Untuk \textit{Average} \textit{linkage} dapat membentuk service yang ideal karena ukuran service tidak terlalu besar dilihat dari nilai rentangnya dan memiliki nilai couplingnya rendah serta nilai cohesionnya cukup tinggi. 
 
-Pemilihan jumlah service yang ideal pada Average linkage, tidak bisa ditentukan secara pasti karena terdapat \textit{trade-off} untuk setiap kenaikan jumlah service. Oleh karena itu rentang jumlah service yang ideal adalah bisa dari 175, 195, 208, 200, 220, 232 , 245. Jumlah service yang tidak ideal adalah dibawah $\pm 150 / \pm 175$ service karena nilai rentang isi module service cukup tinggi yaitu diatas 12 module dan diatas $\pm 245$ service karena nilai coupling lebih tinggi dibandingkan nilai cohesionnya. \\
+Pemilihan jumlah service yang ideal pada \textit{Average} \textit{linkage}, tidak bisa ditentukan secara pasti karena terdapat \textit{trade-off} untuk setiap kenaikan jumlah service. Oleh karena itu rentang jumlah service yang ideal adalah bisa dari 175, 195, 208, 200, 220, 232 , 245. Jumlah service yang tidak ideal adalah dibawah $\pm 150 / \pm 175$ service karena nilai rentang isi module service cukup tinggi yaitu diatas 12 module dan diatas $\pm 245$ service karena nilai coupling lebih tinggi dibandingkan nilai cohesionnya. \\
 
 \pagebreak
 
 \subsection{Dekomposisi Monolitik \textit{ ke Microservice}}
-Pada bagian ini menjelaskan bagaimana penerapan microservice dengan menggunakan hasil dekomposisi yang dihasilkan oleh hierarchical clustering. 
+Pada bagian ini menjelaskan bagaimana penerapan microservice dengan menggunakan hasil dekomposisi yang dihasilkan oleh \textit{Hierarchical Clustering}. 
 
 \subsubsection{Pemilihan Service}
-Pada tugas akhir ini memilih untuk menggunakan hasil Hierarchical Clustering dengan Average Linkage dengan jumlah service sebesar 200. Hasil evaluasi sebelumnya menunjukan nilai coupling sebesar 0.67, nilai cohesion sebesar 0.45 dan nilai rentang jumlah modulenya sebesar 12. Detail isi dari setiap module untuk setiap partisi yang dikelompokan dapat dilihat pada Tabel. \ref{tab:daftar_module_final} 
+Pada tugas akhir ini memilih untuk menggunakan hasil \textit{Hierarchical Clustering} dengan \textit{Average} \textit{Linkage} dengan jumlah service sebesar 200. Hasil evaluasi sebelumnya menunjukan nilai coupling sebesar 0.67, nilai cohesion sebesar 0.45 dan nilai rentang jumlah modulenya sebesar 12. Detail isi dari setiap module untuk setiap partisi yang dikelompokan dapat dilihat pada Tabel. \ref{tab:daftar_module_final} 
 
 \begingroup
 \setlength{\LTleft}{-20cm plus -1fill}
@@ -906,7 +906,7 @@ Pada bagian ini dijelaskan class yang digunakan Service 10 dan Service 17:
 	& WriteUID & ResUser & \\
 
 	\hline
-	PosCategoryImage & UID & int & Merupakan object yang menyimpan informasi gambar yang dimiliki oleh kategori. \\
+	PosCategoryImage & UID & int & Merupakan objek yang menyimpan informasi gambar yang dimiliki oleh kategori. \\
 	\cline{2-3}
 	& ImageBase64 & string & Gambar disimpan didatabase dan memiliki IdAttachment yang diketahui oleh sistem monolith\\
 	\cline{2-3}
@@ -1091,7 +1091,7 @@ Service diminta untuk mencatat siapa dan kapan data berubah. Sehingga ada relasi
 % Jelaskan hasil implementasi dengan UI web bahw amodule , bahwa bisa dilakukan pola strange, ss Postman dan 
 
 \subsubsection{Analisis Hasil Dekomposisi}
-Hasil Dekomposisi yang sudah diimplementasikan dengan 2 sampel service yaitu service ke-10 dan service ke-17. Didalam microservice yang dibangun terdapat 3 aplikasi yaitu aplikasi monolitik yang sudah dimodifikasi, Service ke-10(Product dan Point of Sale) dan Service ke-17 (Calendar). Untuk mengetahui apakah bagian yang didekomposisi oleh proses Hierarchical Clustering relevan dan dapat diimplementasikan make dapat dilihat melalui struktur tabel yang terbentuk ketika melakukan implementasi.
+Hasil Dekomposisi yang sudah diimplementasikan dengan 2 sampel service yaitu service ke-10 dan service ke-17. Didalam microservice yang dibangun terdapat 3 aplikasi yaitu aplikasi monolitik yang sudah dimodifikasi, Service ke-10(Product dan Point of Sale) dan Service ke-17 (Calendar). Untuk mengetahui apakah bagian yang didekomposisi oleh proses \textit{Hierarchical Clustering} relevan dan dapat diimplementasikan make dapat dilihat melalui struktur tabel yang terbentuk ketika melakukan implementasi.
 
 Pada service ke-10 terdapat 2 model yang diimplementasikan yaitu product.tag dan pos.category, Odoo yang memiliki ORM sudah otomatis mengubah nama "dot" menjadi "underscore" sehingga bila dilihat dari nama tabel yang terbentuk akan memiliki nama "product\_tag" dan "pos\_category". Berikut adalah diagram database (\ref{fig:db_1})  yang menunjukan bagaimana keterhubungan antara model dengan model lainnya. 
 
@@ -1101,7 +1101,7 @@ Pada service ke-10 terdapat 2 model yang diimplementasikan yaitu product.tag dan
 	\label{fig:db_1}
 \end{center}
 
-Hasil proses clustering sebelumnya mengelompokan 2 module yaitu product dan point of sale(POS) menjadi service sendiri. Dari diagram database menunjukan bahwa memang benar model product.tag dan pos.category memiliki keterhubungan satu sama lain yaitu melalui model product.template untuk itulah mengapa 2 modules isi disatukan menjadi service yang sama.  
+Hasil proses \textit{clustering} sebelumnya mengelompokan 2 module yaitu product dan point of sale(POS) menjadi service sendiri. Dari diagram database menunjukan bahwa memang benar model product.tag dan pos.category memiliki keterhubungan satu sama lain yaitu melalui model product.template untuk itulah mengapa 2 modules isi disatukan menjadi service yang sama.  
 
 Pada service ke-17 terdapat 1 model yang diimplementasikan yaitu  'calendar.event.type' dan nama yang terbentuk pada tabel adalah 'calendar\_event\_type'. Service ke-17 ini memiliki isi module yang berbeda dengan service ke-10, jika dilihat berdasarkan nama modulenya didalamnya. Berikut keterhubungannya yang dapat dilihat melalui diagram database (\ref{fig:db_2}).
 

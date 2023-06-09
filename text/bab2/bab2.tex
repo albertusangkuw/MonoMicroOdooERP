@@ -201,7 +201,7 @@ Terdapat beberapa cara untuk melakukan dekomposisi aplikasi monolitik, dekomposi
 
 		DDD memisahkan domain model untuk setiap subdomainya, subdomain adalah bagian dari doamin. Subdomain diidentifikasi melalui pendekatan yang sama dengan mencari kemampuan bisnis. DDD menggunakan \textit{bounded context} dalam menentukan batasan suatu domain, \textit{bounded context} termasuk kode yang mengimplementasikan model. Pada \textit{microservice} \textit{bounded context} bisa berupa satu \textit{service} atau beberapa kumpulan \textit{service}.
 	\item Analisis Kode \cite{74C,5B1}  \\
-		Transformasi aplikasi monolitik menjadi \textit{microservice} bisa dilakukan dengan strategi analisis statik atau dinamis. Umumnya hal yang perhatikan adalah ketergantungan / keterhubungan antar module, kemudian menerapkan proses clustering atau algoritma evolusi pada ketergantungan module untuk menghasilkan partisi-partisi module yang sudah ditentukan dari evaluasi tertentu seperti nilai \textit{coupling} yang rendah dan nilai \textit{cohesion} yang tinggi. Analisis ini sendiri bisa berupa campuran antara proses bisnis dekomposisi secara fungsional, \textit{control flow}, \textit{data flow}, dan \textit{semantic model}
+		Transformasi aplikasi monolitik menjadi \textit{microservice} bisa dilakukan dengan strategi analisis statik atau dinamis. Umumnya hal yang perhatikan adalah ketergantungan / keterhubungan antar module, kemudian menerapkan proses \textit{clustering} atau algoritma evolusi pada ketergantungan module untuk menghasilkan partisi-partisi module yang sudah ditentukan dari evaluasi tertentu seperti nilai \textit{coupling} yang rendah dan nilai \textit{cohesion} yang tinggi. Analisis ini sendiri bisa berupa campuran antara proses bisnis dekomposisi secara fungsional, \textit{control flow}, \textit{data flow}, dan \textit{semantic model}
 		
 \end{enumerate}	
 
@@ -272,15 +272,15 @@ Terdapat tantangan dan hambatan ketika melakukan proses dekomposisi. Tantangan d
 \end{enumerate}	
 
 \subsection{\textit{Clustering}}
-\textit{Clustering} yaitu suatu proses untuk melakukan pengelompokan atau klasifikasi objek. Objek bisa ditentukan dari pengukuran atau berdasarkan hubungan antar objek lainnya. Tujuan dari clustering yaitu untuk  menemukan struktur data yang valid. Cluster terdiri dari sejumlah object serupa yang dikumpulkan / dikelompokkan bersama \cite{2C9}.
+\textit{Clustering} yaitu suatu proses untuk melakukan pengelompokan atau klasifikasi objek. Objek bisa ditentukan dari pengukuran atau berdasarkan hubungan antar objek lainnya. Tujuan dari \textit{clustering} yaitu untuk  menemukan struktur data yang valid. Cluster terdiri dari sejumlah objek serupa yang dikumpulkan / dikelompokkan bersama \cite{2C9}.
 
-Metode Clustering membutuhkan adanya indeks kedekatan di antara object. indeks ini bisa dikomputasi dalam bentuk matrix. Hasil matrix kedekatan / distance matrix memiliki nilai kedekatan untuk setiap object terhadap object lainnya. Indeks kedekatan bisa berupa kemiripan atau ketidaksamaan. Semakin jauh nilai antar indeks maka semakin berbeda dua objek tersebut\cite{2C9}.
+Metode Clustering membutuhkan adanya indeks kedekatan di antara objek. indeks ini bisa dikomputasi dalam bentuk matriks. Hasil matriks kedekatan / \textit{distance} \textit{matrix} memiliki nilai kedekatan untuk setiap objek terhadap objek lainnya. Indeks kedekatan bisa berupa kemiripan atau ketidaksamaan. Semakin jauh nilai antar indeks maka semakin berbeda dua objek tersebut\cite{2C9}.
 
 \subsubsection{\textit{Distance}}
 Untuk membuat kedekatan antar objek perlu diketahui tipe data yang digunakan agar kedekatan yang dihasilkan relevan.  Berikut adalah metode mencari nilai kedekatan untuk pengelompokan objek:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item \textit{Jaccard Coefficient} \cite{2C9} \\
-	Untuk mendapatkan kedekatan dengan menghitung total hal yang sama(a{\tiny11}) atau terhubung di antara object kemudian dibagi dengan jumlah hal yang berbeda(a{\tiny01}/a{\tiny10}) di antara dua objek(i,k) tersebut. 
+	Untuk mendapatkan kedekatan dengan menghitung total hal yang sama(a{\tiny11}) atau terhubung di antara objek kemudian dibagi dengan jumlah hal yang berbeda(a{\tiny01}/a{\tiny10}) di antara dua objek(i,k) tersebut. 
 	\begin{equation}
 		d(i,k)={\frac{a_{11}}{a_{11}+a_{01}+a_{10}}}={\frac{a_{11}}{d-a_{10}}}
 	\end{equation}
@@ -308,7 +308,7 @@ Unsupervise Clustering adalah pengelompokan di mana tidak diberikan sebuah label
 
 	\begin{center}
 		\includegraphics[width=8cm]{img/bab_2/hierarchi.png}
-		\captionof{figure}{Hasil Hierarchical Clustering pada Objek}
+		\captionof{figure}{Hasil \textit{Hierarchical Clustering} pada Objek}
 		\label{fig:asd}
 	\end{center}
 
@@ -320,11 +320,11 @@ Unsupervise Clustering adalah pengelompokan di mana tidak diberikan sebuah label
 		\label{fig:asd}
 	\end{center}
 
-	Ada beberapa metode untuk menentukan partisi terdekat yaitu dengan menghitung jarak maksimal antara objek partisi (complete lingkage), nilai rata-rata jarak(average lingkage) atau jarak minimum (single lingkage) \cite{3D3}. Proses untuk menghitung \textit{Hierarchical Agglomerative Clustering}(HAC) menghasilkan stepwise matrix yang dapat digunakan untuk membuat dendogram. Proses ini menggunakan perbandingan jarak antar objek(r,s). Untuk mengabungkan hasil kumpulan jarak menggunakan algoritma linkage, hasil dari linkage digabungkan dan disimpan ke dalam array baru. Array yang baru(d) berisi jarak terbaru antar objek lainnya yang belum digabungkan. Proses berakhir ketika semua objek sudah terhitung keterhubungannya dari individu objek yang memiliki banyak partisi hingga menjadi satu partisi yang memiliki banyak objek \cite{2C9}.
+	Ada beberapa metode untuk menentukan partisi terdekat yaitu dengan menghitung jarak maksimal antara objek partisi (complete lingkage), nilai rata-rata jarak(average lingkage) atau jarak minimum (single lingkage) \cite{3D3}. Proses untuk menghitung \textit{Hierarchical Agglomerative Clustering}(HAC) menghasilkan stepwise \textit{matrix} yang dapat digunakan untuk membuat dendogram. Proses ini menggunakan perbandingan jarak antar objek(r,s). Untuk mengabungkan hasil kumpulan jarak menggunakan algoritma \textit{linkage}, hasil dari \textit{linkage} digabungkan dan disimpan ke dalam array baru. Array yang baru(d) berisi jarak terbaru antar objek lainnya yang belum digabungkan. Proses berakhir ketika semua objek sudah terhitung keterhubungannya dari individu objek yang memiliki banyak partisi hingga menjadi satu partisi yang memiliki banyak objek \cite{2C9}.
 	
 	\begin{center}
 		\includegraphics[width=12cm]{img/bab_2/algo_hac.png}
-		\captionof{figure}{Algoritma Stephen C. Johnson \textit{Hierarchical Agglomerative Clustering} untuk Single Linkage dan Complete Linkage \cite{2C9}}
+		\captionof{figure}{Algoritma Stephen C. Johnson \textit{Hierarchical Agglomerative Clustering} untuk \textit{Single} \textit{Linkage} dan \textit{Complete} \textit{Linkage} \cite{2C9}}
 		\label{fig:algo_hac}
 	\end{center}
 
@@ -404,7 +404,7 @@ Kong Gateway adalah \textit{API Gateway} yang ringan, cepat, dan fleksibel serta
 Kong Gateway memiliki Kong Manager yaitu graphical user interface (GUI). Di mana menggunakan Kong Admin API untuk mengatur Kong Gateway. Kong Manager dapat menambahkan rute dan \textit{service} baru, mengaktifkan dan mematikan plugins, membuat grup untuk tim, dan penmantauan serta pengecheckan status \textit{service}. Plugins dapat menambahkan fitur pada Kong seperti rate limiting untuk mengkontrol jumlah request yang dikirimkan ke suatu servie dan pengaturan cache.
 \\
 \subsubsection{\textit{inspect} \cite{inspect}}
-Inspect adalah library bawaan dari python, di mana library ini memberikan fungsi untuk mengetahui informasi tentang object yang sedang hidup seperti module,class, method, fungsi, traceback, frame object, dan kode object. Terdapat 4 bagian pada library ini yaitu pengecheckan tipe data, mendapatkan kode program, inpeksi \textit{class} atau fungsi, dan memeriksa interpreter stack.
+Inspect adalah library bawaan dari python, di mana library ini memberikan fungsi untuk mengetahui informasi tentang objek yang sedang hidup seperti module,class, method, fungsi, traceback, frame objek, dan kode objek. Terdapat 4 bagian pada library ini yaitu pengecheckan tipe data, mendapatkan kode program, inpeksi \textit{class} atau fungsi, dan memeriksa interpreter stack.
 
 Module yang digunakan pada tugas akhir ini:
 \begingroup
@@ -420,23 +420,23 @@ Module yang digunakan pada tugas akhir ini:
 		\hline
 		    inspect.getmembers
 		  &  untuk mendapatkan member dari sebuah objek seperti \textit{class} atau module
-		  & object = objek yang ingin didapatkan membernya\\
+		  & objek = objek yang ingin didapatkan membernya\\
 		\hline 
 		    inspect.ismodule
 		  & untuk mengetahui apakah objek adalah sebuah module
-		  & object = objek yang ingin dilakukan pengecekan\\
+		  & objek = objek yang ingin dilakukan pengecekan\\
 		\hline  
 		\hline
 		    inspect.isclass
 		  & untuk mengetahui apakah objek adalah sebuah \textit{class}
-		  & object = objek yang ingin dilakukan pengecekan\\
+		  & objek = objek yang ingin dilakukan pengecekan\\
 		\hline  
 	\end{longtable}
 \end{small}
 \endgroup
 
 \subsubsection{\textit{SciPy} \cite{scipy}}
-SciPy adalah koleksi algoritma matematika yang cocok dengan ekstensi NumPY di Python. SciPy memiliki module algoritma clustering yang dapat digunakan dan dapat dilakukan pemilihan metode yang mungkin dibutuhkan. Proses Perhitungan yang dilakukan SciPy sudah di optimalisasi dan efisien.
+SciPy adalah koleksi algoritma matematika yang cocok dengan ekstensi NumPY di Python. SciPy memiliki module algoritma \textit{clustering} yang dapat digunakan dan dapat dilakukan pemilihan metode yang mungkin dibutuhkan. Proses Perhitungan yang dilakukan SciPy sudah di optimalisasi dan efisien.
 
 Module algoritma yang digunakan pada tugas akhir ini:
 \begingroup
@@ -454,7 +454,7 @@ Module algoritma yang digunakan pada tugas akhir ini:
 		  & melakukan pengelompokan dengan nilai minimal atau nilai terdekat pada matriks kedekatan
 		  & y = matriks kedekatan \\
 		\hline  
-		 average
+		 \textit{average}
 		  & melakukan pengelompokan dengan nilai rata-rata jarak pada matriks kedekatan
 		  & y = matriks kedekatan \\
 		\hline  
@@ -463,8 +463,8 @@ Module algoritma yang digunakan pada tugas akhir ini:
 		  & y = matriks kedekatan \\
 		  \hline  
 		dendogram
-		  & mengilustrasikan dendogram dari \textit{cluster} yang terbentuk di matriks linkage
-		  & Z = matriks linkage  \\
+		  & mengilustrasikan dendogram dari \textit{cluster} yang terbentuk di matriks \textit{linkage}
+		  & Z = matriks \textit{linkage}  \\
 		\hline  
 	\end{longtable}
 \end{small}
@@ -529,7 +529,7 @@ Hasil dari penelitian menunjukkan bahwa penggunaan Mono2Micro efektif dalam mela
 Pada penelitian yang dilakukan oleh Khaled Sellami, Mohamed Aymen Saied, and Ali Ouni \cite{ECD}. Penelitian menggunakan Algoritma Hierarchical DBSCAN dengan analisis statik kode program untuk mendapatkan sekumpulan \textit{service} yang bisa kandidat \textit{microservice}.  Peneliti menggabungkan nilai struktural dan nilai semantik analisis untuk menentukan kedekatan suatu \textit{class} dengan \textit{class} lainnya.
 Hierarchical DBSCAN. Prose evaluasi menggunakan perbandingan antara \textit{microservice} \textit{service} yang sudah diekstraksi sebelumnya oleh pengembang. 
 
-Hasil dari penelitian menunjukkan pendekatan hierarchical clustering dapat melakukan dekomposisi aplikasi monolitik dengan analisis statik. Microservice yang didekomposisi memiliki nilai \textit{cohesion} yang lebih baik di dalam \textit{microservice} dan  jumlah interaksi antar \textit{microservice} lebih sedikit.
+Hasil dari penelitian menunjukkan pendekatan \textit{Hierarchical Clustering} dapat melakukan dekomposisi aplikasi monolitik dengan analisis statik. Microservice yang didekomposisi memiliki nilai \textit{cohesion} yang lebih baik di dalam \textit{microservice} dan  jumlah interaksi antar \textit{microservice} lebih sedikit.
 \\
 
 \section{Tinjauan Objek}

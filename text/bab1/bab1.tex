@@ -12,7 +12,7 @@ Manfaat dari \textit{microservice} membuat banyak perusahaan melakukan migrasi a
 
 Untuk itu ada beberapa pendekatan untuk membagi komponen atau bisa disebut dekomposisi yaitu secara manual atau secara semi-otomatis \cite{5B1}. Pembagian secara manual dapat menggunakan konsep \textit{Domain Driven Design}, dekomposisi berdasarkan kemampuan bisnis, dan menggunakan pendekatan campuran lainnya \cite{6C1}. Pendekatan dekomposisi dengan cara manual tidak mudah karena mudah terjadi kesalahan dan membutuhkan banyak waktu  \cite{5B1}. Oleh sebab itu dikembangkan otomatisasi untuk dapat mengenali komponen dari aplikasi monolitik untuk membentuk \textit{microservice}. Pengenalan komponen ini dapat diselesaikan dengan menggunakan algoritma \textit{clustering}. Sebelum melakukan pengelompokan yaitu membuat \textit{call graph} yang mengkodekan interaksi antara \textit{class} dari kode program. \textit{Graph} tersebut diolah menjadi matriks kemiripan sebelum dimasukkan ke dalam algoritma \textit{clustering} \cite{ECD}.
 
-Algoritma \textit{clustering} yang umum digunakan dan terbukti dapat melakukan modularisasi pada perangkat lunak yaitu \textit{Hierarchical Clustering}. \textit{Hierarchical Clustering} memiliki kompleksitas waktu yang lebih sedikit dibandingkan algoritma lainnya seperti algoritma \textit{hill-climbing} dan algoritma genetik. \textit{Hierarchical Clustering} mengelompokkan objek yang memiliki kesamaan ke dalam suatu partisi(\textit{cluster}) \cite{8EA}. Dalam membentuk partisi ini terdapat beberapa metode yang disebut linkage untuk menentukan partisi terdekat dengan sebuah objek yaitu  jarak maksimum (complete linkage), jarak minimum (single linkage) dan nilai rata-rata jarak (average linkage) \cite{3D3}.
+Algoritma \textit{clustering} yang umum digunakan dan terbukti dapat melakukan modularisasi pada perangkat lunak yaitu \textit{Hierarchical Clustering}. \textit{Hierarchical Clustering} memiliki kompleksitas waktu yang lebih sedikit dibandingkan algoritma lainnya seperti algoritma \textit{hill-climbing} dan algoritma genetik. \textit{Hierarchical Clustering} mengelompokkan objek yang memiliki kesamaan ke dalam suatu partisi(\textit{cluster}) \cite{8EA}. Dalam membentuk partisi ini terdapat beberapa metode yang disebut \textit{linkage} untuk menentukan partisi terdekat dengan sebuah objek yaitu  jarak maksimum (complete \textit{linkage}), jarak minimum (single \textit{linkage}) dan nilai rata-rata jarak (average \textit{linkage}) \cite{3D3}.
 
 Pada penelitian ini akan melakukan dekomposisi aplikasi ERP yang memiliki arsitektur monolitik menjadi arsitektur \textit{microservice} dengan pendekatan menganalisis \textit{graph} yang dihasilkan dari kode program kemudian dilakukan pengelompokan secara \textit{Hierarchical Clustering}. Hasil dari pengelompokan akan diuji dengan melihat \textit{cohesion} dan \textit{coupling} kemudian dilakukan pemilihan bagian yang di implementasikan. Dengan ini diharapkan bisa menyelesaikan permasalahan yang terjadi ketika migrasi aplikasi seperti  mengenali komponen dan dapat dikembangkan secara berkelanjutan.
 
@@ -31,7 +31,7 @@ Berdasarkan rumusan masalah di atas, maka tujuan penelitian ini adalah.
 \begin{enumerate}[nolistsep,leftmargin=0.5cm]
   \item Menggunakan \textit{Hierarchical Clustering} untuk dekomposisi aplikasi ERP monolitik ke \textit{microservice}
   \item Membuat \textit{microservice} yang memiliki nilai \textit{coupling} rendah dan nilai \textit{cohesion} tinggi.
-  \item Menemukan linkage yang  cocok untuk dekomposisi \textit{microservice} dengan \textit{Hierarchical Clustering} \\
+  \item Menemukan \textit{linkage} yang  cocok untuk dekomposisi \textit{microservice} dengan \textit{Hierarchical Clustering} \\
 \end{enumerate}
 
 \section{Batasan Masalah}
@@ -61,7 +61,7 @@ Tahapan-tahapan yang akan dilakukan dalam pelaksanaan penelitian ini adalah seba
   \item Implementasi \\
   Pada tahap ini mengimplementasikan hasil perancangan dekomposisi ke aplikasi \textit{microservice} pada aplikasi yang dibuat dengan arsitektur monolitik.
   \item Pengujian \\
-  Pada tahap ini  dilakukan pengujian pada aplikasi yang sudah dikelompokkan oleh \textit{Hierarchical Clustering}. Pengujian mempertimbangkan nilai \textit{cohesion}, nilai \textit{coupling}, jumlah partisi, linkage dan melakukan pemilihan bagian untuk diimplementasikan menjadi microservice  \\ 
+  Pada tahap ini  dilakukan pengujian pada aplikasi yang sudah dikelompokkan oleh \textit{Hierarchical Clustering}. Pengujian mempertimbangkan nilai \textit{cohesion}, nilai \textit{coupling}, jumlah partisi, \textit{linkage} dan melakukan pemilihan bagian untuk diimplementasikan menjadi microservice  \\ 
 \end{enumerate}
 
 \section{Sistematika Pembahasan}

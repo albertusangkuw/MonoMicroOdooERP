@@ -10,9 +10,9 @@ Arsitektur ERP yang digunakan pada Odoo yaitu arsitektur monolitik, seperti yang
 
 Namun untuk melakukan perubahan arsitektur harus dilakukan dekomposisi, proses dekomposisi sendiri tidak mudah karena proses dekomposisi masih membutuhkan analisis secara manual dan untuk mengidentifikasi \textit{service} sulit karena banyaknya pendekatan dan pertimbangan.
 
-Pada penelitian ini menggunakan pendekatan Hierarchical clustering untuk membantu menemukan \textit{service} yang tepat, di mana hierarchical clustering memberikan rekomendasi bagaimana pengelompokan \textit{service} berdasarkan pemilihan partisi.
+Pada penelitian ini menggunakan pendekatan \textit{Hierarchical Clustering} untuk membantu menemukan \textit{service} yang tepat, di mana \textit{Hierarchical Clustering} memberikan rekomendasi bagaimana pengelompokan \textit{service} berdasarkan pemilihan partisi.
 
-Proses dimulai dari melalukan analisis kode seperti Call Graph yang dihasilkan dari kode aplikasi Odoo. Hasil analisis kode di ekstraksi menjadi matrix untuk dilakukan hierarchical clustering. Linkage yang digunakan dalam melakukan Hierarchical Clustering yaitu single, complete, dan average, kemudian  Partisi  dipilih melalui nilai secara struktural yaitu nilai \textit{coupling}  dan \textit{cohesion}. Hasil terbaik dari clustering disampling untuk diimplementasikan menjadi \textit{service}, penelitian ini akan menggunakan strategi dengan pola \textit{strangle fig } dan \textit{branch by abstraction} untuk memecah kode di monolitik.
+Proses dimulai dari melalukan analisis kode seperti \textit{Call Graph} yang dihasilkan dari kode aplikasi Odoo. Hasil analisis kode di ekstraksi menjadi matriks untuk dilakukan \textit{Hierarchical Clustering}. \textit{Linkage} yang digunakan dalam melakukan \textit{Hierarchical Clustering} yaitu \textit{single}, \textit{complete}, dan \textit{average}, kemudian  Partisi  dipilih melalui nilai secara struktural yaitu nilai \textit{coupling}  dan \textit{cohesion}. Hasil terbaik dari \textit{clustering} disampling untuk diimplementasikan menjadi \textit{service}, penelitian ini akan menggunakan strategi dengan pola \textit{strangle fig } dan \textit{branch by abstraction} untuk memecah kode di monolitik.
 
 \section{Kerangka Pemikiran}
 \begin{center}
@@ -23,11 +23,11 @@ Proses dimulai dari melalukan analisis kode seperti Call Graph yang dihasilkan d
 
 Penelitian akan dimulai dengan menggunakan kode sumber aplikasi yang dibuat dengan monolitik. Kode sumber dilakukan proses dekomposisi yaitu dengan analisis seperti mencari objek beserta atributnya, untuk mencari keterhubungan lebih lanjut tentang objek maka dilakukan pencarian pada fungsi-fungsi sehingga terbentuklah \textit{call graph} yang menunjukkan bagaimana keterhubungan masing-masing objek di aplikasi.
 
-Dari \textit{graph} yang sudah dibuat akan dilakukan pengelompokan dengan algoritma Hierarchical Clustering. Pendekatan algoritma yang digunakan pada penelitian ini yaitu agglomerative, selain itu ditentukan cara menghitung kedekatan antara objek dan pemilihan algoritma Linkage. Metode linkage yaitu menentukan jarak atau kemiripan antara semua objek. Untuk menentukan jarak ini bisa dengan rata-rata, maximum, dan minimum. 
+Dari \textit{graph} yang sudah dibuat akan dilakukan pengelompokan dengan algoritma \textit{Hierarchical Clustering}. Pendekatan algoritma yang digunakan pada penelitian ini yaitu agglomerative, selain itu ditentukan cara menghitung kedekatan antara objek dan pemilihan algoritma \textit{Linkage}. Metode \textit{linkage} yaitu menentukan jarak atau kemiripan antara semua objek. Untuk menentukan jarak ini bisa dengan rata-rata, maximum, dan minimum. 
 
-Pengelompokan dari Hierarchical Clustering akan dipilih dengan mencari nilai \textit{cohesion} terendah dan  nilai \textit{coupling} tertinggi. Di mana \textit{coupling} mengevaluasi tingkat ketergantungan langsung dan tidak langsung antar objek. Semakin banyak dua objek menggunakan metode masing-masing semakin mereka menjadi satu kesatuan. Sedangkan  \textit{cohesion} akan mengevaluasi kekuatan interaksi antar objek. Biasanya, dua objek atau lebih menjadi interaktif jika metodenya menggunakan metodenya satu sama lain. Dengan membandingkan nilai  \textit{coupling}, \textit{cohesion}, linkage dan ukuran partisi maka dapat diketahui kelompok service yang ideal.
+Pengelompokan dari \textit{Hierarchical Clustering} akan dipilih dengan mencari nilai \textit{cohesion} terendah dan  nilai \textit{coupling} tertinggi. Di mana \textit{coupling} mengevaluasi tingkat ketergantungan langsung dan tidak langsung antar objek. Semakin banyak dua objek menggunakan metode masing-masing semakin mereka menjadi satu kesatuan. Sedangkan  \textit{cohesion} akan mengevaluasi kekuatan interaksi antar objek. Biasanya, dua objek atau lebih menjadi interaktif jika metodenya menggunakan metodenya satu sama lain. Dengan membandingkan nilai  \textit{coupling}, \textit{cohesion}, \textit{linkage} dan ukuran partisi maka dapat diketahui kelompok service yang ideal.
 
-Selain itu, untuk mengetahui apakah hasil clustering relevan dan dapat diimplementasikan maka dilakukan sampling yang berjumlah 2 service dari kelompok service yang ideal. Untuk menerapkannya pemecahan dimulai dari pemecahan kode yang menggunakan strategi dekomposisi \textit{strangle fig } dan \textit{branch by abstraction}. Untuk metode komunikasinya antara \textit{service} yaitu dengan Remote Procedure Call(RPC) dan untuk mengelola datanya, setiap \textit{service} memiliki databasenya masing-masing.\\
+Selain itu, untuk mengetahui apakah hasil \textit{clustering} relevan dan dapat diimplementasikan maka dilakukan sampling yang berjumlah 2 service dari kelompok service yang ideal. Untuk menerapkannya pemecahan dimulai dari pemecahan kode yang menggunakan strategi dekomposisi \textit{strangle fig } dan \textit{branch by abstraction}. Untuk metode komunikasinya antara \textit{service} yaitu dengan Remote Procedure Call(RPC) dan untuk mengelola datanya, setiap \textit{service} memiliki databasenya masing-masing.\\
 
 \section{Urutan Proses Global}
 \begin{center}
@@ -46,21 +46,21 @@ Aplikasi ERP Odoo merupakan aplikasi berlisensi open source, kode program dapat 
 	\label{fig:github_ss}
 \end{center}
 
-\subsubsection{Pembuatan Call Graph}
+\subsubsection{Pembuatan \textit{Call Graph}}
 Pada tugas akhir ini menggunakan tools PyCG untuk menghasilkan \textit{call graph} dalam bentuk format JSON. Terdapat target folder yang harus dianalisis oleh PyCG \textit{call graph} yaitu folder 'odoo/addons" atau package 'odoo.addons'. Pemilihan folder ini dikarenakan folder/package lainnya tidak memiliki hubungan mengenai proses bisnis. Untuk menghemat waktu pembuatan \textit{call graph} maka folder test dan l10n (localization) tidak dianalisis.  
 
-\textit{Entry point} untuk \textit{tools} PyCG adalah semua file di target folder dengan ekstensi file .py serta ditentukan package yang ingin diolah menjadi \textit{call graph}. Proses eksekusi dilakukan melalui terminal. Call graph yang dihasilkan berisi \textit{call} yang berasal dari file .py yang ditentukan sebelumnya dan semua module yang terhubungan dari target. Semua module ini bisa diluar dari target module apabila keterhubungan itu terus berlanjut. PyCG hanya bisa menghasilkan \textit{call graph} tanpa informasi mengenai jumlah pemanggilan dan urutan pemanggilan.
+\textit{Entry point} untuk \textit{tools} PyCG adalah semua file di target folder dengan ekstensi file .py serta ditentukan package yang ingin diolah menjadi \textit{call graph}. Proses eksekusi dilakukan melalui terminal. \textit{Call graph} yang dihasilkan berisi \textit{call} yang berasal dari file .py yang ditentukan sebelumnya dan semua module yang terhubungan dari target. Semua module ini bisa diluar dari target module apabila keterhubungan itu terus berlanjut. PyCG hanya bisa menghasilkan \textit{call graph} tanpa informasi mengenai jumlah pemanggilan dan urutan pemanggilan.
 
 \begin{center}
 	\includegraphics[width=13cm]{img/bab_3/soToCG.png}
-	\captionof{figure}{Proses Pembuatan Call Graph dengan PyCG}
+	\captionof{figure}{Proses Pembuatan \textit{Call Graph} dengan PyCG}
 	\label{contoh_json_pycg}
 \end{center}
 
-Proses ekstraksi json yang dihasilkan dari tools PyCG berupa file JSON yang dinamakan berdasarkan argrument yang diberikan sebelumnya seperti 'addons.json'. File JSON diubah menjadi \textit{graph} yang direpresentasikan dalam bentuk adjacency list di Python.
+Proses ekstraksi json yang dihasilkan dari tools PyCG berupa file JSON yang dinamakan berdasarkan argrument yang diberikan sebelumnya seperti 'addons.json'. File JSON diubah menjadi \textit{graph} yang direpresentasikan dalam bentuk \textit{adjacency} list di Python.
 
 \subsubsection{Ekstraksi Dependency Model}
-Keterbatasannya informasi \textit{call graph} yang dihasilkan dari PyCG, sehingga tugas akhir ini menggunakan library Python yaitu 'inspect' untuk menganalisis object secara run-time. Hal ini disebabkan Python adalah bahasa pemrogram dinamik di mana pengecekan tipe data dilakukan secara 'run-time'. Ekstrasi ini difokuskan pada module yang memiliki proses bisnis seperti module addons. Dari gambar 3.5 bisa diketahui penggunaan inspect bisa menemukan atribut apa saja dan nilainya dari atribut pada objek. 
+Keterbatasannya informasi \textit{call graph} yang dihasilkan dari PyCG, sehingga tugas akhir ini menggunakan library Python yaitu 'inspect' untuk menganalisis objek secara run-time. Hal ini disebabkan Python adalah bahasa pemrogram dinamik di mana pengecekan tipe data dilakukan secara 'run-time'. Ekstrasi ini difokuskan pada module yang memiliki proses bisnis seperti module addons. Dari gambar 3.5 bisa diketahui penggunaan inspect bisa menemukan atribut apa saja dan nilainya dari atribut pada objek. 
 
 \begin{center}
 	\includegraphics[width=13cm]{img/bab_3/inspectSample.png}
@@ -75,7 +75,7 @@ Graph yang dihasilkan dari proses ekstrasi dipisahkan antara module eksternal da
 
 Nama \textit{call} yang disatukan menjadi module adalah \textit{call} yang memiliki awalan(root) addons atau odoo/addons dan nama \textit{call} yang disatukan dengan file adalah nama \textit{call} selain addons. Call yang dikelompokkan memiliki nilai agregasi dari jumlah \textit{call}. Jumlah \textit{call} dapat digunakan sebagai weight yang dapat menunjukkan kekuatan antara \textit{call} satu sama lain, proses ini membentuk \textit{call} baru yang lebih ringkas dan relevan dalam bentuk \textit{graph}. 
 
-Pada gambar \ref{fig:dg_al} dapat dilihat hasil dari graph yang dihasilkan dari contoh PyCG dan Inspect sebelumnya. Graph yang digunakan merupakan directed sehingga setiap pemanggilan berlaku untuk satu arah. Graph ini dapat diubah menjadi bentuk dictionary sebagai adjacency list, tujuannya agar pengaksesan dan pencarian node lebih cepat dan mudah dilakukan. Setiap relasi memiliki jumlah berapa kali node lain dipanggil dari node tersebut.
+Pada gambar \ref{fig:dg_al} dapat dilihat hasil dari graph yang dihasilkan dari contoh PyCG dan Inspect sebelumnya. Graph yang digunakan merupakan directed sehingga setiap pemanggilan berlaku untuk satu arah. Graph ini dapat diubah menjadi bentuk dictionary sebagai \textit{adjacency} list, tujuannya agar pengaksesan dan pencarian node lebih cepat dan mudah dilakukan. Setiap relasi memiliki jumlah berapa kali node lain dipanggil dari node tersebut.
 
 \begin{center}
 	\includegraphics[width=13cm]{img/bab_3/dg_al.png}
@@ -84,17 +84,17 @@ Pada gambar \ref{fig:dg_al} dapat dilihat hasil dari graph yang dihasilkan dari 
 \end{center}
 
 \subsubsection{Hierarchical Clustering}
-Graph yang berbentuk Adjacency list diubah menjadi adjacency matrix, proses normalisasi data dilakukan pada matrix. Tujuan normalisasi data agar nilai \textit{weight}(jumlah \textit{call}) dari relasi berkisar dari 1 hingga 0. Semakin banyak jumlah \textit{call} dilakukan maka nilai mendekati 1,kemudian matrix tersebut dibuat menjadi Distance Matrix, rumus jarak yang digunakan ada 2 yaitu Jaccard dan Struktural Similarity. Jaccard menghasilkan hasil yang bagus pada remodularisasi perangkat lunak dan Struktural Similarity digunakan untuk melihat kedekatan dari sisi intesitas panggilan antara module.
+Graph yang berbentuk \textit{Adjacency} list diubah menjadi \textit{adjacency} \textit{matrix}, proses normalisasi data dilakukan pada matriks. Tujuan normalisasi data agar nilai \textit{weight}(jumlah \textit{call}) dari relasi berkisar dari 1 hingga 0. Semakin banyak jumlah \textit{call} dilakukan maka nilai mendekati 1,kemudian matriks tersebut dibuat menjadi \textit{Distance} \textit{Matrix}, rumus jarak yang digunakan ada 2 yaitu Jaccard dan Struktural Similarity. Jaccard menghasilkan hasil yang bagus pada remodularisasi perangkat lunak dan Struktural Similarity digunakan untuk melihat kedekatan dari sisi intesitas panggilan antara module.
 
-Berikut pada gambar \ref{fig:weight_normal_mat} dilakukan proses perubahan dari adjacency list menjadi adjacency matrix yang memiliki bobot. Kemudian dilakukan normalisasi kolom, dimana setiap nilai dibandingkan dengan nilai maximum dan nilai minimum pada kolom yang sama. 
+Berikut pada gambar \ref{fig:weight_normal_mat} dilakukan proses perubahan dari \textit{adjacency} list menjadi \textit{adjacency} \textit{matrix} yang memiliki bobot. Kemudian dilakukan normalisasi kolom, dimana setiap nilai dibandingkan dengan nilai maximum dan nilai minimum pada kolom yang sama. 
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/weight_normal_mat.png}
-	\captionof{figure}{Perubahan dari Adjacency List menjadi Adjacency Matrix}
+	\captionof{figure}{Perubahan dari \textit{Adjacency} List menjadi \textit{Adjacency} \textit{Matrix}}
 	\label{fig:weight_normal_mat}
 \end{center}
 
-Proses perhitungan jarak antara 2 objek dilakukan dari adjacency matrix dengan pola urutan berbentuk matriks segitiga bawah. Dengan ini perbandingan pertama kali dilakukan di baris ke-2(index=1) di kolom ke-1(index=0) dan berakhir pada baris ke-n(jumlah objek) di kolom  ke n-1. Pada contoh di \ref{fig:distance_detail} dijelaskan untuk perhitungan total jarak pada objek B dan A. Sebelum dilakukan perhitungan matriks terlebih dahulu sisi diagonal diberi nilai 1 untuk mengartikan bahwa objek memiliki hubungan dengan dirinya sendiri.  Perhitungan dimulai menghitung kimiripan jaccard, jaccard menghasilkan kemiripan dari jumlah interseksi dibagi jumlah union pada objek. Perhitungan selanjutnya Similarity Struktural menghitung dengan mempertimbangkan jumlah sisi panggilan kedua objek yaitu baris ke-1(index=0), baris ke-2(index=1) dan jumlah sisi panggilan keluar kedua objek yaitu kolom  ke-1(index=0) dan kolom ke-2(index=1). Hasil kemiripan Similarity Struktural dan Jaccard dirata-ratakan untuk menjadi nilai akhir kemiripan objek.
+Proses perhitungan jarak antara 2 objek dilakukan dari \textit{adjacency} \textit{matrix} dengan pola urutan berbentuk matriks segitiga bawah. Dengan ini perbandingan pertama kali dilakukan di baris ke-2(index=1) di kolom ke-1(index=0) dan berakhir pada baris ke-n(jumlah objek) di kolom  ke n-1. Pada contoh di \ref{fig:distance_detail} dijelaskan untuk perhitungan total jarak pada objek B dan A. Sebelum dilakukan perhitungan matriks terlebih dahulu sisi diagonal diberi nilai 1 untuk mengartikan bahwa objek memiliki hubungan dengan dirinya sendiri.  Perhitungan dimulai menghitung kimiripan jaccard, jaccard menghasilkan kemiripan dari jumlah interseksi dibagi jumlah union pada objek. Perhitungan selanjutnya Similarity Struktural menghitung dengan mempertimbangkan jumlah sisi panggilan kedua objek yaitu baris ke-1(index=0), baris ke-2(index=1) dan jumlah sisi panggilan keluar kedua objek yaitu kolom  ke-1(index=0) dan kolom ke-2(index=1). Hasil kemiripan Similarity Struktural dan Jaccard dirata-ratakan untuk menjadi nilai akhir kemiripan objek.
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/distance_detail.png}
@@ -108,57 +108,57 @@ Proses perhitungan jarak antara 2 objek dilakukan dari adjacency matrix dengan p
 	\label{fig:asd}
 \end{center}
 
-Distance Matrix / Matrix kedekatan dapat dilihat nilai dengan ilustrasi Heatmap, di mana sumbu x dan y adalah semua module dan nilai kedekatannya dengan module lainnya. Semakin terang warna menunjukkan hubungan yang kuat antara module, perlu diketahui bahwa distance matrix merupakan matrix segitiga. Pada tugas akhir ini menggunakan library SciPy untuk melakukan proses \textit{clustering} yang memiliki fungsi Hierarchical Clustering.
+Distance \textit{Matrix} / Matriks kedekatan dapat dilihat nilai dengan ilustrasi Heatmap, di mana sumbu x dan y adalah semua module dan nilai kedekatannya dengan module lainnya. Semakin terang warna menunjukkan hubungan yang kuat antara module, perlu diketahui bahwa \textit{distance} \textit{matrix} merupakan matriks segitiga. Pada tugas akhir ini menggunakan library SciPy untuk melakukan proses \textit{clustering} yang memiliki fungsi \textit{Hierarchical Clustering}.
 
 \begin{center}
 	\includegraphics[width=7cm]{img/bab_3/heatmap.png}
-	\captionof{figure}{Heatmap yang dihasilkan dari Distance Matrix}
+	\captionof{figure}{Heatmap yang dihasilkan dari \textit{Distance} \textit{Matrix}}
 	\label{fig:asd}
 \end{center}
 
-Pemilihan pengelompokan dengan hierarchical agglomerative clustering dibandingkan Paritition clustering karena tidak mudah untuk mengetahui jumlah ideal \textit{cluster}. Untuk menentukan metode \textit{linkage} tugas akhir ini menggunakan single lingkage, average linkage, dan complete lingkage. Hasil dari masing-masing lingkage dipilih jumlah partisi yang ideal untuk \textit{microservice}. Penggunaan single lingkage memiliki kecenderungan menghasilkan banyak partisi yang berisi modul sedikit tetapi ada satu partisi memiliki banyak module sedangkan complete linkage menghasilkan partisi yang memiliki jumlah modul yang sama dengan partisi lainnya. Untuk Average lingkage menghasilkan bentuk partisi di antara complete lingkage dan single lingkage.
+Pemilihan pengelompokan dengan hierarchical agglomerative \textit{clustering} dibandingkan Paritition \textit{clustering} karena tidak mudah untuk mengetahui jumlah ideal \textit{cluster}. Untuk menentukan metode \textit{linkage} tugas akhir ini menggunakan \textit{single} lingkage, \textit{average} \textit{linkage}, dan \textit{complete} lingkage. Hasil dari masing-masing lingkage dipilih jumlah partisi yang ideal untuk \textit{microservice}. Penggunaan \textit{single} lingkage memiliki kecenderungan menghasilkan banyak partisi yang berisi modul sedikit tetapi ada satu partisi memiliki banyak module sedangkan \textit{complete} \textit{linkage} menghasilkan partisi yang memiliki jumlah modul yang sama dengan partisi lainnya. Untuk \textit{Average} lingkage menghasilkan bentuk partisi di antara \textit{complete} lingkage dan \textit{single} lingkage.
 
-Pada gambar \ref{fig:hc_detail_1} dijelaskan mengenai proses perhitungan hierarchical clustering dengan distance matriks yang sebelumnya sudah dihitung. Perhitungan hierarchical clustering terdapat 5 bagian besar yaitu pertama memiliki objek pertama (urutan pertama), ke-2 mencari objek lainnya yang terdekat berdasarkan distance matrix, ke-3 mengabungkan objek yang terdekat dengan objek yang pertama dan membuat kelompok baru dari objek tersebut, ke-4 memperbaharui nilai jaraknya pada kelompok baru / partisi menggunakan linkage. Penggunaan linkage akan membandingkan 2 nilai objek yaitu dari nilai objek yang baru dan nilai objek yang sebelumnya (yang terdapat di distance matriks) seperti min memilih nilai yang lebih rendah, complete memilih nilai yang lebih tinggi, dan average melakukan nilai rata-rata dari 2 nilai objek. Langkah terakhir bila sudah tidak ada objek tersisa maka perhitungan berhenti bila masih ada maka dilajukan kembali proses yang ke-2.
+Pada gambar \ref{fig:hc_detail_1} dijelaskan mengenai proses perhitungan \textit{Hierarchical Clustering} dengan \textit{distance} matriks yang sebelumnya sudah dihitung. Perhitungan \textit{Hierarchical Clustering} terdapat 5 bagian besar yaitu pertama memiliki objek pertama (urutan pertama), ke-2 mencari objek lainnya yang terdekat berdasarkan \textit{distance} \textit{matrix}, ke-3 mengabungkan objek yang terdekat dengan objek yang pertama dan membuat kelompok baru dari objek tersebut, ke-4 memperbaharui nilai jaraknya pada kelompok baru / partisi menggunakan \textit{linkage}. Penggunaan \textit{linkage} akan membandingkan 2 nilai objek yaitu dari nilai objek yang baru dan nilai objek yang sebelumnya (yang terdapat di \textit{distance} matriks) seperti min memilih nilai yang lebih rendah, \textit{complete} memilih nilai yang lebih tinggi, dan \textit{average} melakukan nilai rata-rata dari 2 nilai objek. Langkah terakhir bila sudah tidak ada objek tersisa maka perhitungan berhenti bila masih ada maka dilajukan kembali proses yang ke-2.
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/hc_detail_1.png}
-	\captionof{figure}{Proses Perhitungan Hierarchical Clustering}
+	\captionof{figure}{Proses Perhitungan \textit{Hierarchical Clustering}}
 	\label{fig:hc_detail_1}
 \end{center}
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/hc_detail_2.png}
-	\captionof{figure}{Lanjutan Proses Perhitungan Hierarchical Clustering}
+	\captionof{figure}{Lanjutan Proses Perhitungan \textit{Hierarchical Clustering}}
 	\label{fig:hc_detail_2}
 \end{center}
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/hc_detail_3.png}
-	\captionof{figure}{Lanjutan Proses Perhitungan Hierarchical Clustering}
+	\captionof{figure}{Lanjutan Proses Perhitungan \textit{Hierarchical Clustering}}
 	\label{fig:hc_detail_3}
 \end{center}
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/hc_detail_4.png}
-	\captionof{figure}{Lanjutan Proses Perhitungan Hierarchical Clustering}
+	\captionof{figure}{Lanjutan Proses Perhitungan \textit{Hierarchical Clustering}}
 	\label{fig:hc_detail_4}
 \end{center}
 
-Hasil pengelompokan dapat ditampilan dalam bentuk dendogram.  Di mana pengelompokan dari setiap linkage memiliki dampak berbeda yang bisa dilihat dari bentuk dan nilai kedekatan antar partisi melalui dendogram dan bentuk relasi. Angka gabungan yang ditampilan pada dendogram merupakan jarak linkage yang dihitung dari proses perhitungan hierarchical clustering sebelumnya.
+Hasil pengelompokan dapat ditampilan dalam bentuk dendogram.  Di mana pengelompokan dari setiap \textit{linkage} memiliki dampak berbeda yang bisa dilihat dari bentuk dan nilai kedekatan antar partisi melalui dendogram dan bentuk relasi. Angka gabungan yang ditampilan pada dendogram merupakan jarak \textit{linkage} yang dihitung dari proses perhitungan \textit{Hierarchical Clustering} sebelumnya.
 
 \begin{center}
 	\includegraphics[width=11cm]{img/bab_3/singleLink.png}
-	\captionof{figure}{Dendogram Single Linkage}
+	\captionof{figure}{Dendogram \textit{Single} \textit{Linkage}}
 	\label{fig:asd}
 \end{center}
 \begin{center}
 	\includegraphics[width=11cm]{img/bab_3/averageLink.png}
-	\captionof{figure}{Dendogram Average Linkage}
+	\captionof{figure}{Dendogram \textit{Average} \textit{Linkage}}
 	\label{fig:asd}
 \end{center}
 \begin{center}
 	\includegraphics[width=11cm]{img/bab_3/completeLink.png}
-	\captionof{figure}{Dendogram Complete Linkage}
+	\captionof{figure}{Dendogram \textit{Complete} \textit{Linkage}}
 	\label{fig:asd}
 \end{center}
 
@@ -167,15 +167,15 @@ Pemilihan jumlah partisi perlu dilakukan dengan perhitungan yang dapat menentuka
 
 Untuk pemilihan partisi harus mempertimbangkan nilai \textit{cohesion}, nilai \textit{coupling}, jumlah \textit{service}, dan apakah \textit{service} tersebut seimbang. Partisi yang akan menjadi \textit{service} diharapkan bisa independen. 
 
-Proses pemilihan partisi dimulai dari pemotongan tree dari hasil hierarchical clustering sebelumnya. Pemotongan dilakukan berdasarkan jumlah cluster / partisi, kemudian  dipetakan dalam bentuk directed graph untuk menyusun kelompok partisi yang berisi relasi objek-objek / modul. Didalam node graph setiap hubungan module diluar dari partisinya akan dihitung sebagai panggilan ke luar dan hubungan antar module yang masih didalam  dihitung sebagai panggilan internal partisi.
+Proses pemilihan partisi dimulai dari pemotongan tree dari hasil \textit{Hierarchical Clustering} sebelumnya. Pemotongan dilakukan berdasarkan jumlah cluster / partisi, kemudian  dipetakan dalam bentuk directed graph untuk menyusun kelompok partisi yang berisi relasi objek-objek / modul. Didalam node graph setiap hubungan module diluar dari partisinya akan dihitung sebagai panggilan ke luar dan hubungan antar module yang masih didalam  dihitung sebagai panggilan internal partisi.
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/eval_detail1.png}
-	\captionof{figure}{Proses pemotongan tree dan perubahan menjadi Adjacency Matrix  dengan linkage single sejumlah 3 partisi}
+	\captionof{figure}{Proses pemotongan tree dan perubahan menjadi \textit{Adjacency} \textit{Matrix}  dengan \textit{linkage} \textit{single} sejumlah 3 partisi}
 	\label{fig:asd}
 \end{center}
 
-Module juga memiliki panggilannya internal masing-masing sebelumnya karena didalam module bisa berisi banyak sub-module lainnya, data ini disimpan dalam bentuk key-value dictionary. panggilan internal dibutuhkan untuk membuat kohesi yang benar dan panggilan eksternal (diluar partisi) digunakan untuk menghitung nilai coupling.  Pada tugas akhir ini menggunakan Structural and Behavioral Dependencies untuk mengevaluasi hasil partisi yang dihasilkan oleh Hierarchical Clustering. Node graph diubah kembali menjadi Adjacency Matrix untuk memudahkan akses seperti komparasi hubungan antar partisi. 
+Module juga memiliki panggilannya internal masing-masing sebelumnya karena didalam module bisa berisi banyak sub-module lainnya, data ini disimpan dalam bentuk key-value dictionary. panggilan internal dibutuhkan untuk membuat kohesi yang benar dan panggilan eksternal (diluar partisi) digunakan untuk menghitung nilai coupling.  Pada tugas akhir ini menggunakan Structural and Behavioral Dependencies untuk mengevaluasi hasil partisi yang dihasilkan oleh \textit{Hierarchical Clustering}. Node graph diubah kembali menjadi \textit{Adjacency} \textit{Matrix} untuk memudahkan akses seperti komparasi hubungan antar partisi. 
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/eval_detail2.png}
@@ -188,7 +188,7 @@ Berikut adalah hasil nilai \textit{coupling} dan \textit{cohesion} masing-masing
 
 \begin{center}
 	\includegraphics[width=12cm]{img/bab_3/cohVScoup_single.png}
-	\captionof{figure}{Perbandingan dari nilai Cohesion dan nilai Coupling dengan jumlah \textit{cluster}/partisi menggunakan Single Linkage}
+	\captionof{figure}{Perbandingan dari nilai Cohesion dan nilai Coupling dengan jumlah \textit{cluster}/partisi menggunakan \textit{Single} \textit{Linkage}}
 	\label{fig:asd}
 \end{center}
 
