@@ -213,7 +213,7 @@ Proses penggabungan dimulai dengan mengimport file JSON yang dihasilkan oleh PyC
 	\label{fig:ekstraksi_2}
 \end{center}
 
-Isi dari graph dilakukan pembuangan pada node yang tidak diinginkan untuk dikelompokan, karena tugas besar ini berfokus pada mengelompokan pada bagian module addons / proses bisnis maka setiap relasi ke package diluar  odoo dan addons akan dihilangkan dari graph. Proses ini dilakukan oleh fungsi filterCGNode, fungsi tersebut membuat graph baru dari graph yang memiliki informasi\textit{call graph} original dan menghapus node yang tidak memiliki hubungan apapun. Fungsi filterCGNode juga memberikan nilai setiap hubungan call sebesar 1, nilai ini akan digunakan sebagai weight atau jumlah call ke suatu node. \textit{Call Graph} yang dihasilkan dari PyCG tidak memberikan jumlah call sehingga semua call diasumsikan memiliki nilai panggilan sebesar 1. Proses pengubahan dan penyerderhanaan graph dilakukan oleh fungsi filterCGNode.
+Isi dari graph dilakukan pembuangan pada node yang tidak diinginkan untuk dikelompokan, karena tugas akhir ini berfokus pada mengelompokan pada bagian module addons / proses bisnis maka setiap relasi ke package diluar  odoo dan addons akan dihilangkan dari graph. Proses ini dilakukan oleh fungsi filterCGNode, fungsi tersebut membuat graph baru dari graph yang memiliki informasi\textit{call graph} original dan menghapus node yang tidak memiliki hubungan apapun. Fungsi filterCGNode juga memberikan nilai setiap hubungan call sebesar 1, nilai ini akan digunakan sebagai weight atau jumlah call ke suatu node. \textit{Call Graph} yang dihasilkan dari PyCG tidak memberikan jumlah call sehingga semua call diasumsikan memiliki nilai panggilan sebesar 1. Proses pengubahan dan penyerderhanaan graph dilakukan oleh fungsi filterCGNode.
 
 \begin{center}
 	\includegraphics[width=9cm]{img/bab_4/ekstraksi_3.png}
@@ -397,37 +397,26 @@ Matriks kedekatan bisa ditampilan dalam bentuk heatmap. Heatmap dapat memberikan
 \end{small}
 \endgroup
 
-Distance \textit{Matrix} dimasukan kedalam fungsi calculateCluster dengan metode ada 3 yaitu \textit{average}, min, max. Hasil cluster dari \textit{Hierarchical Clustering} bisa divisualisasi dalam bentuk dendogram. Hasil dendogram memiliki \textit{distance}/jarak antar module dan label module. Dari gambar \ref{fig:dd_single} module cenderung dikelompokan dengan jumlah yang kecil (1-2) dan ketika dihubungkan memiliki jarak yang jauh. Pada pendekatan \ref{fig:dd_complete} module dikelompokan dan memiliki ukuran module yang besar untuk setiap partisi/service. Sedangkan pendekatan \ref{fig:dd_avg} memiliki bentuk campuran antara ukuran module yang besar dan module yang berukuran kecil.
+Distance \textit{Matrix} dimasukan kedalam fungsi calculateCluster dengan metode ada 3 yaitu \textit{average}, min, max. Hasil cluster dari \textit{Hierarchical Clustering} bisa divisualisasi dalam bentuk dendogram. Hasil dendogram memiliki \textit{distance}/jarak antar module dan label module. Dari gambar \ref{fig:dd_single} module cenderung dikelompokan dengan jumlah yang kecil (1-2) dan ketika dihubungkan memiliki jarak yang jauh. Pada pendekatan \ref{fig:dd_complete} module dikelompokan dan memiliki ukuran module yang besar untuk setiap partisi/service. Sedangkan pendekatan \ref{fig:dd_avg} memiliki bentuk campuran antara ukuran module yang besar dan module yang berukuran kecil. Untuk gambar yang lebih besar dapat dilihat pada Lampiran A.
 
-\begin{figure}[htbp]
-	\centering
-	\begin{minipage}{1\textwidth}
-		\centering
-		\includegraphics[width=1\textwidth]{img/bab_4/single_dd.png}
-		\caption{Dendogram \textit{Single} \textit{Linkage} }
-		\label{fig:dd_single}
-	\end{minipage}\hfill	
-\end{figure}
 
-\begin{figure}[htbp]
-	\centering
-	\begin{minipage}{1\textwidth}
-		\centering
-		\includegraphics[width=1\textwidth]{img/bab_4/complete_dd.png}
-		\caption{Dendogram \textit{Complete} \textit{Linkage} }
-		\label{fig:dd_complete}
-	\end{minipage}\hfill	
-\end{figure}
+\begin{center}
+	\includegraphics[width=10cm]{img/bab_4/single_dd.png}
+	\captionof{figure}{Dendogram \textit{Single} \textit{Linkage} }
+	\label{fig:dd_single}
+\end{center}
 
-\begin{figure}[htbp]
-	\centering
-	\begin{minipage}{1\textwidth}
-		\centering
-		\includegraphics[width=1\textwidth]{img/bab_4/avg_dd.png}
-		\caption{Dendogram \textit{Average} \textit{Linkage} }
-		\label{fig:dd_avg}
-	\end{minipage}\hfill	
-\end{figure}
+\begin{center}
+	\includegraphics[width=10cm]{img/bab_4/complete_dd.png}
+	\captionof{figure}{Dendogram \textit{Complete} \textit{Linkage} }
+	\label{fig:dd_complete}
+\end{center}
+
+\begin{center}
+	\includegraphics[width=10cm]{img/bab_4/avg_dd.png}
+	\captionof{figure}{Dendogram \textit{Average} \textit{Linkage}}
+	\label{fig:dd_avg}
+\end{center}
 
 \pagebreak
 
@@ -526,13 +515,6 @@ Hasil dari proses ini berupa \textit{dictionary} yang memiliki isi nilai couplin
 
 \subsubsection{Evaluasi Pemilihan}
 Hasil Implementasi dapat divisualisasikan dan dianalisis lebih lanjut agar dapat menentukan \textit{linkage} dan jumlah service yang ideal. 
-
-% Pada bagian ini, akan dijelaskan proses pengujian dan hasil dari skenario
-% yang dijalankan. Hasil kesimpulan akan ditampilkan dalam bentuk tabel dan grafik
-% rata-rata yang diambil dari lampiran: lampiran A sampai lampiran C untuk
-% pengujian availability dan lampiran D sampai lampiran F untuk page load. Sesuai
-% dengan batasan masalah bahwa beberapa pengujian akan dilakukan dengan
-% simulasi yang tidak terlalu mirip seperti penggunaan sebenernya.
 
 Untuk itu dilakukan perbadingan bagaimana nilai coupling dan cohesion dari jumlah service/partisi yang dimulai dari 1 (monolit) hingga 335 (semua partisi menjadi service individu) dengan setiap \textit{linkage} yang berbeda.
 
@@ -730,7 +712,7 @@ Pemilihan jumlah service yang ideal pada \textit{Average} \textit{linkage}, tida
 Pada bagian ini menjelaskan bagaimana penerapan microservice dengan menggunakan hasil dekomposisi yang dihasilkan oleh \textit{Hierarchical Clustering}. 
 
 \subsubsection{Pemilihan Service}
-Pada tugas akhir ini memilih untuk menggunakan hasil \textit{Hierarchical Clustering} dengan \textit{Average} \textit{Linkage} dengan jumlah service sebesar 200. Hasil evaluasi sebelumnya menunjukan nilai coupling sebesar 0.67, nilai cohesion sebesar 0.45 dan nilai rentang jumlah modulenya sebesar 12. Detail isi dari setiap module untuk setiap partisi yang dikelompokan dapat dilihat pada Tabel. \ref{tab:daftar_module_final} 
+Pada tugas akhir ini memilih untuk menggunakan hasil \textit{Hierarchical Clustering} dengan \textit{Average} \textit{Linkage} dengan jumlah service sebesar 200. Hasil evaluasi sebelumnya menunjukan nilai coupling sebesar 0.67, nilai cohesion sebesar 0.44 dan nilai rentang jumlah modulenya sebesar 12. Detail isi dari setiap module untuk setiap partisi yang dikelompokan dapat dilihat pada Tabel. \ref{tab:daftar_module_final} 
 
 \begingroup
 \setlength{\LTleft}{-20cm plus -1fill}
@@ -753,10 +735,10 @@ Pada tugas akhir ini memilih untuk menggunakan hasil \textit{Hierarchical Cluste
 		7 & base.models.res{\_}config, digest, base{\_}geolocalize, auth{\_}ldap, auth{\_}password{\_}policy \\ \hline
 		8 & base.models.res{\_}partner, uom, base{\_}sparse{\_}field \\ \hline
 		9 & website{\_}sale{\_}loyalty, sale{\_}loyalty \\ \hline
-		10 & loyalty, sale, stock, account, product, analytic, point{\_}of{\_}sale, hr{\_}expense, purchase{\_}stock, purchase, mrp, project, lunch \\ \hline
+		\textbf{10} & loyalty, sale, stock, account, \textbf{product}, analytic, \textbf{point{\_}of{\_}sale}, hr{\_}expense, purchase{\_}stock, purchase, mrp, project, lunch \\ \hline
 		13 & delivery, delivery{\_}mondialrelay \\ \hline
 		14 & payment, base.models.res{\_}company \\ \hline
-		17 & calendar, rating, survey, sms, phone{\_}validation, gamification, bus, privacy{\_}lookup \\ \hline
+		\textbf{17} & \textbf{calendar}, rating, survey, sms, phone{\_}validation, gamification, bus, privacy{\_}lookup \\ \hline
 		20 & http{\_}routing \\ \hline
 		22 & mail, crm \\ \hline
 		32 & hr{\_}recruitment{\_}skills, hr{\_}skills \\ \hline
@@ -790,13 +772,13 @@ Service yang dipilih untuk dilakukan implementasi dekomposisi yaitu  service ke-
 	\hline
 	\endlastfoot
 
-	\multirow{16}{*}{product.models} &  product{\_}product &  mail.models: 2, product.models: 17, base.models: 2 \\ \cline{2-3}  &  product{\_}attribute &  product.models: 5, base.models: 2 \\ \cline{2-3}  &  product{\_}pricelist &  base.models: 5, product.models: 10 \\ \cline{2-3}  &  product{\_}pricelist{\_}item &  product.models: 8, base.models: 2 \\ \cline{2-3}  &  product{\_}template &  mail.models: 2, base.models: 6, product.models: 51, uom.models: 2 \\ \cline{2-3}  &  decimal{\_}precision &  decimal{\_}precision: 1, product.models: 0 \\ \cline{2-3}  &  product{\_}category &  product.models: 0, base.models: 2 \\ \cline{2-3}  &  product{\_}packaging &  base.models: 3, product.models: 1 \\ \cline{2-3}  &  product{\_}supplierinfo &  base.models: 5, product.models: 2 \\ \cline{2-3}  &  product{\_}tag &  base.models: 2, product.models: 3 \\ \cline{2-3}  &  res{\_}company &  base.models: 1, product.models: 0 \\ \cline{2-3}  &  res{\_}config{\_}settings &  base.models: 1, product.models: 0 \\ \cline{2-3}  &  res{\_}country{\_}group &  base.models: 1, product.models: 1 \\ \cline{2-3}  &  res{\_}currency &  base.models: 1, product.models: 0 \\ \cline{2-3}  &  res{\_}partner &  base.models: 1, product.models: 1 \\ \cline{2-3}  &  uom{\_}uom &  uom.models: 1, product.models: 0 \\
+	\multirow{16}{*}{\textbf{product.models}} &  product{\_}product &  mail.models: 2, product.models: 17, base.models: 2 \\ \cline{2-3}  &  product{\_}attribute &  product.models: 5, base.models: 2 \\ \cline{2-3}  &  product{\_}pricelist &  base.models: 5, product.models: 10 \\ \cline{2-3}  &  product{\_}pricelist{\_}item &  product.models: 8, base.models: 2 \\ \cline{2-3}  &  product{\_}template &  mail.models: 2, base.models: 6, product.models: 51, uom.models: 2 \\ \cline{2-3}  &  decimal{\_}precision &  decimal{\_}precision: 1, product.models: 0 \\ \cline{2-3}  &  product{\_}category &  product.models: 0, base.models: 2 \\ \cline{2-3}  &  product{\_}packaging &  base.models: 3, product.models: 1 \\ \cline{2-3}  &  product{\_}supplierinfo &  base.models: 5, product.models: 2 \\ \cline{2-3}  &  \textbf{product{\_}tag} &  base.models: 2, product.models: 3 \\ \cline{2-3}  &  res{\_}company &  base.models: 1, product.models: 0 \\ \cline{2-3}  &  res{\_}config{\_}settings &  base.models: 1, product.models: 0 \\ \cline{2-3}  &  res{\_}country{\_}group &  base.models: 1, product.models: 1 \\ \cline{2-3}  &  res{\_}currency &  base.models: 1, product.models: 0 \\ \cline{2-3}  &  res{\_}partner &  base.models: 1, product.models: 1 \\ \cline{2-3}  &  uom{\_}uom &  uom.models: 1, product.models: 0 \\
 
 	\hline
-\multirow{22}{*}{point{\_}of{\_}sale.models} &  res{\_}config{\_}settings &  base.models: 1, product.models: 4, point{\_}of{\_}sale.models: 5, account.models: 2 \\ \cline{2-3}  &  pos{\_}payment{\_}method &  base.models: 3, point{\_}of{\_}sale.models: 3, account.models: 3 \\ \cline{2-3}  &  stock{\_}picking &  stock.models: 4, point{\_}of{\_}sale.models: 8 \\ \cline{2-3}  &  pos{\_}category &  point{\_}of{\_}sale.models: 1, base.models: 2 \\ \cline{2-3}  &  res{\_}partner &  base.models: 1, point{\_}of{\_}sale.models: 1 \\ \cline{2-3}  &  pos{\_}config &  product.models: 3, base.models: 9, point{\_}of{\_}sale.models: 31, account.models: 5, stock.models: 3 \\ \cline{2-3}  &  pos{\_}session &  stock.models: 1, point{\_}of{\_}sale.models: 86 \\ \cline{2-3}  &  pos{\_}order &  point{\_}of{\_}sale.models: 37 \\ \cline{2-3}  &  account{\_}bank{\_}statement &  account.models: 1, point{\_}of{\_}sale.models: 1 \\ \cline{2-3}  &  account{\_}journal &  account.models: 1, point{\_}of{\_}sale.models: 1 \\ \cline{2-3}  &  account{\_}move &  account.models: 2, point{\_}of{\_}sale.models: 2 \\ \cline{2-3}  &  account{\_}payment &  account.models: 2, point{\_}of{\_}sale.models: 2 \\ \cline{2-3}  &  account{\_}tax &  account.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  barcode{\_}rule &  barcodes.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  chart{\_}template &  account.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  digest &  digest.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  pos{\_}bill &  base.models: 2, point{\_}of{\_}sale.models: 1 \\ \cline{2-3}  &  pos{\_}payment &  account.models: 1, base.models: 2, point{\_}of{\_}sale.models: 2 \\ \cline{2-3}  &  product &  product.models: 2, point{\_}of{\_}sale.models: 1, uom.models: 2 \\ \cline{2-3}  &  res{\_}company &  base.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  stock{\_}rule &  stock.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  stock{\_}warehouse &  stock.models: 2, point{\_}of{\_}sale.models: 0 \\
+\multirow{22}{*}{\textbf{point{\_}of{\_}sale.models}} &  res{\_}config{\_}settings &  base.models: 1, product.models: 4, point{\_}of{\_}sale.models: 5, account.models: 2 \\ \cline{2-3}  &  pos{\_}payment{\_}method &  base.models: 3, point{\_}of{\_}sale.models: 3, account.models: 3 \\ \cline{2-3}  &  stock{\_}picking &  stock.models: 4, point{\_}of{\_}sale.models: 8 \\ \cline{2-3}  &  \textbf{pos{\_}category} &  point{\_}of{\_}sale.models: 1, base.models: 2 \\ \cline{2-3}  &  res{\_}partner &  base.models: 1, point{\_}of{\_}sale.models: 1 \\ \cline{2-3}  &  pos{\_}config &  product.models: 3, base.models: 9, point{\_}of{\_}sale.models: 31, account.models: 5, stock.models: 3 \\ \cline{2-3}  &  pos{\_}session &  stock.models: 1, point{\_}of{\_}sale.models: 86 \\ \cline{2-3}  &  pos{\_}order &  point{\_}of{\_}sale.models: 37 \\ \cline{2-3}  &  account{\_}bank{\_}statement &  account.models: 1, point{\_}of{\_}sale.models: 1 \\ \cline{2-3}  &  account{\_}journal &  account.models: 1, point{\_}of{\_}sale.models: 1 \\ \cline{2-3}  &  account{\_}move &  account.models: 2, point{\_}of{\_}sale.models: 2 \\ \cline{2-3}  &  account{\_}payment &  account.models: 2, point{\_}of{\_}sale.models: 2 \\ \cline{2-3}  &  account{\_}tax &  account.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  barcode{\_}rule &  barcodes.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  chart{\_}template &  account.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  digest &  digest.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  pos{\_}bill &  base.models: 2, point{\_}of{\_}sale.models: 1 \\ \cline{2-3}  &  pos{\_}payment &  account.models: 1, base.models: 2, point{\_}of{\_}sale.models: 2 \\ \cline{2-3}  &  product &  product.models: 2, point{\_}of{\_}sale.models: 1, uom.models: 2 \\ \cline{2-3}  &  res{\_}company &  base.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  stock{\_}rule &  stock.models: 1, point{\_}of{\_}sale.models: 0 \\ \cline{2-3}  &  stock{\_}warehouse &  stock.models: 2, point{\_}of{\_}sale.models: 0 \\
 
 	\hline
-	\multirow{13}{*}{calendar.models} &  calendar{\_}event &  mail.models: 3, calendar.models: 43, base.models: 6 \\ \cline{2-3}  &  calendar{\_}alarm{\_}manager &  calendar.models: 4 \\ \cline{2-3}  &  res{\_}users &  base.models: 1, calendar.models: 1 \\ \cline{2-3}  &  res{\_}partner &  base.models: 1, calendar.models: 6 \\ \cline{2-3}  &  calendar{\_}recurrence &  calendar.models: 28, base.models: 2 \\ \cline{2-3}  &  calendar{\_}attendee &  base.models: 6, calendar.models: 3 \\ \cline{2-3}  &  calendar{\_}alarm &  base.models: 2, mail.models: 1, calendar.models: 0 \\ \cline{2-3}  &  calendar{\_}event{\_}type &  base.models: 2, calendar.models: 0 \\ \cline{2-3}  &  calendar{\_}filter &  base.models: 4, calendar.models: 0 \\ \cline{2-3}  &  ir{\_}http &  base.models: 1, calendar.models: 0 \\ \cline{2-3}  &  mail{\_}activity &  mail.models: 1, calendar.models: 1 \\ \cline{2-3}  &  mail{\_}activity{\_}mixin &  mail.models: 1, calendar.models: 1 \\ \cline{2-3}  &  mail{\_}activity{\_}type &  mail.models: 1, calendar.models: 0 \\
+	\multirow{13}{*}{\textbf{calendar.models}} &  calendar{\_}event &  mail.models: 3, calendar.models: 43, base.models: 6 \\ \cline{2-3}  &  calendar{\_}alarm{\_}manager &  calendar.models: 4 \\ \cline{2-3}  &  res{\_}users &  base.models: 1, calendar.models: 1 \\ \cline{2-3}  &  res{\_}partner &  base.models: 1, calendar.models: 6 \\ \cline{2-3}  &  calendar{\_}recurrence &  calendar.models: 28, base.models: 2 \\ \cline{2-3}  &  calendar{\_}attendee &  base.models: 6, calendar.models: 3 \\ \cline{2-3}  &  calendar{\_}alarm &  base.models: 2, mail.models: 1, calendar.models: 0 \\ \cline{2-3}  &  \textbf{calendar{\_}event{\_}type} &  base.models: 2, calendar.models: 0 \\ \cline{2-3}  &  calendar{\_}filter &  base.models: 4, calendar.models: 0 \\ \cline{2-3}  &  ir{\_}http &  base.models: 1, calendar.models: 0 \\ \cline{2-3}  &  mail{\_}activity &  mail.models: 1, calendar.models: 1 \\ \cline{2-3}  &  mail{\_}activity{\_}mixin &  mail.models: 1, calendar.models: 1 \\ \cline{2-3}  &  mail{\_}activity{\_}type &  mail.models: 1, calendar.models: 0 \\
 	\hline
 \end{longtable}
 
@@ -970,7 +952,7 @@ $ docker network create --subnet=172.18.0.0/16 mono-net
 $ docker network create --subnet=172.18.0.0/16 odoo-ms-net	
 \end{lstlisting} 
 
-Berikut adalah inisialisasi untuk membuat container dari masing-masing service, setiap serive berada di jaringan internal odoo yang sudah ditentukan sebelum. Tujuannya agar pemetaan service bisa dilukan dengan target ip yang konsisten.
+Berikut adalah inisialisasi untuk membuat container dari masing-masing service, setiap service berada di jaringan internal odoo yang sudah ditentukan sebelum. Tujuannya agar pemetaan service bisa dilukan dengan target ip yang konsisten.
 
 \begin{lstlisting}[style=mystyle, language=sh, caption={Shell Script untuk pembuatan container }]
 $ docker run -v "/ubuntu/local":/home/odoo/shared_data --net odoo-ms-net  --ip 172.18.0.55 --name odoo-mono -p :8069  -d odoo-mono
@@ -1033,7 +1015,7 @@ Untuk menambahkan JWT dapat dituliskan pada proses login sendiri seperti pada \r
 	\label{fig:sessionRoute}
 \end{center}
 
-Data yang disimpan oleh JWT penting diketahui secara umum service, seperti pengguna, konteks pengguna(bahasa, zona waktu), perusahaan, dan database(db).  Perusahaan dan database diperlukan karena Odoo memiliki fitur untuk memilih database dan untuk memanggil  aplikasi monolith(Odoo) harus diketahui databasenya. JWT ini dibuat oleh aplikasi monolith ketika login dan dihapus ketika logout atau sesi sudah habis(exp). Masa hidup JWT sama dengan masa hidup session-token yaitu 3 bulan.
+Data yang disimpan oleh JWT penting diketahui secara umum pada setiap service, seperti pengguna, konteks pengguna(bahasa, zona waktu), perusahaan, dan database(db).  Perusahaan dan database diperlukan karena Odoo memiliki fitur untuk memilih database dan untuk memanggil  aplikasi monolith(Odoo) harus diketahui databasenya. JWT ini dibuat oleh aplikasi monolith ketika login dan dihapus ketika logout atau sesi sudah habis(exp). Masa hidup JWT sama dengan masa hidup session-token yaitu 3 bulan.
 
 Untuk menghancurkan sesi maka ditambahakan mekanisme berupa cookie yang menunjukan bahwa jwt sudah tidak valid. Kemudian cookie tersebut akan dicek oleh fungsi di odoo / http.py / Request.savesession untuk menghapus cookie dengan nama 'jwt' . 
 
@@ -1062,7 +1044,7 @@ Pada gambar \ref{fig:jwt_proof}, merupakan tangkapan layar pada ResponseHeader m
 \subsubsection{Pola \textit{Strangle Fig} dan \textit{Branch by Abstraction}}
 Perubahan arsitektur dari aplikasi monolith menjadi microservice membutuhkan banyak resiko dan sumber daya untuk itu perubahan sebaiknya tidak mengurangi atau memperburuk aplikasi yang sudah jadi. Setiap proses bisnis odoo selalu mengimplementasikan class MetaModel. MetaModel membantu pengembang bisa membuat cepat aplikasi tapi MetaModel memiliki keterkaitan dengan model lainnya tinggi. Model di Odoo bisa mengelola data seperti menyimpan di database, memanggil model lainnya, data untuk tampilan(Frontend), dan hal lainnya.
 
-Di MetaModel terdapat fungsi umum dan fungsi internal yang bisa di'override'. Fungsi tersebut dapat dijadikan sebuah adapter. Fungsi utama yang selalu ada pada model yaitu fungsi create, browse, unlink, \_read dan read. Fungsi dan metode tersebut berfungsi untuk mengelola data. Model Adapter dibuat untuk mengabstraksi pengelolaan data sehingga implementasi logic bisa dipindahkan atau dialihkan ke service lainnya dan dikomunikasikan melalui panggilan RPC.  
+Di MetaModel terdapat fungsi umum dan fungsi internal yang bisa di'override'. Fungsi tersebut dapat dijadikan sebuah adapter. Fungsi utama yang selalu ada pada model yaitu fungsi create, browse, unlink, \_read dan read. Fungsi dan metode tersebut berfungsi untuk mengelola data. Model Adapter dibuat untuk mengabstraksi pengelolaan data sehingga implementasi sebenarnya dapat dipindahkan atau dialihkan ke service lainnya dan dikomunikasikan melalui panggilan RPC.  
 
 
 \begin{center}
@@ -1080,7 +1062,7 @@ Adapter yang dibuat juga memiliki kemampuan mengelola datanya karena data yang s
 	\label{fig:strangle_2}
 \end{center}
 
-Ketika ditemukan bahwa data yang berbeda maka dilakukan Update dan didapatkan bila tidak ada, namun ketika data tersebut sebelumnya ada tetapi ketika dicek ditemukan tidak ada. Maka adapter akan mencoba menghapus data tersebut, hal ini akan membuat efek berkelanjutan dengan sistem yang lain. Bila ternyata data tersebut tidak dapat dihapus maka data tersebut hanya bisa didapatkan dan tidak bisa diubah.
+Ketika ditemukan data yang berbeda maka dilakukan Update dan apabila bila data tersebut sebelumnya ada tetapi ketika dicek kembali ditemukan tidak ada. Maka adapter akan mencoba menghapus data tersebut, hal ini akan membuat efek berkelanjutan dengan sistem yang lain. Bila ternyata data tersebut tidak dapat dihapus maka data tersebut hanya bisa didapatkan dan tidak bisa diubah.
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_4/strangle_3.png}
@@ -1088,9 +1070,19 @@ Ketika ditemukan bahwa data yang berbeda maka dilakukan Update dan didapatkan bi
 	\label{fig:strangle_3}
 \end{center}
 
-Pada pemisahan  model PosCategory, proses penyimpanan data baru dapat memiliki sebuah gambar. Untuk itu ketika ada penyimpana gambar maka gambar disimpan pada database untuk dicatat dan kemudian dikirimkan kepada aplikasi monolith untuk data melalui model ir.attachment di RPC agar gambar bisa diakses melalui web. Setiap model pada Odoo memiliki hak akses kepada grup tertentu. Hak akses bisa diasumsikan jarang berubah untuk karena itu agar service mengetahui apakah seorang user memiliki hak akses. Service memiliki jadwal melaui cron job untuk mengecheck apakah ada akses grup baru.
+Pada pemisahan  model PosCategory, proses penyimpanan data baru dapat memiliki sebuah gambar. Untuk itu ketika ada penyimpanan gambar maka gambar disimpan pada database untuk dicatat dan kemudian dikirimkan kepada aplikasi monolith melalui model ir.attachment di RPC agar gambar bisa diakses melalui web. Setiap model pada Odoo memiliki hak akses kepada grup tertentu. Hak akses dapat diasumsikan jarang berubah untuk itu agar service mengetahui apakah seorang user memiliki hak akses, service memiliki jadwal melaui cron job untuk mengecheck ke aplikasi monolitik apakah ada akses grup yang berubah.
 
 Service diminta untuk mencatat siapa dan kapan data berubah. Sehingga ada relasi kepada res.user relasi ini hanya memiliki ID, DisplayName, dan GroupID. Informasi ini didapatkan melalui data JWT yang dikirimkan oleh client sebelumnya. \\
+
+\begin{center}
+	\includegraphics[width=14cm]{img/bab_4/architectural_diag.png}
+	\captionof{figure}{ \textit{Architectural Diagram Microservice} yang dibangun}
+	\label{fig:arch_micro}
+\end{center}
+
+Seperti pada gambar \ref{fig:arch_micro}, dapat dilihat arsitektur Microservice yang dibangun dengan penerapan pola \textit{strangle fig} dan pola \textit{Branch by Abstraction}. Untuk mengakses aplikasi, client/pengguna harus menggunakan browser dimana pengguna mengakses endpoint menggunakan port :8000. Semua server pada microservice ini dijalankan secara \textit{Containerization} dengan teknologi Docker.  Permintaan dari client dikelola oleh Kong sebagai API Gateway, Kong yang dikonfigurasi dengan file config.yaml dan \textit{DB-less}, sehingga  Kong memiliki 3 service yang terdaftar yaitu odoo-monolith, service-10, dan service-17 serta masing-masing service ini memiliki \textit{routes}-nya sendiri. Kong akan mengarahkan \textit{request} dari \textit{client} ke service yang memiliki endpoint yang cocok. Pada service-10 dan service-17 terdapat beberapa route yang pasti seperti '/web/dataset/call\_kw/pos.category/create'. Apabila route tidak ditemukan pada service-10 dan service-17 maka \textit{request} diarahkan ke aplikasi monolith. 
+
+Service-10 dan Service-17 dibangun dengan bahasa pemrograman Go dan menggunakan echo sebagai \textit{web framework} dan library GORM sebagai ORM. Kedua service ini terhubung pada satu \textit{database management system (DBMS)} server yang sama yaitu mariadb dimana didalamnya terdapat 2 database yang terpisah untuk setiap service sedangkan untuk aplikasi monolith menggunakan PostgreSQL sebagai \textit{database management system (DBMS)}. Aplikasi monolith dapat berkomunikasi dengan Service-10 dan Service-17 melalui JSON-RPC, pemanggilan tersebut dilakukan oleh adapter yang dibuat di aplikasi monolith pada fitur yang dipindahkan.
 
 % ss hasil insert data dari UI jadi benar benar dibuktikan 
 % ss bukti dari log servernya mono dan service 10
@@ -1101,7 +1093,7 @@ Service diminta untuk mencatat siapa dan kapan data berubah. Sehingga ada relasi
 % Jelaskan hasil implementasi dengan UI web bahw amodule , bahwa bisa dilakukan pola strange, ss Postman dan 
 
 \subsubsection{Analisis Hasil Dekomposisi}
-Hasil Dekomposisi yang sudah diimplementasikan dengan 2 sampel service yaitu service ke-10 dan service ke-17. Didalam microservice yang dibangun terdapat 3 aplikasi yaitu aplikasi monolitik yang sudah dimodifikasi, Service ke-10(Product dan Point of Sale) dan Service ke-17 (Calendar). Untuk mengetahui apakah bagian yang didekomposisi oleh proses \textit{Hierarchical Clustering} relevan dan dapat diimplementasikan make dapat dilihat melalui struktur tabel yang terbentuk ketika melakukan implementasi.
+Hasil Dekomposisi yang sudah diimplementasikan dengan 2 sampel service yaitu service ke-10 dan service ke-17. Didalam microservice yang dibangun terdapat 3 aplikasi yaitu aplikasi monolitik yang sudah dimodifikasi, Service ke-10(Product dan Point of Sale) dan Service ke-17 (Calendar). Untuk mengetahui apakah bagian yang didekomposisi oleh proses \textit{Hierarchical Clustering} relevan dan dapat diimplementasikan maka dapat dilihat melalui struktur tabel yang terbentuk ketika melakukan implementasi.
 
 Pada service ke-10 terdapat 2 model yang diimplementasikan yaitu product.tag dan pos.category, Odoo yang memiliki ORM sudah otomatis mengubah nama "dot" menjadi "underscore" sehingga bila dilihat dari nama tabel yang terbentuk akan memiliki nama "product\_tag" dan "pos\_category". Berikut adalah diagram database (\ref{fig:db_1})  yang menunjukan bagaimana keterhubungan antara model dengan model lainnya. 
 
@@ -1111,7 +1103,7 @@ Pada service ke-10 terdapat 2 model yang diimplementasikan yaitu product.tag dan
 	\label{fig:db_1}
 \end{center}
 
-Hasil proses \textit{clustering} sebelumnya mengelompokan 2 module yaitu product dan point of sale(POS) menjadi service sendiri. Dari diagram database menunjukan bahwa memang benar model product.tag dan pos.category memiliki keterhubungan satu sama lain yaitu melalui model product.template untuk itulah mengapa 2 modules isi disatukan menjadi service yang sama.  
+Hasil proses \textit{clustering} sebelumnya mengelompokan 2 module yaitu product dan point of sale(POS) menjadi service sendiri. Dari diagram database menunjukan bahwa memang benar model product.tag dan pos.category memiliki keterhubungan satu sama lain yaitu melalui model product.template untuk itulah mengapa 2 modules ini disatukan menjadi service yang sama.  
 
 Pada service ke-17 terdapat 1 model yang diimplementasikan yaitu  'calendar.event.type' dan nama yang terbentuk pada tabel adalah 'calendar\_event\_type'. Service ke-17 ini memiliki isi module yang berbeda dengan service ke-10, jika dilihat berdasarkan nama modulenya didalamnya. Berikut keterhubungannya yang dapat dilihat melalui diagram database (\ref{fig:db_2}).
 
