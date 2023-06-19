@@ -14,18 +14,23 @@ Berikut kesimpulan dan rangkuman dari penerapan \textit{Microservice} dengan \te
 
 \begin{enumerate}[nolistsep,leftmargin=0.5cm]
     \item Berdasarkan Tabel 4.7,  Tabel 4.8, dan Tabel 4.9 menunjukan \textit{linkage} yang cocok untuk membuat kelompok service yang memiliki rentang jumlah module yang kecil tetapi masih memiliki coupling dan cohesion yang baik adalah \textit{Average} \textit{linkage}.
-    \item Berdasarkan Gambar 4.23, Gambar 4.24,  dan Gambar 4.25. Menunjukan \textit{Hierarchical Clustering} dapat membuat Microservice yang memiliki nilai coupling yang kecil dan nilai cohesion yang tinggi dengan jumlah partisi tertentu. Jumlah partisi yang ditemukan dapat membuat Microservice yang ideal yaitu dimulai dari 175-245 service dengan \textit{Average} \textit{Linkage}. 
-    \item Berdasarkan Gambar 4.34  dan Gambar 4.35 dapat dilihat dari struktur database yang terbentuk ketika dilakukan implementasi. Struktur tabel menunjukan \textit{Hierarchical Clustering} dapat memisahkan module yang tidak terhubung dan service yang memiliki hubungan kuat dikelompokan menjadi satu seperti pada Tabel 4.10 di partisi ke-10 pada Module Product dan Module Point of Sale. Kemudian module yang tidak memiliki hubungan dengan module lain seperti Module Calendar di partisi ke-17 tidak dikelompokan menjadi satu dengan Module Product atau Module Point of Sale, sehingga hasil dari proses \textit{Hierarchical Clustering} relevan.\\
+    \item Berdasarkan Gambar 4.23, Gambar 4.24,  dan Gambar 4.25. Menunjukan \textit{Hierarchical Clustering} dapat membuat \textit{Microservice} yang memiliki nilai coupling yang kecil dan nilai cohesion yang tinggi dengan jumlah partisi tertentu. Jumlah partisi yang ditemukan dapat membuat \textit{Microservice} yang ideal yaitu dimulai dari 175-245 service dengan \textit{Average} \textit{Linkage}. 
+    \item Berdasarkan Gambar 4.34  dan Gambar 4.35 dapat dilihat dari struktur database yang terbentuk ketika dilakukan implementasi. Struktur tabel menunjukan \textit{Hierarchical Clustering} dapat memisahkan module yang tidak terhubung dan service yang memiliki hubungan kuat dikelompokan menjadi satu seperti pada Tabel 4.10 di partisi ke-10 pada Module Product dan Module Point of Sale. Kemudian module yang tidak memiliki hubungan dengan module lain seperti Module Calendar di partisi ke-17 tidak dikelompokan menjadi satu dengan Module Product atau Module Point of Sale, sehingga hasil dari proses \textit{Hierarchical Clustering} relevan.
+    \item Aplikasi Odoo dibangun menggunakan bahasa pemrograman Python. Dimana Python merupakan bahasa pemrograman yang mendukung  \textit{multi-paradigm} seperti \textit{procedural}, \textit{object-oriented}, atau \textit{functional}, sehingga  metode dekomposisi menggunakan \textit{Hierarchical Clustering} tidak terpengaruh pada paradigma yang digunakan dalam pemrograman selama proses pembuatan \textit{graph} sebelumnya dilakukan dengan tepat.\\ 
+    %  Kesimpulan bahwa metode ini pada dasarnya tidak terpengaruh pada paradigma yang digunakan dalam pemrograman, seperti OOP maupun non-OOP.
 \end{enumerate}
 
 \pagebreak
 
-% emang kenapa perlu tes ERP berbeda
 
 \section{Saran}
 Saran  untuk pengembangan dekomposisi aplikasi monolitik dengan \textit{Hierarchical Clustering} menjadi \textit{Microservice} adalah sebagai berikut:
 \begin{enumerate}[nolistsep,leftmargin=0.5cm]
     \item  Pengelompokan dapat  mempertimbangkan tipe  \textit{coupling} yang berbeda dalam menentukan suatu hubungan antara objek. Tugas akhir ini berfokus pada mengelompokan pada bagian module, sehingga \textit{coupling} dilihat berdasarkan hubungan antar module. Terdapat beberapa tipe \textit{coupling} lainnya seperti  \textit{Logical Coupling},  \textit{Temporal Coupling},  \textit{Deployment Coupling}, dan  \textit{Domain Coupling}.
     \item Pada tugas akhir ini menggunakan \textit{single} linkage, \textit{average} \textit{linkage} (UPGMA), dan \textit{complete} linkage.  Terdapat beberapa metode \textit{linkage} lainnya yang dapat digunakan ketika melakukan proses \textit{Hierarchical Clustering} seperti \textit{weighted} (WPGMA, McQuitty), \textit{Ward}, \textit{centroid} (UPGMC),  \textit{median} (WPGMC) linkage \cite{09E}. 
+    \item Hasil \textit{clustering} yang tidak relevan dapat diperbaiki dengan meningkatkan akurasi \textit{graph} yang dibuat seperti menggunakan pengabungan dan optimisasi hasil ekstraksi yang berbeda sebelum dilakukan \textit{Hierarchical Clustering}. Pengabungan pangilan dan optimisasi  bisa berdasarkan \textit{file}, \textit{module/package} , \textit{scope} yang lebih spesifik (fungsi/\textit{class}/variabel), ataupun campuran.
+    % Bagaimana menyelesaikan jika terjadi hasil clustering yang tidak sesuai/relevan pengelompokkannya? Seperti apa jalan keluar yang bisa dilakukan?
+    \item Rancangan modul di aplikasi yang tidak jelas dalam batasan antar komponennya dapat menyebabkan hasil \textit{clustering} tidak akurat dan penentuan \textit{scope} objek sebelum dilakukan proses \textit{Hierarchical Clustering} lebih sulit. Pada aplikasi Odoo batasan yang ditemukan hanya pada \textit{modules/addons} yang berisi fitur bisnis.
+    % Apakah metode ini bisa diterapkan jika rancangan modul dari aplikasi tidak jelas batasannya? Atau dengan kata lain modul program dibuat bercampur2 atau kacau.
 \end{enumerate}
 

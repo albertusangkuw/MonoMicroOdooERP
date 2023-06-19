@@ -2,7 +2,7 @@
 \section{Latar Belakang}
 Aplikasi \textit{Enterprise Resource Planning} (ERP) memiliki peran penting dalam industri dan bisnis saat ini. Tujuan dari implementasi ERP di perusahaan yaitu untuk meningkatkan efisiensi dengan cara mengintegrasikan dan mengotomatisasi aktivitas bisnisnya \cite{612}. Selain itu diharapkan juga ERP memiliki skalabilitas dan fleksibilitas terhadap operasi bisnis baik yang diperlukan dalam jangka panjang atau jangka pendek, misalkan ketika perusahaan tumbuh dari waktu ke waktu, serta dalam waktu singkat ketika ada acara tertentu seperti di bulan Natal yang melibatkan volume bertransaksi tinggi \cite{D94}.
 
-Dalam membangun aplikasi ERP dapat dibangun dengan arsitektur seperti monolitik, \textit{Service-Oriente Architecture} (SOA), dan Microservice (MSA) \cite{5FA}. Implementasi arsitektur ERP mempengaruhi aspek manajemen di perusahaan seperti biaya, kompleksitas perawatan dan cara penggunaan aplikasi \cite{612}.
+Dalam membangun aplikasi ERP dapat dibangun dengan arsitektur seperti monolitik, \textit{Service-Oriented Architecture} (SOA), dan \textit{Microservice} (MSA) \cite{5FA}. Implementasi arsitektur ERP mempengaruhi aspek manajemen di perusahaan seperti biaya, kompleksitas perawatan dan cara penggunaan aplikasi \cite{612}.
 
 Arsitektur monolitik merupakan arsitektur paling sederhana dalam membangun aplikasi karena pengembangan yang mudah selama aplikasi berbentuk sederhana, walaupun demikian monolitik tidak mudah dilakukan \textit{scaling} dan sulit dikembangkan secara berkelanjutan. SOA bisa membantu menyelesaikan permasalahan tersebut dengan sistem terdistribusi akan tetapi SOA memiliki kekurangan sama seperti monolitik \cite{5FA}. SOA sendiri dapat disamakan sebagai bentuk monolitik terdistribusi karena sistem memiliki banyak \textit{service} tapi seluruh sistem harus dilakukan \textit{deployment} bersamaan. Monolitik terdistribusi memiliki  \textit{coupling} yang tinggi dan bila dilakukan perubahan pada satu bagian dapat menyebabkan kerusakan pada bagian lain \cite{74C}.
 
@@ -21,9 +21,9 @@ Pada penelitian ini akan melakukan dekomposisi aplikasi ERP yang memiliki arsite
 \section{Rumusan Masalah}
 Berikut adalah rumusan masalah yang dibuat berdasarkan latar belakang diatas.
 \begin{enumerate}[nolistsep,leftmargin=0.5cm]
-  \item Bagaimana nilai \textit{coupling} dan nilai \textit{cohesion} dari microservice yang dibuat \textit{Hierarchical Clustering}?
+  \item Bagaimana nilai \textit{coupling} dan nilai \textit{cohesion} dari \textit{microservice} yang dibuat \textit{Hierarchical Clustering}?
   \item Bagaimana hasil dekomposisi yang dibuat dengan \textit{linkage} yang berbeda?
-  \item Bagaimana penerapan microservice dengan menggunakan hasil dekomposisi yang dihasilkan oleh \textit{hierarchical clustering}?\\
+  \item Bagaimana penerapan \textit{microservice} dengan menggunakan hasil dekomposisi yang dihasilkan oleh \textit{hierarchical clustering}?\\
 \end{enumerate}
 
 \section{Tujuan Penelitian}
@@ -39,7 +39,7 @@ Agar penelitian ini menjadi lebih terarah, maka penulis membatasi masalah yang a
 \begin{enumerate}[nolistsep,leftmargin=0.5cm]
   \item Aplikasi yang didekomposisi adalah aplikasi yang sudah dibangun sebelumnya dan disebarkan dengan arsitektur monolitik.
   \item Perubahan arsitektur tidak dapat menjaminkan secara keseluruhan fungsionalitas dari aplikasi, karena keterbatasan waktu dan pengujian.
-  \item Microservice yang diterapkan hanya pada bagian tertentu di aplikasi ERP yang dipilih.\\
+  \item \textit{Microservice} yang diterapkan hanya pada bagian tertentu di aplikasi ERP yang dipilih.\\
 \end{enumerate}
 
 \section{Kontribusi Penelitian}
@@ -61,7 +61,7 @@ Tahapan-tahapan yang akan dilakukan dalam pelaksanaan penelitian ini adalah seba
   \item Implementasi \\
   Pada tahap ini mengimplementasikan hasil perancangan dekomposisi ke aplikasi \textit{microservice} pada aplikasi yang dibuat dengan arsitektur monolitik.
   \item Pengujian \\
-  Pada tahap ini  dilakukan pengujian pada aplikasi yang sudah dikelompokkan oleh \textit{Hierarchical Clustering}. Pengujian mempertimbangkan nilai \textit{cohesion}, nilai \textit{coupling}, jumlah partisi, \textit{linkage} dan melakukan pemilihan bagian untuk diimplementasikan menjadi microservice  \\ 
+  Pada tahap ini  dilakukan pengujian pada aplikasi yang sudah dikelompokkan oleh \textit{Hierarchical Clustering}. Pengujian mempertimbangkan nilai \textit{cohesion}, nilai \textit{coupling}, jumlah partisi, \textit{linkage} dan melakukan pemilihan bagian untuk diimplementasikan menjadi \textit{microservice}  \\ 
 \end{enumerate}
 
 \section{Sistematika Pembahasan}

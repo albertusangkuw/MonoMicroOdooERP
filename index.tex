@@ -52,14 +52,6 @@
    \chapter*{\listappendixname}\@starttoc{app}}
 \makeatother
 
-\renewcommand\listalgorithmname{DAFTAR ALGORITMA}
-\renewcommand\appcaption[1]{%
-   \addcontentsline{app}{chapter}{#1}}
-\makeatletter
-\renewcommand\listofalgorithms{%
-   \chapter*{\listalgorithmname}\@starttoc{app}}
-\makeatother
-
 % Daftar pemenggalan suku kata dan istilah dalam LaTeX
 \include{hype.indonesia}
 
@@ -117,10 +109,6 @@
 	\vspace*{-2.5cm}
 	\phantomsection \addcontentsline{toc}{chapter}{DAFTAR GAMBAR}
 	\listoffigures
-	
-	\vspace*{-2.5cm}
-    \phantomsection \addcontentsline{toc}{chapter}{DAFTAR ALGORITMA}
-    \listofalgorithms
 	
 	\vspace*{-2.5cm}
 	\phantomsection \addcontentsline{toc}{chapter}{DAFTAR LAMPIRAN}

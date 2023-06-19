@@ -116,7 +116,7 @@ Distance \textit{Matrix} / Matriks kedekatan dapat dilihat nilai dengan ilustras
 	\label{fig:asd}
 \end{center}
 
-Pemilihan pengelompokan dengan hierarchical agglomerative \textit{clustering} dibandingkan Paritition \textit{clustering} karena tidak mudah untuk mengetahui jumlah ideal \textit{cluster}. Untuk menentukan metode \textit{linkage} tugas akhir ini menggunakan \textit{single} lingkage, \textit{average} \textit{linkage}, dan \textit{complete} lingkage. Hasil dari masing-masing lingkage dipilih jumlah partisi yang ideal untuk \textit{microservice}. Penggunaan \textit{single} lingkage memiliki kecenderungan menghasilkan banyak partisi yang berisi modul sedikit tetapi ada satu partisi memiliki banyak module sedangkan \textit{complete} \textit{linkage} menghasilkan partisi yang memiliki jumlah modul yang sama dengan partisi lainnya. Untuk \textit{Average} lingkage menghasilkan bentuk partisi di antara \textit{complete} lingkage dan \textit{single} lingkage.
+Pemilihan pengelompokan dengan hierarchical agglomerative \textit{clustering} dibandingkan Partition \textit{clustering} karena tidak mudah untuk mengetahui jumlah ideal \textit{cluster}. Untuk menentukan metode \textit{linkage} tugas akhir ini menggunakan \textit{single} linkage, \textit{average} \textit{linkage}, dan \textit{complete} linkage. Hasil dari masing-masing linkage dipilih jumlah partisi yang ideal untuk \textit{microservice}. Penggunaan \textit{single} linkage memiliki kecenderungan menghasilkan banyak partisi yang berisi modul sedikit tetapi ada satu partisi memiliki banyak module sedangkan \textit{complete} \textit{linkage} menghasilkan partisi yang memiliki jumlah modul yang sama dengan partisi lainnya. Untuk \textit{Average} linkage menghasilkan bentuk partisi di antara \textit{complete} linkage dan \textit{single} linkage.
 
 Pada gambar \ref{fig:hc_detail_1} dijelaskan mengenai proses perhitungan \textit{Hierarchical Clustering} dengan \textit{distance} matriks yang sebelumnya sudah dihitung. Perhitungan \textit{Hierarchical Clustering} terdapat 5 bagian besar yaitu pertama memiliki objek pertama (urutan pertama), ke-2 mencari objek lainnya yang terdekat berdasarkan \textit{distance} \textit{matrix}, ke-3 mengabungkan objek yang terdekat dengan objek yang pertama dan membuat kelompok baru dari objek tersebut, ke-4 memperbaharui nilai jaraknya pada kelompok baru / partisi menggunakan \textit{linkage}. Penggunaan \textit{linkage} akan membandingkan 2 nilai objek yaitu dari nilai objek yang baru dan nilai objek yang sebelumnya (yang terdapat di \textit{distance} matriks) seperti min memilih nilai yang lebih rendah, \textit{complete} memilih nilai yang lebih tinggi, dan \textit{average} melakukan nilai rata-rata dari 2 nilai objek. Langkah terakhir bila sudah tidak ada objek tersisa maka perhitungan berhenti bila masih ada maka dilajukan kembali proses yang ke-2.
 
@@ -144,7 +144,7 @@ Pada gambar \ref{fig:hc_detail_1} dijelaskan mengenai proses perhitungan \textit
 	\label{fig:hc_detail_4}
 \end{center}
 
-Hasil pengelompokan dapat ditampilan dalam bentuk dendogram.  Di mana pengelompokan dari setiap \textit{linkage} memiliki dampak berbeda yang bisa dilihat dari bentuk dan nilai kedekatan antar partisi melalui dendogram dan bentuk relasi. Angka gabungan yang ditampilan pada dendogram merupakan jarak \textit{linkage} yang dihitung dari proses perhitungan \textit{Hierarchical Clustering} sebelumnya.
+Hasil pengelompokan dapat ditampilkan dalam bentuk dendogram.  Di mana pengelompokan dari setiap \textit{linkage} memiliki dampak berbeda yang bisa dilihat dari bentuk dan nilai kedekatan antar partisi melalui dendogram dan bentuk relasi. Angka gabungan yang ditampilkan pada dendogram merupakan jarak \textit{linkage} yang dihitung dari proses perhitungan \textit{Hierarchical Clustering} sebelumnya.
 
 \begin{center}
 	\includegraphics[width=11cm]{img/bab_3/singleLink.png}
@@ -163,7 +163,7 @@ Hasil pengelompokan dapat ditampilan dalam bentuk dendogram.  Di mana pengelompo
 \end{center}
 
 \subsubsection{Pemilihan Partisi}
-Pemilihan jumlah partisi perlu dilakukan dengan perhitungan yang dapat menentukan jumlah \textit{service} yang ideal. Microservice yang ideal memiliki nilai \textit{coupling} yang rendah dan nilai \textit{cohesion} yang tinggi. Untuk itu tugas akhir ini menentukan partisi dengan nilai struktural yang menggunakan persamaan 2.2 dan tidak memperhitungkan nilai \textit{coupling} external karena addons pada Odoo dibuat dengan framework Odoo. Hubungan module luar seperti library umumnya dilakukan oleh framework Odoo sendiri bukan oleh addons.
+Pemilihan jumlah partisi perlu dilakukan dengan perhitungan yang dapat menentukan jumlah \textit{service} yang ideal. \textit{Microservice} yang ideal memiliki nilai \textit{coupling} yang rendah dan nilai \textit{cohesion} yang tinggi. Untuk itu tugas akhir ini menentukan partisi dengan nilai struktural yang menggunakan persamaan 2.2 dan tidak memperhitungkan nilai \textit{coupling} external karena addons pada Odoo dibuat dengan framework Odoo. Hubungan module luar seperti library umumnya dilakukan oleh framework Odoo sendiri bukan oleh addons.
 
 Untuk pemilihan partisi harus mempertimbangkan nilai \textit{cohesion}, nilai \textit{coupling}, jumlah \textit{service}, dan apakah \textit{service} tersebut seimbang. Partisi yang akan menjadi \textit{service} diharapkan bisa independen. 
 
@@ -194,7 +194,7 @@ Berikut adalah hasil nilai \textit{coupling} dan \textit{cohesion} masing-masing
 
 \pagebreak
 
-\subsection{Dekomposisi Monolitik ke Microservice}
+\subsection{Dekomposisi Monolitik ke \textit{Microservice}}
 \subsubsection{Strategi Pemisahan Kode}
 Odoo adalah aplikasi ERP berbasis web, tampilan pada Odoo bisa dibuka pada broser yang kompatibel. Odoo menggunakan pendekatan SPA (Single Page Application) dan adanya server rendering untuk menghasilkan HTML yang dinamik. Pada gambar \ref{fig:arsitektur_mono} terlihat bahwa aplikasi odoo merupakan aplikasi berbasis client-server.
 \begin{center}
@@ -207,7 +207,7 @@ Proses pemisahan membutuhkan \textit{reverse} \textit{proxy} yang dapat menghubu
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/micro_proxy.png}
-	\captionof{figure}{Arsitektur di Microservice}
+	\captionof{figure}{Arsitektur di \textit{Microservice}}
 	\label{fig:arsitektu_micro}
 \end{center}
 

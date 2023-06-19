@@ -207,11 +207,11 @@ Terdapat beberapa cara untuk melakukan dekomposisi aplikasi monolitik, dekomposi
 
 Untuk menentukan batasan \textit{microservice} perlu diketahui bagaimana struktur kode mempengaruhi secara \textit{coupling} dan \textit{cohesion}. \textit{Coupling} berfokus pada bagaimana perubahan pada satu hal membuat bagian lain mengalami perubahan. \textit{Cohesion} berfokus pada bagaimana kode dikelompokkan satu sama lain \cite{74C}. 
 
-Struktur Microservice yang ideal memiliki \textit{cohesion} yang tinggi dan \textit{coupling} yang rendah, karena dengan \textit{cohesion} yang tinggi setiap \textit{service} memiliki fokusnya masing-masing dan perubahan dilakukan pada spesifik \textit{service} sedangkan dengan \textit{coupling} rendah membuat \textit{service} bisa berdiri sendiri / independen dan setiap \textit{service} mungkin tidak harus sering berinteraksi satu sama lain \cite{74C}.
+Struktur \textit{Microservice} yang ideal memiliki \textit{cohesion} yang tinggi dan \textit{coupling} yang rendah, karena dengan \textit{cohesion} yang tinggi setiap \textit{service} memiliki fokusnya masing-masing dan perubahan dilakukan pada spesifik \textit{service} sedangkan dengan \textit{coupling} rendah membuat \textit{service} bisa berdiri sendiri / independen dan setiap \textit{service} mungkin tidak harus sering berinteraksi satu sama lain \cite{74C}.
 
-\textit{Coupling} merupakan tentang bagaimana bagian yang terhubung memiliki dampak satu sama lain, ketika satu \textit{service} berubah dan \textit{service} itu dihubungkan dengan banyak \textit{service} maka  \textit{service} lainnya harus beradaptasi terhadap perubahan tersebut. Terdapat beberapa tipe \textit{coupling} seperti  \textit{Logical Coupling},  \textit{Temporal Coupling},  \textit{Deployment Coupling}, dan  \textit{Domain Coupling}.
+\textit{Coupling} merupakan tentang bagaimana bagian yang terhubung memiliki dampak satu sama lain, ketika satu \textit{service} berubah dan \textit{service} itu dihubungkan dengan banyak \textit{service} maka  \textit{service} lainnya harus beradaptasi terhadap perubahan tersebut. Terdapat beberapa tipe \textit{coupling} seperti  \textit{Logical Coupling},  \textit{Temporal Coupling},  \textit{Deployment Coupling}, dan  \textit{Domain Coupling} \cite{74C}.
 
-\textit{Cohesion} merupakan tentang bagaimana kode yang dikelompokkan bersama adalah kode yang memiliki keterhubungan kuat. Sehingga ketika terjadi perubahan pada satu bagian, bagian yang lain diubah bersama-sama. Pengelompokan kode yang tepat dapat membantu pengembang untuk melakukan perubahan ketika diperlukan tanpa harus mengganggu stabilitas sistem secara keseluruhan.
+\textit{Cohesion} merupakan tentang bagaimana kode yang dikelompokkan bersama adalah kode yang memiliki keterhubungan kuat. Sehingga ketika terjadi perubahan pada satu bagian, bagian yang lain diubah bersama-sama. Pengelompokan kode yang tepat dapat membantu pengembang untuk melakukan perubahan ketika diperlukan tanpa harus mengganggu stabilitas sistem secara keseluruhan \cite{74C}.
 
 \subsubsection{Permasalahan dan Pola Penyelesaiannya}
 Ketika sudah menentukan \textit{service} yang ingin didekomposisi diperlukan pola dan strategi untuk memisahkan bagian yang ingin didekomposisi. Setiap pola memiliki kekurangan dan kelebihannya masing-masing \cite{74C}:
@@ -320,7 +320,7 @@ Unsupervise Clustering adalah pengelompokan di mana tidak diberikan sebuah label
 		\label{fig:asd}
 	\end{center}
 
-	Ada beberapa metode untuk menentukan partisi terdekat yaitu dengan menghitung jarak maksimal antara objek partisi (complete lingkage), nilai rata-rata jarak(average lingkage) atau jarak minimum (single lingkage) \cite{3D3}. Proses untuk menghitung \textit{Hierarchical Agglomerative Clustering}(HAC) menghasilkan stepwise \textit{matrix} yang dapat digunakan untuk membuat dendogram. Proses ini menggunakan perbandingan jarak antar objek(r,s). Untuk mengabungkan hasil kumpulan jarak menggunakan algoritma \textit{linkage}, hasil dari \textit{linkage} digabungkan dan disimpan ke dalam array baru. Array yang baru(d) berisi jarak terbaru antar objek lainnya yang belum digabungkan. Proses berakhir ketika semua objek sudah terhitung keterhubungannya dari individu objek yang memiliki banyak partisi hingga menjadi satu partisi yang memiliki banyak objek \cite{2C9}.
+	Ada beberapa metode untuk menentukan partisi terdekat yaitu dengan menghitung jarak maksimal antara objek partisi (complete linkage), nilai rata-rata jarak(average linkage) atau jarak minimum (single linkage) \cite{3D3}. Proses untuk menghitung \textit{Hierarchical Agglomerative Clustering}(HAC) menghasilkan stepwise \textit{matrix} yang dapat digunakan untuk membuat dendogram. Proses ini menggunakan perbandingan jarak antar objek(r,s). Untuk mengabungkan hasil kumpulan jarak menggunakan algoritma \textit{linkage}, hasil dari \textit{linkage} digabungkan dan disimpan ke dalam array baru. Array yang baru(d) berisi jarak terbaru antar objek lainnya yang belum digabungkan. Proses berakhir ketika semua objek sudah terhitung keterhubungannya dari individu objek yang memiliki banyak partisi hingga menjadi satu partisi yang memiliki banyak objek \cite{2C9}.
 	
 	\begin{center}
 		\includegraphics[width=12cm]{img/bab_2/algo_hac.png}
@@ -378,7 +378,7 @@ Untuk mengetahui apakah pengelompokan yang dihasilkan dari proses \textit{cluste
 	\item \textit{Data Autonomy Class} \cite{5B1}\\
 	Salah satu karakteristik \textit{microservice} adalah memiliki data Autonomy. Sebuah \textit{microservice} dapat berdiri sendiri bila tidak memerlukan data dari \textit{service} lainnya. Dengan demikian semakin kecil pertukaran data antar \textit{service} maka semakin baik \textit{microservice}. Perhitungan dilakukan dengan mengukur nilai ketergantungan data antara \textit{class} dan ketergantungannya dengan \textit{class} external.
 	
-	\item \textit{Iter-Paritition Call Percentage}(ICP) \cite{ECD} \\
+	\item \textit{Iter-Partition Call Percentage}(ICP) \cite{ECD} \\
 	Menghting jumlah persentase \textit{call} secara runtime antara 2 partisi di \textit{microservice}. Semakin kecil nilai ICP menunjukkan kurangnya interaksi antara partisi di mana merepresentasikan \textit{microservice} yang bagus.	
 	
 	\item Jumlah Interface \cite{ECD} \\
@@ -488,7 +488,7 @@ Module algoritma yang digunakan pada tugas akhir ini:
 		A. Selmadji, A.-D. Seriai, H. L. Bouziane, R. Oumarou Mahamane, P. Zaragoza, and C. Dony   (2020). "\textbf{From monolithic architecture style to Microservice one based on a semi-automatic approach}" \cite{5B1} &
 		Terdapat aplikasi monolitik yang tidak beradaptasi di \textit{cloud} ataupun \textit{DevOps} sehingga harus dimigrasi ke \textit{microservice} &
 		Analisis kode program dan mencari hubungan dalam \textit{class}-nya  &
-		Identifikasi Microservice yang dibuat memiliki hasil yang memuaskan karena mempertimbangkan karakteristik microservice
+		Identifikasi \textit{Microservice} yang dibuat memiliki hasil yang memuaskan karena mempertimbangkan karakteristik \textit{microservice}
 		\\
 
 		\hline
@@ -508,7 +508,7 @@ Module algoritma yang digunakan pada tugas akhir ini:
 		\hline
 		Khaled Sellami, Mohamed Aymen Saied, and Ali Ouni. (2022). "\textbf{A Hierarchical
 		DBSCAN Method for Extracting Microservices from Monolithic Applications}" \cite{ECD} &
-		Bagaimana mengotomatisasi proses migrasi aplikasi monolitik ke microservice?  &
+		Bagaimana mengotomatisasi proses migrasi aplikasi monolitik ke \textit{microservice}?  &
 	    Menggunakan DBSCAN(Density-based Clustering) yang menghasilkan rekomendasi \textit{microservice}  &
 		Berhasil membuat \textit{microservice} yang lebih \textit{cohesion} dan memiliki interaksi yang lebih sedikit. 
 		\\
@@ -520,16 +520,16 @@ Pada penelitian yang dilakukan oleh  A. Selmadji, A.-D. Seriai, H. L. Bouziane, 
 
 Hasil dari penelitian tersebut adalah identifikasi \textit{microservice} terbaik bisa dilakukan melalui algoritma gravity center dengan keseluruhan kode program. Penggunaan Fungsi untuk mengetahui \textit{microservice} terbaik dapat dilakukan hanya dengan cara struktural tanpa harus mempertimbangkan \textit{data autonomy}.
 
-Pada penelitian yang dilakukan oleh Chaitanya K. Rudrabhatla \cite{6C1}, penelitian melakukan perbandingan latensi antara pemilihan dekomposisi. Peneliti menggunakan aplikasi yang dibuat dengan Spring Boot Java. Dari hasil evaluasi diketahui dekomposisi dengan domain driven desain(DDD)  memiliki performa lebih baik daripada pendekatan melalui entitas. Namun dengan pendekatan hybrid/campuran performa antara domain driven memiliki kesamaan sehingga diperlukan transaksi yang komplex untuk melihat perbedaan
+Pada penelitian yang dilakukan oleh Chaitanya K. Rudrabhatla \cite{6C1}, penelitian melakukan perbandingan latensi antara pemilihan dekomposisi. Peneliti menggunakan aplikasi yang dibuat dengan Spring Boot Java. Dari hasil evaluasi diketahui dekomposisi dengan domain driven desain(DDD)  memiliki performa lebih baik daripada pendekatan melalui entitas. Namun dengan pendekatan hybrid/campuran performa antara domain driven memiliki kesamaan sehingga diperlukan transaksi yang komplex untuk melihat perbedaan.
 
-Pada penelitian yang dilakukan oleh A. K. Kalia, J. Xiao, R. Krishna, S. Sinha, M. Vukovic, dan D. Banerjee \cite{8EA}, peneliti menggunakan Mono2Micro untuk melakukan dekomposisi aplikasi monolitik Java menjadi \textit{microservice}. Kemudian menggunakan metrik untuk mengevaluasi apakah \textit{microservice} yang dibuat oleh Mono2Micro efektif. Peneliti menggunakan 5 metrik untuk mengukur efektifitas yaitu  secara Structural Modularity(SM), Indirect Call Patern(ICP), Business Context Purity(BCP), jumlah Interface(IFN), dan Non-Extreme Distribution(NED) serta ada survey kepada praktisi mengenai penggunaan Mono2Micro
+Pada penelitian yang dilakukan oleh A. K. Kalia, J. Xiao, R. Krishna, S. Sinha, M. Vukovic, dan D. Banerjee \cite{8EA}, peneliti menggunakan Mono2Micro untuk melakukan dekomposisi aplikasi monolitik Java menjadi \textit{microservice}. Kemudian menggunakan metrik untuk mengevaluasi apakah \textit{microservice} yang dibuat oleh Mono2Micro efektif. Peneliti menggunakan 5 metrik untuk mengukur efektifitas yaitu  secara Structural Modularity(SM), Indirect Call Patern(ICP), Business Context Purity(BCP), jumlah Interface(IFN), dan Non-Extreme Distribution(NED) serta ada survey kepada praktisi mengenai penggunaan Mono2Micro.
 
 Hasil dari penelitian menunjukkan bahwa penggunaan Mono2Micro efektif dalam melakukan dekomposisi dan dapat memberikan keuntungan bagi pengembang karena bisa membantu pengembang untuk melihat partisi lainnya. Metrik yang dihasilkan dari Mono2Micro memiliki hasil yang bagus di antara 5 metrik tersebut, namun diperlukan penelitian lebih lanjut pada kasus tingginya nilai SM menyebabkan tingginya nilai NED.
 
 Pada penelitian yang dilakukan oleh Khaled Sellami, Mohamed Aymen Saied, and Ali Ouni \cite{ECD}. Penelitian menggunakan Algoritma Hierarchical DBSCAN dengan analisis statik kode program untuk mendapatkan sekumpulan \textit{service} yang bisa kandidat \textit{microservice}.  Peneliti menggabungkan nilai struktural dan nilai semantik analisis untuk menentukan kedekatan suatu \textit{class} dengan \textit{class} lainnya.
 Hierarchical DBSCAN. Prose evaluasi menggunakan perbandingan antara \textit{microservice} \textit{service} yang sudah diekstraksi sebelumnya oleh pengembang. 
 
-Hasil dari penelitian menunjukkan pendekatan \textit{Hierarchical Clustering} dapat melakukan dekomposisi aplikasi monolitik dengan analisis statik. Microservice yang didekomposisi memiliki nilai \textit{cohesion} yang lebih baik di dalam \textit{microservice} dan  jumlah interaksi antar \textit{microservice} lebih sedikit.
+Hasil dari penelitian menunjukkan pendekatan \textit{Hierarchical Clustering} dapat melakukan dekomposisi aplikasi monolitik dengan analisis statik. \textit{Microservice} yang didekomposisi memiliki nilai \textit{cohesion} yang lebih baik di dalam \textit{microservice} dan  jumlah interaksi antar \textit{microservice} lebih sedikit.
 \\
 
 \section{Tinjauan Objek}
@@ -605,7 +605,7 @@ Model Odoo bisa memiliki banyak parent yang diturunkan sehingga tipe atribut {\_
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_2/inheritance_odoo.png}
-	\captionof{figure}{Inheritance pada Model Odoo}
+	\captionof{figure}{Inheritance pada Model Odoo \cite{odoo} }
 	\label{fig:inheritModel}
 \end{center}
 

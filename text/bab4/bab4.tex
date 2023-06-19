@@ -32,7 +32,7 @@ Berikut lingkungan perangkat lunak:
 Pada bagian ini, dijelaskan mengenai proses, fungsi, dan metode yang digunakan dalam proses \textit{clustering} untuk menemukan kelompok service di aplikasi monolitik yaitu Odoo.
 
 \subsection{Pengambilan Source Code}
-Proses ini pengambilan source code aplikasi Odoo bisa melalui source code repository di github.com. Source code tersebut digunakan untuk proses \textit{clustering} dan proses dekomposisi dari monolitik ke microservice. Pada tugas akhir ini menggunakan Odoo v16 pada commit yang bisa direferensikan SHA1 375d0db3. 
+Proses ini pengambilan source code aplikasi Odoo bisa melalui source code repository di github.com. Source code tersebut digunakan untuk proses \textit{clustering} dan proses dekomposisi dari monolitik ke \textit{microservice}. Pada tugas akhir ini menggunakan Odoo v16 pada commit yang bisa direferensikan SHA1 375d0db3. 
 \begin{lstlisting}[style=mystyle, language=sh, caption={Shell Script Git untuk pengambilan source code}]
 $ git init
 $ git remote add origin https://github.com/odoo/odoo
@@ -337,7 +337,7 @@ Proses ini dilakukan untuk menemukan pengelompokan dari \textit{adjacency} \text
 	\label{fig:hc_1}
 \end{center}
 
-Matriks kedekatan bisa ditampilan dalam bentuk heatmap. Heatmap dapat memberikan bagaimana intensitas kedekatan antar module addons Odoo. Pada gambar \ref{fig:heatmap_gambar} dapat dilihat semakin kuning atau cerah maka semakin tinggi intensitas hubungannya sedangkan semakin hijau atau redup maka intensitas hubungannya rendah. heatmap ini dihasilkan dari matriks segitiga sehingga hasil dari heatmap sisi kiri sama dengan heatmap sisi kanan.
+Matriks kedekatan bisa ditampilkan dalam bentuk heatmap. Heatmap dapat memberikan bagaimana intensitas kedekatan antar module addons Odoo. Pada gambar \ref{fig:heatmap_gambar} dapat dilihat semakin kuning atau cerah maka semakin tinggi intensitas hubungannya sedangkan semakin hijau atau redup maka intensitas hubungannya rendah. heatmap ini dihasilkan dari matriks segitiga sehingga hasil dari heatmap sisi kiri sama dengan heatmap sisi kanan.
 
 \begin{center}
 	\includegraphics[width=7cm]{img/bab_4/HeatmapModule.png}
@@ -422,10 +422,10 @@ Distance \textit{Matrix} dimasukan kedalam fungsi calculateCluster dengan metode
 
 
 \section{Evaluasi dan Pengujian}
-Pada bagian ini, dibahas mengenai evaluasi dan pengujian tentang bagaimana hasil dekomposisi aplikasi monolitik menjadi microservice dengan menggunakan proses \textit{Hierarchical Clustering}.
+Pada bagian ini, dibahas mengenai evaluasi dan pengujian tentang bagaimana hasil dekomposisi aplikasi monolitik menjadi \textit{microservice} dengan menggunakan proses \textit{Hierarchical Clustering}.
 
 \subsection{Pemilihan Partisi}
-Banyaknya partisi dan jumlah node, membuat proses pemilihan partisi atau kelompok service terbaik harus dilakukan secara otomatis. Hasil pemilihan dapat menentukan microservice yang memiliki nilai cohesion yang tinggi dan nilai coupling yang rendah.
+Banyaknya partisi dan jumlah node, membuat proses pemilihan partisi atau kelompok service terbaik harus dilakukan secara otomatis. Hasil pemilihan dapat menentukan \textit{microservice} yang memiliki nilai cohesion yang tinggi dan nilai coupling yang rendah.
 
 \subsubsection{Implementasi Pemilihan}
   Pemilihan dimulai dengan menggunakan \textit{linkage} \textit{matrix}(Z / hasil dari \textit{Hierarchical Clustering}) untuk setiap metode \textit{linkage} yang berbeda. Untuk mengetahui jumlah partisi yang tepat dilakukan pengukuran dari nilai coupling dan nilai kohesinya yang dihasilkan dari pengelompokan tersebut. Terdapat fungsi yang akan menghitung dari 1 partisi/service hingga jumlah maximum partisi.
@@ -563,7 +563,7 @@ Average & 0.14 & 0.51 & 0.83  & 0.61 & 0.7  & 1 \\
 
 Dari tabel \ref{tab:link_stat} dilihat \textit{linkage} \textit{complete} memiliki coupling yang tinggi dan cohesion yang rendah dibandingkan \textit{linkage} lainnya. Untuk \textit{linkage} \textit{average} memiliki nilai coupling dan nilai cohesion yang lebih baik  bila dibandingkan dengan \textit{linkage} \textit{complete} tetapi lebih buruk bila dibandingkan dengan \textit{linkage} \textit{single}. Nilai  minimum dan maksimum dari cohesion memiliki nilai yang sama tetapi memiliki rata-rata yang berbeda. 
 
-Untuk mengetahui lebih detail bagaimana struktur service dikelompokan, maka untuk setiap \textit{linkage}, jumlah module dari setiap partisi/service dicari nilai rentang, minimum, dan maksimum untuk setiap jumlah ukuran partisi tertentu (1, 2, 5, 10, 15, 25, 50 , 75, 90, 110, 130, 150, 175, 195, 200, 208 , 220, 232,  245, 275, 290, 305, 325, 335). Jumlah Module yang ditampilkan adalah jumlah modulenya diikuti dengan jumlah kemunculannya / Frekuensi yang dilambangkan dengan 'x'.
+Untuk mengetahui lebih detail bagaimana struktur service dikelompokan, maka untuk setiap \textit{linkage}, jumlah module dari setiap partisi/service dicari nilai rentang, minimum, dan maksimum untuk setiap jumlah ukuran partisi tertentu (1, 2, 5, 10, 15, 25, 50 , 75, 90, 110, 130, 150, 175, 195, 200, 208 , 220, 232,  245, 275, 290, 305, 325, 335). Di mana pewarnaan untuk nilai \textit{coupling} dan \textit{cohesion} ditentukan bila \textit{coupling} lebih tinggi dari \textit{cohesion} maka berwarna merah, bila \textit{coupling} lebih rendah dari \textit{cohesion} tetapi perbedaanya tidak cukup signifikan (0.10) maka berwarna kuning dan bila cukup signifikan berwarna hijau. Sementara perwarnaan nilai rentang ditentukan bila bernilai lebih dari 12 module maka berwarna merah dan bila kurang maka berwarna hijau karena sebuah \textit{service} memiliki karakteristik kecil dan berfokus pada satu hal.  Jumlah Module yang ditampilkan adalah jumlah modulenya diikuti dengan jumlah kemunculannya / Frekuensi yang dilambangkan dengan 'x'.
 
 \colorlet{colorGood}{green!25!white}
 \colorlet{colorOK}{yellow!25!white}
@@ -708,8 +708,8 @@ Pemilihan jumlah service yang ideal pada \textit{Average} \textit{linkage}, tida
 
 \pagebreak
 
-\subsection{Dekomposisi Monolitik \textit{ ke Microservice}}
-Pada bagian ini menjelaskan bagaimana penerapan microservice dengan menggunakan hasil dekomposisi yang dihasilkan oleh \textit{Hierarchical Clustering}. 
+\subsection{Dekomposisi Monolitik \textit{ ke \textit{Microservice}}}
+Pada bagian ini menjelaskan bagaimana penerapan \textit{microservice} dengan menggunakan hasil dekomposisi yang dihasilkan oleh \textit{Hierarchical Clustering}. 
 
 \subsubsection{Pemilihan Service}
 Pada tugas akhir ini memilih untuk menggunakan hasil \textit{Hierarchical Clustering} dengan \textit{Average} \textit{Linkage} dengan jumlah service sebesar 200. Hasil evaluasi sebelumnya menunjukan nilai coupling sebesar 0.67, nilai cohesion sebesar 0.44 dan nilai rentang jumlah modulenya sebesar 12. Detail isi dari setiap module untuk setiap partisi yang dikelompokan dapat dilihat pada Tabel. \ref{tab:daftar_module_final} 
@@ -900,7 +900,7 @@ Pada bagian ini dijelaskan class yang digunakan Service 10 dan Service 17:
 	\hline
 	PosCategoryImage & UID & int & Merupakan objek yang menyimpan informasi gambar yang dimiliki oleh kategori. \\
 	\cline{2-3}
-	& ImageBase64 & string & Gambar disimpan didatabase dan memiliki IdAttachment yang diketahui oleh sistem monolith\\
+	& ImageBase64 & string & Gambar disimpan didatabase dan memiliki IdAttachment yang diketahui oleh sistem monolitik\\
 	\cline{2-3}
 	& AttachmentId & int & \\
 	\cline{2-3}
@@ -977,7 +977,7 @@ $ docker run -d --name odoo-kong-gateway \
 kong/kong-gateway:latest 
 \end{lstlisting} 
 
-Endpoint yang diset adalah keterangan service (ip address,port,protocol) dan routing (metode, apakah host di rewrite ketika dialihkan). Dengan api gateway client hanya perlu mengetahui endpoint pusat kong yaitu :8000. Ketika pencarian rute url tidak ditemukan maka otomatis diarah service monolith (odoo-mono).
+Endpoint yang diset adalah keterangan service (ip address,port,protocol) dan routing (metode, apakah host di rewrite ketika dialihkan). Dengan api gateway client hanya perlu mengetahui endpoint pusat kong yaitu :8000. Ketika pencarian rute url tidak ditemukan maka otomatis diarah service monolitik (odoo-mono).
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_4/kong_yml.png}
@@ -986,7 +986,7 @@ Endpoint yang diset adalah keterangan service (ip address,port,protocol) dan rou
 \end{center}
  	
 \subsubsection{Penerapan JSON Web  Token(JWT)}
-Perubahan migrasi arsitektur dari monolith ke microservice, membuat diperlukan sistem pengelolaan hak akses yang stateless. Sehingga service tidak sering harus berkomunikasi satu sama lain terutama pada hal informasi yang sama. Token disimpan didalam cookie client, sehingga baik dari client yang melalui user-interface atau pun secara langsung API, bisa diidentifikasi selama client tersebut memberikan token di cookie ketika meminta data.
+Perubahan migrasi arsitektur dari monolitik ke \textit{microservice}, membuat diperlukan sistem pengelolaan hak akses yang stateless. Sehingga service tidak sering harus berkomunikasi satu sama lain terutama pada hal informasi yang sama. Token disimpan didalam cookie client, sehingga baik dari client yang melalui user-interface atau pun secara langsung API, bisa diidentifikasi selama client tersebut memberikan token di cookie ketika meminta data.
 
 \begin{lstlisting}[style=mystyle, language=java, caption={Isi data berupa JSON di JWT}]
 {
@@ -1015,7 +1015,7 @@ Untuk menambahkan JWT dapat dituliskan pada proses login sendiri seperti pada \r
 	\label{fig:sessionRoute}
 \end{center}
 
-Data yang disimpan oleh JWT penting diketahui secara umum pada setiap service, seperti pengguna, konteks pengguna(bahasa, zona waktu), perusahaan, dan database(db).  Perusahaan dan database diperlukan karena Odoo memiliki fitur untuk memilih database dan untuk memanggil  aplikasi monolith(Odoo) harus diketahui databasenya. JWT ini dibuat oleh aplikasi monolith ketika login dan dihapus ketika logout atau sesi sudah habis(exp). Masa hidup JWT sama dengan masa hidup session-token yaitu 3 bulan.
+Data yang disimpan oleh JWT penting diketahui secara umum pada setiap service, seperti pengguna, konteks pengguna(bahasa, zona waktu), perusahaan, dan database(db).  Perusahaan dan database diperlukan karena Odoo memiliki fitur untuk memilih database dan untuk memanggil  aplikasi monolitik(Odoo) harus diketahui databasenya. JWT ini dibuat oleh aplikasi monolitik ketika login dan dihapus ketika logout atau sesi sudah habis(exp). Masa hidup JWT sama dengan masa hidup session-token yaitu 3 bulan.
 
 Untuk menghancurkan sesi maka ditambahakan mekanisme berupa cookie yang menunjukan bahwa jwt sudah tidak valid. Kemudian cookie tersebut akan dicek oleh fungsi di odoo / http.py / Request.savesession untuk menghapus cookie dengan nama 'jwt' . 
 
@@ -1042,7 +1042,7 @@ Pada gambar \ref{fig:jwt_proof}, merupakan tangkapan layar pada ResponseHeader m
 % ss bagian service yang menghanlde jwt  golang
 
 \subsubsection{Pola \textit{Strangle Fig} dan \textit{Branch by Abstraction}}
-Perubahan arsitektur dari aplikasi monolith menjadi microservice membutuhkan banyak resiko dan sumber daya untuk itu perubahan sebaiknya tidak mengurangi atau memperburuk aplikasi yang sudah jadi. Setiap proses bisnis odoo selalu mengimplementasikan class MetaModel. MetaModel membantu pengembang bisa membuat cepat aplikasi tapi MetaModel memiliki keterkaitan dengan model lainnya tinggi. Model di Odoo bisa mengelola data seperti menyimpan di database, memanggil model lainnya, data untuk tampilan(Frontend), dan hal lainnya.
+Perubahan arsitektur dari aplikasi monolitik menjadi \textit{microservice} membutuhkan banyak resiko dan sumber daya untuk itu perubahan sebaiknya tidak mengurangi atau memperburuk aplikasi yang sudah jadi. Setiap proses bisnis odoo selalu mengimplementasikan class MetaModel. MetaModel membantu pengembang bisa membuat cepat aplikasi tapi MetaModel memiliki keterkaitan dengan model lainnya tinggi. Model di Odoo bisa mengelola data seperti menyimpan di database, memanggil model lainnya, data untuk tampilan(Frontend), dan hal lainnya.
 
 Di MetaModel terdapat fungsi umum dan fungsi internal yang bisa di'override'. Fungsi tersebut dapat dijadikan sebuah adapter. Fungsi utama yang selalu ada pada model yaitu fungsi create, browse, unlink, \_read dan read. Fungsi dan metode tersebut berfungsi untuk mengelola data. Model Adapter dibuat untuk mengabstraksi pengelolaan data sehingga implementasi sebenarnya dapat dipindahkan atau dialihkan ke service lainnya dan dikomunikasikan melalui panggilan RPC.  
 
@@ -1070,30 +1070,30 @@ Ketika ditemukan data yang berbeda maka dilakukan Update dan apabila bila data t
 	\label{fig:strangle_3}
 \end{center}
 
-Pada pemisahan  model PosCategory, proses penyimpanan data baru dapat memiliki sebuah gambar. Untuk itu ketika ada penyimpanan gambar maka gambar disimpan pada database untuk dicatat dan kemudian dikirimkan kepada aplikasi monolith melalui model ir.attachment di RPC agar gambar bisa diakses melalui web. Setiap model pada Odoo memiliki hak akses kepada grup tertentu. Hak akses dapat diasumsikan jarang berubah untuk itu agar service mengetahui apakah seorang user memiliki hak akses, service memiliki jadwal melaui cron job untuk mengecheck ke aplikasi monolitik apakah ada akses grup yang berubah.
+Pada pemisahan  model PosCategory, proses penyimpanan data baru dapat memiliki sebuah gambar. Untuk itu ketika ada penyimpanan gambar maka gambar disimpan pada database untuk dicatat dan kemudian dikirimkan kepada aplikasi monolitik melalui model ir.attachment di RPC agar gambar bisa diakses melalui web. Setiap model pada Odoo memiliki hak akses kepada grup tertentu. Hak akses dapat diasumsikan jarang berubah untuk itu agar service mengetahui apakah seorang user memiliki hak akses, service memiliki jadwal melaui cron job untuk mengecheck ke aplikasi monolitik apakah ada akses grup yang berubah.
 
 Service diminta untuk mencatat siapa dan kapan data berubah. Sehingga ada relasi kepada res.user relasi ini hanya memiliki ID, DisplayName, dan GroupID. Informasi ini didapatkan melalui data JWT yang dikirimkan oleh client sebelumnya. \\
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_4/architectural_diag.png}
-	\captionof{figure}{ \textit{Architectural Diagram Microservice} yang dibangun}
+	\captionof{figure}{ \textit{Architectural Diagram \textit{Microservice}} yang dibangun}
 	\label{fig:arch_micro}
 \end{center}
 
-Seperti pada gambar \ref{fig:arch_micro}, dapat dilihat arsitektur Microservice yang dibangun dengan penerapan pola \textit{strangle fig} dan pola \textit{Branch by Abstraction}. Untuk mengakses aplikasi, client/pengguna harus menggunakan browser dimana pengguna mengakses endpoint menggunakan port :8000. Semua server pada microservice ini dijalankan secara \textit{Containerization} dengan teknologi Docker.  Permintaan dari client dikelola oleh Kong sebagai API Gateway, Kong yang dikonfigurasi dengan file config.yaml dan \textit{DB-less}, sehingga  Kong memiliki 3 service yang terdaftar yaitu odoo-monolith, service-10, dan service-17 serta masing-masing service ini memiliki \textit{routes}-nya sendiri. Kong akan mengarahkan \textit{request} dari \textit{client} ke service yang memiliki endpoint yang cocok. Pada service-10 dan service-17 terdapat beberapa route yang pasti seperti '/web/dataset/call\_kw/pos.category/create'. Apabila route tidak ditemukan pada service-10 dan service-17 maka \textit{request} diarahkan ke aplikasi monolith. 
+Seperti pada gambar \ref{fig:arch_micro}, dapat dilihat arsitektur \textit{Microservice} yang dibangun dengan penerapan pola \textit{strangle fig} dan pola \textit{Branch by Abstraction}. Untuk mengakses aplikasi, client/pengguna harus menggunakan browser dimana pengguna mengakses endpoint menggunakan port :8000. Semua server pada \textit{microservice} ini dijalankan secara \textit{Containerization} dengan teknologi Docker.  Permintaan dari client dikelola oleh Kong sebagai API Gateway, Kong yang dikonfigurasi dengan file config.yaml dan \textit{DB-less}, sehingga  Kong memiliki 3 service yang terdaftar yaitu odoo-monolitik, service-10, dan service-17 serta masing-masing service ini memiliki \textit{routes}-nya sendiri. Kong akan mengarahkan \textit{request} dari \textit{client} ke service yang memiliki endpoint yang cocok. Pada service-10 dan service-17 terdapat beberapa route yang pasti seperti '/web/dataset/call\_kw/pos.category/create'. Apabila route tidak ditemukan pada service-10 dan service-17 maka \textit{request} diarahkan ke aplikasi monolitik. 
 
-Service-10 dan Service-17 dibangun dengan bahasa pemrograman Go dan menggunakan echo sebagai \textit{web framework} dan library GORM sebagai ORM. Kedua service ini terhubung pada satu \textit{database management system (DBMS)} server yang sama yaitu mariadb dimana didalamnya terdapat 2 database yang terpisah untuk setiap service sedangkan untuk aplikasi monolith menggunakan PostgreSQL sebagai \textit{database management system (DBMS)}. Aplikasi monolith dapat berkomunikasi dengan Service-10 dan Service-17 melalui JSON-RPC, pemanggilan tersebut dilakukan oleh adapter yang dibuat di aplikasi monolith pada fitur yang dipindahkan.
+Service-10 dan Service-17 dibangun dengan bahasa pemrograman Go dan menggunakan echo sebagai \textit{web framework} dan library GORM sebagai ORM. Kedua service ini terhubung pada satu \textit{database management system (DBMS)} server yang sama yaitu mariadb dimana didalamnya terdapat 2 database yang terpisah untuk setiap service sedangkan untuk aplikasi monolitik menggunakan PostgreSQL sebagai \textit{database management system (DBMS)}. Aplikasi monolitik dapat berkomunikasi dengan Service-10 dan Service-17 melalui JSON-RPC, pemanggilan tersebut dilakukan oleh adapter yang dibuat di aplikasi monolitik pada fitur yang dipindahkan.
 
 % ss hasil insert data dari UI jadi benar benar dibuktikan 
 % ss bukti dari log servernya mono dan service 10
 
 % Jelaskan module  Product Product.tag, contoh yang ada hubungannya
-% bagaimana penerapannya microservice apakah hasil yang dibuat oleh  r
+% bagaimana penerapannya \textit{microservice} apakah hasil yang dibuat oleh  r
 % Jelaskan module  Pos  Pos Categ, ini contoh kalo hanya satu
 % Jelaskan hasil implementasi dengan UI web bahw amodule , bahwa bisa dilakukan pola strange, ss Postman dan 
 
 \subsubsection{Analisis Hasil Dekomposisi}
-Hasil Dekomposisi yang sudah diimplementasikan dengan 2 sampel service yaitu service ke-10 dan service ke-17. Didalam microservice yang dibangun terdapat 3 aplikasi yaitu aplikasi monolitik yang sudah dimodifikasi, Service ke-10(Product dan Point of Sale) dan Service ke-17 (Calendar). Untuk mengetahui apakah bagian yang didekomposisi oleh proses \textit{Hierarchical Clustering} relevan dan dapat diimplementasikan maka dapat dilihat melalui struktur tabel yang terbentuk ketika melakukan implementasi.
+Hasil Dekomposisi yang sudah diimplementasikan dengan 2 sampel service yaitu service ke-10 dan service ke-17. Didalam \textit{microservice} yang dibangun terdapat 3 aplikasi yaitu aplikasi monolitik yang sudah dimodifikasi, Service ke-10(Product dan Point of Sale) dan Service ke-17 (Calendar). Untuk mengetahui apakah bagian yang didekomposisi oleh proses \textit{Hierarchical Clustering} relevan dan dapat diimplementasikan maka dapat dilihat melalui struktur tabel yang terbentuk ketika melakukan implementasi.
 
 Pada service ke-10 terdapat 2 model yang diimplementasikan yaitu product.tag dan pos.category, Odoo yang memiliki ORM sudah otomatis mengubah nama "dot" menjadi "underscore" sehingga bila dilihat dari nama tabel yang terbentuk akan memiliki nama "product\_tag" dan "pos\_category". Berikut adalah diagram database (\ref{fig:db_1})  yang menunjukan bagaimana keterhubungan antara model dengan model lainnya. 
 
