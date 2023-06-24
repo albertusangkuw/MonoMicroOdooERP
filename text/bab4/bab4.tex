@@ -41,10 +41,10 @@ $ git checkout 375d0db3694419942a95e58212295b4186085e61
 \end{lstlisting} 
 
 \subsection{Pembuatan \textit{Call Graph}}
-Untuk membuat\textit{call graph} dari source code aplikasi dapat menggunakan alat PyCG. PyCG harus terlebih dahulu di install bisa melalui pip. PyCG menganalisis kode program Python melalui package yang diberikan, untuk nama folder / package yang mengandung karakter "." harus diubah menjadi karakter lain karena PyCG membacanya dalam bentuk package Python. 
+Untuk membuat \textit{call graph} dari source code aplikasi dapat menggunakan alat PyCG. PyCG harus terlebih dahulu di install bisa melalui pip. PyCG menganalisis kode program Python melalui package yang diberikan, untuk nama folder / package yang mengandung karakter "." harus diubah menjadi karakter lain karena PyCG membacanya dalam bentuk package Python. 
 
 Proses analisis  dilakukan pada package odoo.addons dengan pengecualian folder test(pengujian). Hasil PyCG berupa .json yang kemudian diproses selanjutnya, proses ini membutuhkan waktu yang cukup lama karena besarnya aplikasi.
-\begin{lstlisting}[style=mystyle, language=sh, caption={Shell Script untuk pembuatan\textit{call graph}}]
+\begin{lstlisting}[style=mystyle, language=sh, caption={Shell Script untuk pembuatan \textit{call graph}}]
 $ pip install pycg
 $ py_files=$(find addons -type f -name "*.py"  -not -path "*/tests/*")
 $ pycg  --package addons  $py_files -o odooAddons.json
@@ -52,7 +52,7 @@ $ pycg  --package addons  $py_files -o odooAddons.json
 
 \begin{center}
 	\includegraphics[width=10cm]{img/bab_4/hasil_run_pycg.png}
-	\captionof{figure}{Waktu pembuatan\textit{call graph} dengan PyCG}
+	\captionof{figure}{Waktu pembuatan \textit{call graph} dengan PyCG}
 	\label{fig:hasil_run_pycg}
 \end{center}
 
@@ -144,7 +144,7 @@ Hasil dari pembuatan dependency model ini yaitu berupa graph yang disimpan di li
 	\label{fig:def_inspect_4}
 \end{center}
 
-\subsection{Pengabungan Hasil Ekstraksi}
+\subsection{Penggabungan Hasil Ekstraksi}
 Hubungan ketergantungan yang sudah dihasilkan dari PyCG dan inspect, diproses dan dijadikan satu kesatuan sebelum dilakukan proses \textit{clustering}. Hal yang diproses seperti menghapus node yang tidak terpakai atau diluar dari Odoo seperti keterhubungan dengan library ke-3.  
 
 \begingroup
@@ -173,16 +173,17 @@ Hubungan ketergantungan yang sudah dihasilkan dari PyCG dan inspect, diproses da
 
 		 addPrefixFolder
 		& cg,root,listPackage
-		 & Menambahkan awal root dari\textit{call graph} yang dihasilkan dari PyCG(JSON) dan disatukan berdasarkan nama modulenya  \\
+		 & Menambahkan awal root dari \textit{call graph} yang dihasilkan dari PyCG(JSON) dan disatukan berdasarkan nama modulenya  \\
 		 
 		 \hline  
 
-		 mergeCGOdooWithAddons
-		& cgOdoo,cgAddons
-		 & Mengabungkan\textit{call graph} dari odoo dan addons yang sudah memiliki prefix  \\
+		% Koding Dulu
+		%  mergeCGOdooWithAddons
+		% & cgOdoo,cgAddons
+		%  & Mengabungkan \textit{call graph} dari odoo dan addons yang sudah memiliki prefix  \\
 
 
-		 \hline  
+		%  \hline  
 
 		 filterCGNode
 		& cgSource
@@ -192,7 +193,7 @@ Hubungan ketergantungan yang sudah dihasilkan dari PyCG dan inspect, diproses da
 		
 		 updateCGwInspect
 		& listModuleName, moduleNameMapping, callGraph
-		 & Mengabungkan hasil relasi yang ditemukan di library inspect ke\textit{call graph}  \\
+		 & Mengabungkan hasil relasi yang ditemukan di library inspect ke \textit{call graph}  \\
 
 		 \hline
 	\end{longtable}
@@ -205,7 +206,7 @@ Hubungan ketergantungan yang sudah dihasilkan dari PyCG dan inspect, diproses da
 	\label{fig:ekstraksi_1}
 \end{center}
 
-Proses penggabungan dimulai dengan mengimport file JSON yang dihasilkan oleh PyCG. File JSON tersebut diubah menjadi bentuk\textit{call graph} di dictionary(key,value). Nama node yang dihasilkan PyCG tidak lengkap karena dilakukan scan melalui odoo/addons maka tidak ada prefix atau parentnya yang lengkap, untuk itu dilakukan penambahaan nama module didepan nama node "addons" sehingga yang awalannya langsung merupakan nama package / addons seperti "product.models" maka menjadi "addons.product.models". Tujuan dilakukan ini agar node di graph dari PyCG memiliki tingkatan yang sama dengan nama package odoo. Penambahan ini menggunakan fungsi addPrefixFolder dan getListRootPackage.
+Proses penggabungan dimulai dengan mengimport file JSON yang dihasilkan oleh PyCG. File JSON tersebut diubah menjadi bentuk \textit{call graph} di dictionary(key,value). Nama node yang dihasilkan PyCG tidak lengkap karena dilakukan scan melalui odoo/addons maka tidak ada prefix atau parentnya yang lengkap, untuk itu dilakukan penambahaan nama module didepan nama node "addons" sehingga yang awalannya langsung merupakan nama package / addons seperti "product.models" maka menjadi "addons.product.models". Tujuan dilakukan ini agar node di graph dari PyCG memiliki tingkatan yang sama dengan nama package odoo. Penambahan ini menggunakan fungsi addPrefixFolder dan getListRootPackage.
 
 \begin{center}
 	\includegraphics[width=13cm]{img/bab_4/ekstraksi_2.png}
@@ -213,7 +214,7 @@ Proses penggabungan dimulai dengan mengimport file JSON yang dihasilkan oleh PyC
 	\label{fig:ekstraksi_2}
 \end{center}
 
-Isi dari graph dilakukan pembuangan pada node yang tidak diinginkan untuk dikelompokan, karena tugas akhir ini berfokus pada mengelompokan pada bagian module addons / proses bisnis maka setiap relasi ke package diluar  odoo dan addons akan dihilangkan dari graph. Proses ini dilakukan oleh fungsi filterCGNode, fungsi tersebut membuat graph baru dari graph yang memiliki informasi\textit{call graph} original dan menghapus node yang tidak memiliki hubungan apapun. Fungsi filterCGNode juga memberikan nilai setiap hubungan call sebesar 1, nilai ini akan digunakan sebagai weight atau jumlah call ke suatu node. \textit{Call Graph} yang dihasilkan dari PyCG tidak memberikan jumlah call sehingga semua call diasumsikan memiliki nilai panggilan sebesar 1. Proses pengubahan dan penyerderhanaan graph dilakukan oleh fungsi filterCGNode.
+Isi dari graph dilakukan pembuangan pada node yang tidak diinginkan untuk dikelompokan, karena tugas akhir ini berfokus pada mengelompokan pada bagian module addons / proses bisnis maka setiap relasi ke package diluar  odoo dan addons akan dihilangkan dari graph. Proses ini dilakukan oleh fungsi filterCGNode, fungsi tersebut membuat graph baru dari graph yang memiliki informasi \textit{call graph} original dan menghapus node yang tidak memiliki hubungan apapun. Fungsi filterCGNode juga memberikan nilai setiap hubungan call sebesar 1, nilai ini akan digunakan sebagai weight atau jumlah call ke suatu node. \textit{Call Graph} yang dihasilkan dari PyCG tidak memberikan jumlah call sehingga semua call diasumsikan memiliki nilai panggilan sebesar 1. Proses pengubahan dan penyerderhanaan graph dilakukan oleh fungsi filterCGNode.
 
 \begin{center}
 	\includegraphics[width=9cm]{img/bab_4/ekstraksi_3.png}
@@ -221,7 +222,7 @@ Isi dari graph dilakukan pembuangan pada node yang tidak diinginkan untuk dikelo
 	\label{fig:ekstraksi_3}
 \end{center}
 
-Pada gamber \ref{fig:ekstraksi_3} dapat terlihat jumlah awal node yang awalnya sebesar 27.521 setelah difilter menjadi sebesar 15.953. Node leaf yaitu fungsi yang ditemukan tidak memanggil node lain, untuk itu node tersebut dihilangkan. Proses selanjutnya yaitu mengabungkan\textit{call graph} dengan hasil inspect, sebelumnya hasil inspect disimpan pada variabel listModuleName dan moduleNameMapping. 
+Pada gamber \ref{fig:ekstraksi_3} dapat terlihat jumlah awal node yang awalnya sebesar 27.521 setelah difilter menjadi sebesar 15.953. Node leaf yaitu fungsi yang ditemukan tidak memanggil node lain, untuk itu node tersebut dihilangkan. Proses selanjutnya yaitu mengabungkan \textit{call graph} dengan hasil inspect, sebelumnya hasil inspect disimpan pada variabel listModuleName dan moduleNameMapping. 
 
 \begin{center}
 	\includegraphics[width=10cm]{img/bab_4/ekstraksi_4.png}
@@ -264,7 +265,7 @@ Hasil graph yang sudah digabungkan dari hasil ekstraksi harus diproses kembali a
 		 \hline
 		 updateCGWeight
 		& callGraphFiltered, callGraphWeight
-		 & Membuat\textit{call graph} yang memiliki nilai berbobot (weighted graph) berdasarkan jumlah panggilan(call) dengan cara menjumlahkan call yang dipanggil dari module \\
+		 & Membuat \textit{call graph} yang memiliki nilai berbobot (weighted graph) berdasarkan jumlah panggilan(call) dengan cara menjumlahkan call yang dipanggil dari module \\
 
 		 
 		 \hline 
@@ -289,7 +290,7 @@ Hasil graph yang sudah digabungkan dari hasil ekstraksi harus diproses kembali a
 \end{small}
 \endgroup
 
-Untuk mengetahui jumlah panggilan keluar atau panggilan didalam module maka graph yang sudah disatukan sebelumnya diubah menjadi bentuk tree. Dengan bentuk tree ini bisa dilakukan perhitungan jumlah panggilan dan relasinya. Tree dibuat dengan class NodeCG,seperti pada gambar \ref{fig:optimasi_1}. Proses perubahan graph pada gambar \ref{fig:optimasi_2} dimulai dari membentuk root dengan nama "odoo" kemudian mengubah semua relasi setiap node relasi baru dengan fungsi setRelation pada class NodeCG. Apabila nama dari relasi memiliki module yang berkaitan dengan testing atau lokalisasi seperti 'addons.product.tests' maka relasi 'addons.product.tests' tidak ditambahakan pada odooTree. 
+Untuk mengetahui jumlah panggilan keluar atau panggilan didalam module maka graph yang sudah disatukan sebelumnya diubah menjadi bentuk tree. Dengan bentuk tree ini bisa dilakukan perhitungan jumlah panggilan dan relasinya. Tree dibuat dengan class NodeCG,seperti pada gambar \ref{fig:optimasi_1}. Proses perubahan graph pada gambar \ref{fig:optimasi_2} dimulai dari membentuk root dengan nama "odoo" kemudian mengubah semua relasi setiap node relasi baru dengan fungsi setRelation pada class NodeCG. Apabila nama dari relasi memiliki module yang berkaitan dengan testing atau lokalisasi seperti 'addons.product.tests' maka relasi 'addons.product.tests' tidak  ditambahkan pada odooTree. 
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_4/optimisasi_1.png}
@@ -311,7 +312,7 @@ Penambahan relasi node di tree yang dilakukan oleh fungsi setRelation yaitu beru
 	\label{fig:optimasi_3}
 \end{center}
 
-Proses selanjutnya yaitu membuat graph baru yang hanya berisi module addons, proses ini dilakukan oleh fungsi initKeyCG. Fungsi akan membaca direktori dari path odoo/addons dan hanya menambahkan bila module tersebut adalah package (folder). Kemudian graph baru diperbarui isi relasinya dengan fungsi updateCGWeight. Fungsi updateCGWeight menggunakan odooTree dan\textit{call graph} baru. Kemudian dilakukan pengecekan apakah graph yang dibuat lengkap dan dibuat menjadi \textit{Adjacency} \textit{Matrix}.  Dari gambar \ref{fig:optimasi_4} dapat dilihat terdapat 335 objek yang akan dilakukan proses \textit{Hierarchical Clustering}.
+Proses selanjutnya yaitu membuat graph baru yang hanya berisi module addons, proses ini dilakukan oleh fungsi initKeyCG. Fungsi akan membaca direktori dari path odoo/addons dan hanya menambahkan bila module tersebut adalah package (folder). Kemudian graph baru diperbarui isi relasinya dengan fungsi updateCGWeight. Fungsi updateCGWeight menggunakan odooTree dan \textit{call graph} baru. Kemudian dilakukan pengecekan apakah graph yang dibuat lengkap dan dibuat menjadi \textit{Adjacency} \textit{Matrix}.  Dari gambar \ref{fig:optimasi_4} dapat dilihat terdapat 335 objek yang akan dilakukan proses \textit{Hierarchical Clustering}.
 
 \begin{center}
 	\includegraphics[width=9cm]{img/bab_4/optimisasi_4.png}
@@ -516,7 +517,7 @@ Hasil dari proses ini berupa \textit{dictionary} yang memiliki isi nilai couplin
 \subsubsection{Evaluasi Pemilihan}
 Hasil Implementasi dapat divisualisasikan dan dianalisis lebih lanjut agar dapat menentukan \textit{linkage} dan jumlah service yang ideal. 
 
-Untuk itu dilakukan perbadingan bagaimana nilai coupling dan cohesion dari jumlah service/partisi yang dimulai dari 1 (monolit) hingga 335 (semua partisi menjadi service individu) dengan setiap \textit{linkage} yang berbeda.
+Untuk itu dilakukan perbandingan bagaimana nilai coupling dan cohesion dari jumlah service/partisi yang dimulai dari 1 (monolit) hingga 335 (semua partisi menjadi service individu) dengan setiap \textit{linkage} yang berbeda.
 
 \begin{center}
 	\includegraphics[width=10cm]{img/bab_4/cc_single.png}
@@ -524,7 +525,7 @@ Untuk itu dilakukan perbadingan bagaimana nilai coupling dan cohesion dari jumla
 	\label{fig:cc_single}
 \end{center}
 
- Pada grafik \ref{fig:cc_single}, hasil dekomposisi menggunakan \textit{linkage} \textit{single} memiliki hasil yang buruk untuk coupling tetapi masih memiliki cohesion yang bagus. Nilai coupling menurun drastis ketika jumlah service mencapai 25 service. Jumlah service yang memiliki nilai coupling rendah dan cohesion yang tinggi berkisar dari 25 service ke atas dan dibawah 150 sevice. Ketika jumlah service melebihi 150 service nilai coupling terus meningkat ketika dan nilai cohesion terus memburuk.
+ Pada grafik \ref{fig:cc_single}, hasil dekomposisi menggunakan \textit{linkage} \textit{single} memiliki hasil yang buruk untuk coupling tetapi masih memiliki cohesion yang bagus. Nilai coupling menurun drastis ketika jumlah service mencapai 25 service. Jumlah service yang memiliki nilai coupling rendah dan cohesion yang tinggi berkisar dari 25 service ke atas dan dibawah 150 \textit{service}. Ketika jumlah service melebihi 150 service nilai coupling terus meningkat ketika dan nilai cohesion terus memburuk.
  
 \begin{center}
 	\includegraphics[width=10cm]{img/bab_4/cc_comp.png}
@@ -542,7 +543,7 @@ Pada grafik \ref{fig:cc_complete}, hasil dekomposisi menggunakan \textit{linkage
 
 Pada grafik \ref{fig:cc_avg}, hasil dekomposisi menggunakan \textit{Average} \textit{linkage} memiliki nilai coupling yang cukup tinggi ketika jumlah service sebesar  $\pm 25$. Nilai coupling meningkat secara tajam ketika jumlah service diatas  $\pm 2$ dan mulai menurun saat jumlah service berkisar  $\pm 100$ - $\pm 210$. Ketika jumlah service melebihi  $\pm 210$ nilai coupling semakin memburuk. Untuk nilai cohesion, memiliki nilai yang tinggi saat jumlah service berkisar  $\pm 2$ -  $\pm 25$, ketika jumlah service diatas  $\pm 25$ nilai cohesion menurun drastis hingga jumlah service  $\pm 75$. Nilai cohesion tidak lagi meningkat dan turun perlahan ketika jumlah service bertambah banyak.
 
-Nilai copling dan cohesion yang dihasilkan bisa dilakukan analisis lebih lanjut seperti melihat nilai maksimum, nilai minimum, dan nilai rata-rata pada nilai coupling dan cohesion untuk setiap \textit{linkage}.
+Nilai \textit{coupling} dan \textit{cohesion} yang dihasilkan bisa dilakukan analisis lebih lanjut seperti melihat nilai maksimum, nilai minimum, dan nilai rata-rata pada nilai coupling dan cohesion untuk setiap \textit{linkage}.
 
 \begin{table}[ht]
 \centering
@@ -945,7 +946,7 @@ Pada bagian ini dijelaskan class yang digunakan Service 10 dan Service 17:
 \end{longtable}
 
 \subsubsection{\textit{Docker} }
-Pada tugas akhir ini menggunakan teknologi Docker untuk membangun dan mendistribusikan aplikasi dalam bentuk container. Setiap service akan terhubung pada jaringan yang sama. Setiap service termasuk aplikasi monolih memiliki image yang bisa dilakukan deployment antar platform. 
+Pada tugas akhir ini menggunakan teknologi Docker untuk membangun dan mendistribusikan aplikasi dalam bentuk container. Setiap service akan terhubung pada jaringan yang sama. Setiap service termasuk aplikasi monolitik memiliki image yang bisa dilakukan deployment antar platform. 
 
 \begin{lstlisting}[style=mystyle, language=sh, caption={Shell Script untuk pembuatan jaringan }]
 $ docker network create --subnet=172.18.0.0/16 mono-net
@@ -1017,7 +1018,7 @@ Untuk menambahkan JWT dapat dituliskan pada proses login sendiri seperti pada \r
 
 Data yang disimpan oleh JWT penting diketahui secara umum pada setiap service, seperti pengguna, konteks pengguna(bahasa, zona waktu), perusahaan, dan database(db).  Perusahaan dan database diperlukan karena Odoo memiliki fitur untuk memilih database dan untuk memanggil  aplikasi monolitik(Odoo) harus diketahui databasenya. JWT ini dibuat oleh aplikasi monolitik ketika login dan dihapus ketika logout atau sesi sudah habis(exp). Masa hidup JWT sama dengan masa hidup session-token yaitu 3 bulan.
 
-Untuk menghancurkan sesi maka ditambahakan mekanisme berupa cookie yang menunjukan bahwa jwt sudah tidak valid. Kemudian cookie tersebut akan dicek oleh fungsi di odoo / http.py / Request.savesession untuk menghapus cookie dengan nama 'jwt' . 
+Untuk menghancurkan sesi maka  ditambahkan mekanisme berupa cookie yang menunjukan bahwa jwt sudah tidak valid. Kemudian cookie tersebut akan dicek oleh fungsi di odoo / http.py / Request.savesession untuk menghapus cookie dengan nama 'jwt' . 
 
 \begin{center}
 	\includegraphics[width=10cm]{img/bab_4/triggerCookieDel.png}
@@ -1070,7 +1071,7 @@ Ketika ditemukan data yang berbeda maka dilakukan Update dan apabila bila data t
 	\label{fig:strangle_3}
 \end{center}
 
-Pada pemisahan  model PosCategory, proses penyimpanan data baru dapat memiliki sebuah gambar. Untuk itu ketika ada penyimpanan gambar maka gambar disimpan pada database untuk dicatat dan kemudian dikirimkan kepada aplikasi monolitik melalui model ir.attachment di RPC agar gambar bisa diakses melalui web. Setiap model pada Odoo memiliki hak akses kepada grup tertentu. Hak akses dapat diasumsikan jarang berubah untuk itu agar service mengetahui apakah seorang user memiliki hak akses, service memiliki jadwal melaui cron job untuk mengecheck ke aplikasi monolitik apakah ada akses grup yang berubah.
+Pada pemisahan  model PosCategory, proses penyimpanan data baru dapat memiliki sebuah gambar. Untuk itu ketika ada penyimpanan gambar maka gambar disimpan pada database untuk dicatat dan kemudian dikirimkan kepada aplikasi monolitik melalui model ir.attachment di RPC agar gambar bisa diakses melalui web. Setiap model pada Odoo memiliki hak akses kepada grup tertentu. Hak akses dapat diasumsikan jarang berubah untuk itu agar service mengetahui apakah seorang user memiliki hak akses, service memiliki jadwal melalui cron job untuk mengecheck ke aplikasi monolitik apakah ada akses grup yang berubah.
 
 Service diminta untuk mencatat siapa dan kapan data berubah. Sehingga ada relasi kepada res.user relasi ini hanya memiliki ID, DisplayName, dan GroupID. Informasi ini didapatkan melalui data JWT yang dikirimkan oleh client sebelumnya. \\
 

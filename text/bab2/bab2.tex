@@ -121,9 +121,9 @@ Arsitektur \textit{Microservice} memiliki banyak hal yang harus dipertimbangkan 
 
 	Ketika \textit{service} sedang berkomunikasi dan waktu menunggu jawaban dari \textit{service} lain melebihi batas yang ditentukan maka bisa terjadi kemungkinan \textit{service} tersebut mengalami kegagalan. Pola Circuit Breaker dapat diterapkan bila terjadi hal seperti ini tujuannya agar \textit{service} tidak berkomunikasi pada \textit{service} yang gagal.
 
-	Pada arsitektur \textit{microservice} untuk proses authentikasi pengguna umumnya dilakukan oleh \textit{API Gateway}. Di mana \textit{API Gateway} melanjutkan informasi ke \textit{service} yang bertanggung jawab mengenai authentikasi, solusi umumnya yaitu menggunakan Access Token seperti JWT(JSON Web Token).
+	Pada arsitektur \textit{microservice} untuk proses autentikasii pengguna umumnya dilakukan oleh \textit{API Gateway}. Di mana \textit{API Gateway} melanjutkan informasi ke \textit{service} yang bertanggung jawab mengenai autentikasii, solusi umumnya yaitu menggunakan Access Token seperti JWT(JSON Web Token).
 	\item \textit{Infrastructure patterns}\\
-	Permasalahan infrastruktur yang muncul diluar dari pengembangan aplikasi. Infrastruktur menangani proses\textit{deployment}, discovery, dan External API. 
+	Permasalahan infrastruktur yang muncul diluar dari pengembangan aplikasi. Infrastruktur menangani proses \textit{deployment}, discovery, dan External API. 
 	Discovery adalah bagaimana \textit{service} bisa ditemukan agar bisa berkomunikasi, terdapat beberapa pendekatan yang bisa dilakukan seperti \textit{service} ditemukan dari \textit{client} atau dari server dan proses registrasi bisa dilakukan secara sendiri atau melalui pihak ke-3.
 
 	Eksternal API adalah bagaimana aplikasi pengguna berinteraksi dengan \textit{service}.
@@ -143,7 +143,7 @@ Arsitektur dari sistem ERP dapat didefinisikan menjadi 2 tipe yaitu \textit{logi
 	\item \textit{Web-based}\\
 	Arsitektur \textit{Web-based} mengadopsi teknologi berorientasi objek web di mana pengguna yang ingin menggunakan sistem ERP bisa mengakses melalui \textit{browser} dan internet. \textit{Object-oriented technology} diimplementasi untuk mencampur data dan fungsi yang tersedia di berbagai web \textit{service}.
 	\item \textit{Service Oriented}\\
-	\textit{SOA(Service Oriented Architecture)} adalah sistem yang di mana terdapat fungsi  modular yang berkomunikasi melalui jaringan. Satu atau lebih \textit{service} bisa berkordinasi dalam suatu aktivitas fungsi bisnis. 
+	\textit{SOA(Service Oriented Architecture)} adalah sistem yang di mana terdapat fungsi  modular yang berkomunikasi melalui jaringan. Satu atau lebih \textit{service} bisa berkoordinasi dalam suatu aktivitas fungsi bisnis. 
 	\item \textit{Cloud}\\
 	\textit{Cloud} dapat memberikan solusi bagi organisasi ketika mengadopsi sistem ERP pada kegiatan bisnisnya. Sistem ERP dengan arsitektur \textit{cloud} bisa dikategorikan sebagai tipe \textit{SaaS(Software as a Service)}. Organisasi akan membayar pihak ke tiga setiap periode berdasarkan modul yang digunakannya.\\ 
 \end{enumerate}
@@ -199,7 +199,7 @@ Terdapat beberapa cara untuk melakukan dekomposisi aplikasi monolitik, dekomposi
 	\item \textit{Domain Driver Design} (DDD) \cite{1C7} \\
 		DDD mengambil konsep mencari domain di mana domain tersebut dapat digunakan untuk menyelesaikan permasalahan di dalam domain itu sendiri. Model domain hampir mencerminkan antara desain dan implementasi aplikasi. DDD memiliki 2 konsep yang sangat penting saat mengimplementasikan di arsitektur \textit{microservice} yaitu subdomain dan \textit{bounded context}.
 
-		DDD memisahkan domain model untuk setiap subdomainya, subdomain adalah bagian dari doamin. Subdomain diidentifikasi melalui pendekatan yang sama dengan mencari kemampuan bisnis. DDD menggunakan \textit{bounded context} dalam menentukan batasan suatu domain, \textit{bounded context} termasuk kode yang mengimplementasikan model. Pada \textit{microservice} \textit{bounded context} bisa berupa satu \textit{service} atau beberapa kumpulan \textit{service}.
+		DDD memisahkan domain model untuk setiap subdomainya, subdomain adalah bagian dari domain. Subdomain diidentifikasi melalui pendekatan yang sama dengan mencari kemampuan bisnis. DDD menggunakan \textit{bounded context} dalam menentukan batasan suatu domain, \textit{bounded context} termasuk kode yang mengimplementasikan model. Pada \textit{microservice} \textit{bounded context} bisa berupa satu \textit{service} atau beberapa kumpulan \textit{service}.
 	\item Analisis Kode \cite{74C,5B1}  \\
 		Transformasi aplikasi monolitik menjadi \textit{microservice} bisa dilakukan dengan strategi analisis statik atau dinamis. Umumnya hal yang perhatikan adalah ketergantungan / keterhubungan antar module, kemudian menerapkan proses \textit{clustering} atau algoritma evolusi pada ketergantungan module untuk menghasilkan partisi-partisi module yang sudah ditentukan dari evaluasi tertentu seperti nilai \textit{coupling} yang rendah dan nilai \textit{cohesion} yang tinggi. Analisis ini sendiri bisa berupa campuran antara proses bisnis dekomposisi secara fungsional, \textit{control flow}, \textit{data flow}, dan \textit{semantic model}
 		
@@ -304,7 +304,7 @@ Untuk membuat kedekatan antar objek perlu diketahui tipe data yang digunakan aga
 Unsupervise Clustering adalah pengelompokan di mana tidak diberikan sebuah label untuk mengetahui partisi objek sehingga pengelompokan hanya menggunakan nilai kedekatan antar objek. Terdapat 2 bentuk Unsupervised Clustering \cite{2C9}:
 \begin{enumerate}[leftmargin=1.3cm]
 	\item \textit{Hierarchical Clustering} \\
-	Metode \textit{Hierarchical Clustering} adalah sebuah prosedur untuk mentranformasi sebuah \textit{proximity matrix} menjadi beberapa partisi. Clustering adalah sebuah partisi di mana komponen dari partisi disebut \textit{clusters}. Beberapa partisi memiliki suatu urutan dan tingkatan berdasarkan bagaimana partisi tersebut disatukan. Terdapat 2 pendekatan algoritma dalam membentuk suatu partisi yaitu secara \textit{agglomerative} dan \textit{divisive}.\cite{2C9} 
+	Metode \textit{Hierarchical Clustering} adalah sebuah prosedur untuk mentransformasi sebuah \textit{proximity matrix} menjadi beberapa partisi. Clustering adalah sebuah partisi di mana komponen dari partisi disebut \textit{clusters}. Beberapa partisi memiliki suatu urutan dan tingkatan berdasarkan bagaimana partisi tersebut disatukan. Terdapat 2 pendekatan algoritma dalam membentuk suatu partisi yaitu secara \textit{agglomerative} dan \textit{divisive}.\cite{2C9} 
 
 	\begin{center}
 		\includegraphics[width=8cm]{img/bab_2/hierarchi.png}
@@ -345,7 +345,7 @@ Unsupervise Clustering adalah pengelompokan di mana tidak diberikan sebuah label
 Untuk mengetahui apakah pengelompokan yang dihasilkan dari proses \textit{clustering} memiliki kualitas yang tepat maka perlu dilakukan evaluasi yang mempertimbangkan aspek \textit{microservice}.	
 \begin{enumerate}[leftmargin=1.3cm]
 	\item \textit{Structural and Behavioral Dependencies} \cite{5B1}\\
-	Microservice dapat dilihat sebagi kumpulan dari suatu \textit{class} yang berkolaborasi satu sama lain untuk memberikan suatu fungsi. Hal ini dapat ditentukan dari kode program melalui nilai internal \textit{coupling}. Kolaborasi bisa ditentukan dengan nilai \textit{cohesion} dari jumlah data seperti atribut yang tidak tetap.
+	Microservice dapat dilihat sebagai kumpulan dari suatu \textit{class} yang berkolaborasi satu sama lain untuk memberikan suatu fungsi. Hal ini dapat ditentukan dari kode program melalui nilai internal \textit{coupling}. Kolaborasi bisa ditentukan dengan nilai \textit{cohesion} dari jumlah data seperti atribut yang tidak tetap.
 
 	\begin{equation}
 		F O n e(M)=\frac{1}{2}(I n t e r C o u p(M)+I n t e r C o h(M))
@@ -379,7 +379,7 @@ Untuk mengetahui apakah pengelompokan yang dihasilkan dari proses \textit{cluste
 	Salah satu karakteristik \textit{microservice} adalah memiliki data Autonomy. Sebuah \textit{microservice} dapat berdiri sendiri bila tidak memerlukan data dari \textit{service} lainnya. Dengan demikian semakin kecil pertukaran data antar \textit{service} maka semakin baik \textit{microservice}. Perhitungan dilakukan dengan mengukur nilai ketergantungan data antara \textit{class} dan ketergantungannya dengan \textit{class} external.
 	
 	\item \textit{Iter-Partition Call Percentage}(ICP) \cite{ECD} \\
-	Menghting jumlah persentase \textit{call} secara runtime antara 2 partisi di \textit{microservice}. Semakin kecil nilai ICP menunjukkan kurangnya interaksi antara partisi di mana merepresentasikan \textit{microservice} yang bagus.	
+	Menghitung jumlah persentase \textit{call} secara runtime antara 2 partisi di \textit{microservice}. Semakin kecil nilai ICP menunjukkan kurangnya interaksi antara partisi di mana merepresentasikan \textit{microservice} yang bagus.	
 	
 	\item Jumlah Interface \cite{ECD} \\
 	Jumlah Interface/ Interface Number(IFN) menghitung jumlah interface yang ada di dalam \textit{microservice}. ifni adalah jumlah interface di dalam \textit{microservice} dan N adalah total interface di \textit{microservice}. Semakin kecil nilai IFN mengindikasikan rekomendasi \textit{microservice} yang lebih baik\\
@@ -401,10 +401,10 @@ PyCG juga memiliki presisi dan \textit{recall} yang tinggi bila dibandingkan den
 \subsubsection{\textit{Kong Gateway} \cite{kong}}
 Kong Gateway adalah \textit{API Gateway} yang ringan, cepat, dan fleksibel serta kompatibel di Cloud. Dengan Kong Gateway pengguna dapat membuat automatisasi, desentralisasi aplikasi/service dan transisi ke \textit{microservice} dan memiliki kemampuan mengatur dan mengawasi API.
 
-Kong Gateway memiliki Kong Manager yaitu graphical user interface (GUI). Di mana menggunakan Kong Admin API untuk mengatur Kong Gateway. Kong Manager dapat menambahkan rute dan \textit{service} baru, mengaktifkan dan mematikan plugins, membuat grup untuk tim, dan penmantauan serta pengecheckan status \textit{service}. Plugins dapat menambahkan fitur pada Kong seperti rate limiting untuk mengkontrol jumlah request yang dikirimkan ke suatu servie dan pengaturan cache.
+Kong Gateway memiliki Kong Manager yaitu graphical user interface (GUI). Di mana menggunakan Kong Admin API untuk mengatur Kong Gateway. Kong Manager dapat menambahkan rute dan \textit{service} baru, mengaktifkan dan mematikan plugins, membuat grup untuk tim, dan pemantauan serta pengecekan status \textit{service}. Plugins dapat menambahkan fitur pada Kong seperti rate limiting untuk mengontrol jumlah request yang dikirimkan ke suatu \textit{service} dan pengaturan cache.
 \\
 \subsubsection{\textit{inspect} \cite{inspect}}
-Inspect adalah library bawaan dari python, di mana library ini memberikan fungsi untuk mengetahui informasi tentang objek yang sedang hidup seperti module,class, method, fungsi, traceback, frame objek, dan kode objek. Terdapat 4 bagian pada library ini yaitu pengecheckan tipe data, mendapatkan kode program, inpeksi \textit{class} atau fungsi, dan memeriksa interpreter stack.
+Inspect adalah library bawaan dari python, di mana library ini memberikan fungsi untuk mengetahui informasi tentang objek yang sedang hidup seperti module,class, method, fungsi, traceback, frame objek, dan kode objek. Terdapat 4 bagian pada library ini yaitu pengecekan tipe data, mendapatkan kode program, inpeksi \textit{class} atau fungsi, dan memeriksa interpreter stack.
 
 Module yang digunakan pada tugas akhir ini:
 \begingroup
@@ -599,7 +599,7 @@ Terdapat 2 jenis addons yaitu addons base dan addons. Yang membedakannya addons 
 
 Komponen utama pada Odoo yaitu pada bagian ORM, bagian ini menghindari proses penulisan SQL secara manual dan memudahkan untuk dikembangkan lebih lanjut serta meningkatkan keamanan. Objek bisnis ditulis dalam bentuk class Python yang merupakan turunan dari Model, dimana model ini dapat di integrasikan ke dalam sistem. Model dapat dikonfigurasi berdasarkan pengaturan atributnya di class tersebut. Atribut yang paling utama yaitu {\_}name karena {\_}name akan diketahui oleh semua model di model Odoo. Terdapat 3 bentuk turunan lainnya pada Model yaitu AbstractModel, Model, dan TransientModel. Perbedaan diantara Model ini adalah 'AbstractModel' tidak menyimpan data di database, 'Model' menyimpan data di database dan 'TransientModel' menyimpan data di database sementara dalam waktu tertentu.
 
-Model Odoo merupakan turuan dari class BaseModel dimana BaseModel memiliki metaclass yang disebut MetaModel, pada class BaseModel memiliki atribut yaitu {\_}name yaitu nama model dari class tersebut dengan format nama path dot (.) contohnya 'product.category', Penamaan ini mempengaruhi nama tabel pada database sehingga nama tabel di database berdasarkan contoh tersebut 'product{\_}category'. Atribut lainnya yaitu seperti {\_}inherit, {\_}inherits, dan comodel{\_}name.
+Model Odoo merupakan turunan dari class BaseModel dimana BaseModel memiliki metaclass yang disebut MetaModel, pada class BaseModel memiliki atribut yaitu {\_}name yaitu nama model dari class tersebut dengan format nama path dot (.) contohnya 'product.category', Penamaan ini mempengaruhi nama tabel pada database sehingga nama tabel di database berdasarkan contoh tersebut 'product{\_}category'. Atribut lainnya yaitu seperti {\_}inherit, {\_}inherits, dan comodel{\_}name.
  
 Model Odoo bisa memiliki banyak parent yang diturunkan sehingga tipe atribut {\_}inherit bisa berupa str atau list. Apabila atribut nama tidak ditentukan maka model tersebut akan mengupdate parent tersebut (termasuk datanya) sedangkan bila tidak maka model tersebut akan memiliki relasi dengan parent dan data dianggap sebagai data terpisah. Sedangkan attribute {\_}inherits menggunakan \textit{inheritance} dengan bentuk \textit{delegation}, dengan ini model memiliki referensi antar model lainnya tetapi model tersebut bukanlah menjadi sebuah model lain tersebut. Pada gambar \ref{fig:inheritModel} dapat dilihat lebih jelas ilustrasi inheritance pada model Odoo.
 

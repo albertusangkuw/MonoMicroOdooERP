@@ -12,7 +12,7 @@ Namun untuk melakukan perubahan arsitektur harus dilakukan dekomposisi, proses d
 
 Pada penelitian ini menggunakan pendekatan \textit{Hierarchical Clustering} untuk membantu menemukan \textit{service} yang tepat, di mana \textit{Hierarchical Clustering} memberikan rekomendasi bagaimana pengelompokan \textit{service} berdasarkan pemilihan partisi.
 
-Proses dimulai dari melalukan analisis kode seperti \textit{Call Graph} yang dihasilkan dari kode aplikasi Odoo. Hasil analisis kode di ekstraksi menjadi matriks untuk dilakukan \textit{Hierarchical Clustering}. \textit{Linkage} yang digunakan dalam melakukan \textit{Hierarchical Clustering} yaitu \textit{single}, \textit{complete}, dan \textit{average}, kemudian  Partisi  dipilih melalui nilai secara struktural yaitu nilai \textit{coupling}  dan \textit{cohesion}. Hasil terbaik dari \textit{clustering} disampling untuk diimplementasikan menjadi \textit{service}, penelitian ini akan menggunakan strategi dengan pola \textit{strangle fig } dan \textit{branch by abstraction} untuk memecah kode di monolitik.
+Proses dimulai dari melakukan analisis kode seperti \textit{Call Graph} yang dihasilkan dari kode aplikasi Odoo. Hasil analisis kode di ekstraksi menjadi matriks untuk dilakukan \textit{Hierarchical Clustering}. \textit{Linkage} yang digunakan dalam melakukan \textit{Hierarchical Clustering} yaitu \textit{single}, \textit{complete}, dan \textit{average}, kemudian  Partisi  dipilih melalui nilai secara struktural yaitu nilai \textit{coupling}  dan \textit{cohesion}. Hasil terbaik dari \textit{clustering} disampling untuk diimplementasikan menjadi \textit{service}, penelitian ini akan menggunakan strategi dengan pola \textit{strangle fig } dan \textit{branch by abstraction} untuk memecah kode di monolitik.
 
 \section{Kerangka Pemikiran}
 \begin{center}
@@ -70,7 +70,7 @@ Keterbatasannya informasi \textit{call graph} yang dihasilkan dari PyCG, sehingg
 
 Object yang dianalisis yaitu \textit{class} yang merupakan turunan dari \textit{class} odoo.models.MetaModel, di mana \textit{class} MetaModel memiliki properti seperti  name, \_inherits , \_inherit, dan comodel\_name. Hasil ekstrasi dependency model digabungkan melalui nama module PyCG.
 
-\subsubsection{Pengabungan dan Optimisasi Hasil Ekstraksi}
+\subsubsection{Penggabungan dan Optimisasi Hasil Ekstraksi}
 Graph yang dihasilkan dari proses ekstrasi dipisahkan antara module eksternal dan module internal. Module yang digunakan untuk pengelompokan adalah module internal, setiap \textit{call} yang dilakukan memiliki nama \textit{call} yang berupa gabungan antara nama fungsi / \textit{class} / module /file di kode program. PyCG tidak memberikan informasi apakah nama \textit{call} tersebut berupa tipe apa, untuk itu pengelompokan dilakukan secara campuran yaitu berdasarkan module dan file, yang dikelompokkan menjadi file hanya addons base.
 
 Nama \textit{call} yang disatukan menjadi module adalah \textit{call} yang memiliki awalan(root) addons atau odoo/addons dan nama \textit{call} yang disatukan dengan file adalah nama \textit{call} selain addons. Call yang dikelompokkan memiliki nilai agregasi dari jumlah \textit{call}. Jumlah \textit{call} dapat digunakan sebagai weight yang dapat menunjukkan kekuatan antara \textit{call} satu sama lain, proses ini membentuk \textit{call} baru yang lebih ringkas dan relevan dalam bentuk \textit{graph}. 
@@ -84,7 +84,7 @@ Pada gambar \ref{fig:dg_al} dapat dilihat hasil dari graph yang dihasilkan dari 
 \end{center}
 
 \subsubsection{Hierarchical Clustering}
-Graph yang berbentuk \textit{Adjacency} list diubah menjadi \textit{adjacency} \textit{matrix}, proses normalisasi data dilakukan pada matriks. Tujuan normalisasi data agar nilai \textit{weight}(jumlah \textit{call}) dari relasi berkisar dari 1 hingga 0. Semakin banyak jumlah \textit{call} dilakukan maka nilai mendekati 1,kemudian matriks tersebut dibuat menjadi \textit{Distance} \textit{Matrix}, rumus jarak yang digunakan ada 2 yaitu Jaccard dan Struktural Similarity. Jaccard menghasilkan hasil yang bagus pada remodularisasi perangkat lunak dan Struktural Similarity digunakan untuk melihat kedekatan dari sisi intesitas panggilan antara module.
+Graph yang berbentuk \textit{Adjacency} list diubah menjadi \textit{adjacency} \textit{matrix}, proses normalisasi data dilakukan pada matriks. Tujuan normalisasi data agar nilai \textit{weight}(jumlah \textit{call}) dari relasi berkisar dari 1 hingga 0. Semakin banyak jumlah \textit{call} dilakukan maka nilai mendekati 1,kemudian matriks tersebut dibuat menjadi \textit{Distance} \textit{Matrix}, rumus jarak yang digunakan ada 2 yaitu Jaccard dan Struktural Similarity. Jaccard menghasilkan hasil yang bagus pada remodularisasi perangkat lunak dan Struktural Similarity digunakan untuk melihat kedekatan dari sisi intensitas panggilan antara module.
 
 Berikut pada gambar \ref{fig:weight_normal_mat} dilakukan proses perubahan dari \textit{adjacency} list menjadi \textit{adjacency} \textit{matrix} yang memiliki bobot. Kemudian dilakukan normalisasi kolom, dimana setiap nilai dibandingkan dengan nilai maximum dan nilai minimum pada kolom yang sama. 
 
@@ -118,7 +118,7 @@ Distance \textit{Matrix} / Matriks kedekatan dapat dilihat nilai dengan ilustras
 
 Pemilihan pengelompokan dengan hierarchical agglomerative \textit{clustering} dibandingkan Partition \textit{clustering} karena tidak mudah untuk mengetahui jumlah ideal \textit{cluster}. Untuk menentukan metode \textit{linkage} tugas akhir ini menggunakan \textit{single} linkage, \textit{average} \textit{linkage}, dan \textit{complete} linkage. Hasil dari masing-masing linkage dipilih jumlah partisi yang ideal untuk \textit{microservice}. Penggunaan \textit{single} linkage memiliki kecenderungan menghasilkan banyak partisi yang berisi modul sedikit tetapi ada satu partisi memiliki banyak module sedangkan \textit{complete} \textit{linkage} menghasilkan partisi yang memiliki jumlah modul yang sama dengan partisi lainnya. Untuk \textit{Average} linkage menghasilkan bentuk partisi di antara \textit{complete} linkage dan \textit{single} linkage.
 
-Pada gambar \ref{fig:hc_detail_1} dijelaskan mengenai proses perhitungan \textit{Hierarchical Clustering} dengan \textit{distance} matriks yang sebelumnya sudah dihitung. Perhitungan \textit{Hierarchical Clustering} terdapat 5 bagian besar yaitu pertama memiliki objek pertama (urutan pertama), ke-2 mencari objek lainnya yang terdekat berdasarkan \textit{distance} \textit{matrix}, ke-3 mengabungkan objek yang terdekat dengan objek yang pertama dan membuat kelompok baru dari objek tersebut, ke-4 memperbaharui nilai jaraknya pada kelompok baru / partisi menggunakan \textit{linkage}. Penggunaan \textit{linkage} akan membandingkan 2 nilai objek yaitu dari nilai objek yang baru dan nilai objek yang sebelumnya (yang terdapat di \textit{distance} matriks) seperti min memilih nilai yang lebih rendah, \textit{complete} memilih nilai yang lebih tinggi, dan \textit{average} melakukan nilai rata-rata dari 2 nilai objek. Langkah terakhir bila sudah tidak ada objek tersisa maka perhitungan berhenti bila masih ada maka dilajukan kembali proses yang ke-2.
+Pada gambar \ref{fig:hc_detail_1} dijelaskan mengenai proses perhitungan \textit{Hierarchical Clustering} dengan \textit{distance} matriks yang sebelumnya sudah dihitung. Perhitungan \textit{Hierarchical Clustering} terdapat 5 bagian besar yaitu pertama memiliki objek pertama (urutan pertama), ke-2 mencari objek lainnya yang terdekat berdasarkan \textit{distance} \textit{matrix}, ke-3 mengabungkan objek yang terdekat dengan objek yang pertama dan membuat kelompok baru dari objek tersebut, ke-4 memperbaharui nilai jaraknya pada kelompok baru / partisi menggunakan \textit{linkage}. Penggunaan \textit{linkage} akan membandingkan 2 nilai objek yaitu dari nilai objek yang baru dan nilai objek yang sebelumnya (yang terdapat di \textit{distance} matriks) seperti min memilih nilai yang lebih rendah, \textit{complete} memilih nilai yang lebih tinggi, dan \textit{average} melakukan nilai rata-rata dari 2 nilai objek. Langkah terakhir bila sudah tidak ada objek tersisa maka perhitungan berhenti bila masih ada maka dilakukan kembali proses yang ke-2.
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/hc_detail_1.png}
@@ -196,7 +196,7 @@ Berikut adalah hasil nilai \textit{coupling} dan \textit{cohesion} masing-masing
 
 \subsection{Dekomposisi Monolitik ke \textit{Microservice}}
 \subsubsection{Strategi Pemisahan Kode}
-Odoo adalah aplikasi ERP berbasis web, tampilan pada Odoo bisa dibuka pada broser yang kompatibel. Odoo menggunakan pendekatan SPA (Single Page Application) dan adanya server rendering untuk menghasilkan HTML yang dinamik. Pada gambar \ref{fig:arsitektur_mono} terlihat bahwa aplikasi odoo merupakan aplikasi berbasis client-server.
+Odoo adalah aplikasi ERP berbasis web, tampilan pada Odoo bisa dibuka pada browser yang kompatibel. Odoo menggunakan pendekatan SPA (Single Page Application) dan adanya server rendering untuk menghasilkan HTML yang dinamik. Pada gambar \ref{fig:arsitektur_mono} terlihat bahwa aplikasi odoo merupakan aplikasi berbasis client-server.
 \begin{center}
 	\includegraphics[width=12cm]{img/bab_3/mono_ori.png}
 	\captionof{figure}{Arsitektur di Monolitik} 
@@ -231,7 +231,7 @@ Untuk menghubungkan antara bagian yang sudah dipisah dari monolitik dengan bagia
 	\label{fig:asd}
 \end{center}
 
-Pemisahan kode mempengaruhi proses autentikasi, proses autentikasi pada aplikasi Odoo terdapat 2 cara yaitu melalui password atau API-Key. Odoo menyimpan sesi autentikasi di cookie namun bukan dalam format JSON Web Token (JWT) tapi bentuk HTTP session. Untuk itu diperlukan modifikasi pada sistem autentikasi yang menggunakan format JWT agar setiap \textit{service} tidak perlu menvalidasi berkali-kali apakah sesi itu valid. 
+Pemisahan kode mempengaruhi proses autentikasi, proses autentikasi pada aplikasi Odoo terdapat 2 cara yaitu melalui password atau API-Key. Odoo menyimpan sesi autentikasi di cookie namun bukan dalam format JSON Web Token (JWT) tapi bentuk HTTP session. Untuk itu diperlukan modifikasi pada sistem autentikasi yang menggunakan format JWT agar setiap \textit{service} tidak perlu memvalidasi berkali-kali apakah sesi itu valid. 
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/stateDiagramLogin.png}
