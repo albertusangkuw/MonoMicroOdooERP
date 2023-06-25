@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.module.module" id="base.module_web_studio">
+            <field name="name">web_studio</field>
+            <field name="shortdesc">Studio</field>
+            <field name="sequence">75</field>
+            <field name="category_id" ref="base.module_category_administration_administration"/>
+            <field name="application" eval="True"/>
+            <field name="summary">Create and Customize Applications</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Odoo S.A.</field>
+            <field name="to_buy" eval="True"/>
+            <field name="icon">/base/static/img/icons/web_studio.png</field>
+            <field name="website">https://odoo.com/app/studio?utm_source=db&amp;utm_medium=module</field>
+        </record>
+
+    </data>
+</odoo>

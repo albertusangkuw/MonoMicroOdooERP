@@ -1,0 +1,19 @@
+class Graph:
+    name string
+    relation Graph[]
+    inherit Graph[]
+    
+    def addRelation(self):
+        self.checkRelation()
+        
+    def getWeight(self):
+        
+class InspectBuilder:
+     member
+     tmp class
+     
+
+# Menerjemahkan module
+class HelperFunction:
+    def walkTroughFolder(folderSC,filterExt='.py'):
+    def pathToModule(files,removeFile=True):

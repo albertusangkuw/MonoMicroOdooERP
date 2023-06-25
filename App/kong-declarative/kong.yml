@@ -1,0 +1,60 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+- name: odoo-mono
+  port: 8069
+  protocol: http
+  host: 172.18.0.55
+  routes:
+  - name: odoo-mono-route
+    methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - PATCH
+        - HEAD
+        - OPTION
+    paths:
+    - /
+    strip_path: false
+    preserve_host: true
+
+- name: service-10
+  port: 1323
+  protocol: http
+  host: 172.18.0.51
+  path: /jsonrpc
+  routes:
+  - name: service-10-route
+    methods:
+        - POST
+    paths:
+    - /web/dataset/call_kw/pos.category/create
+    - /web/dataset/call_kw/pos.category/write
+    - /web/dataset/call_kw/pos.category/unlink
+    - /web/dataset/call_kw/pos.category/read
+    - /web/dataset/call_kw/product.tag/create
+    - /web/dataset/call_kw/product.tag/write
+    - /web/dataset/call_kw/product.tag/unlink
+    - /web/dataset/call_kw/product.tag/read
+    strip_path: false
+    preserve_host: true
+
+- name: service-17
+  port: 1324
+  protocol: http
+  host: 172.18.0.52
+  path: /jsonrpc
+  routes:
+  - name: service-17-route
+    methods:
+        - POST
+    paths:
+    - /web/dataset/call_kw/calendar.event.type/create
+    - /web/dataset/call_kw/calendar.event.type/write
+    - /web/dataset/call_kw/calendar.event.type/unlink
+    - /web/dataset/call_kw/calendar.event.type/read
+    strip_path: false
+    preserve_host: true
