@@ -1,6 +1,6 @@
 #  Penerapan Microservice dengan Hierarchical Clustering untuk Dekomposisi dari Monolitik pada Enterprise Resource Planning
 
-<img src="poster/2.png" alt="Poster Image" />
+<img src="Poster/2.png" alt="Poster Image" />
 
 
 ## Abstract [ID]
@@ -17,4 +17,4 @@ Enterprise Resource Planning (ERP) applications can be built using Monolith Arch
 - `Journal.pdf`: Journal TA (ID) PDF [ [here](/Laporan/journal.pdf) ].
 
 ## Poster
-<img src="poster/1.png" alt="Poster Image" />
+<img src="Poster/1.png" alt="Poster Image" />
