@@ -619,3 +619,345 @@
 \end{longtable}
 \end{small}
 \endgroup
+
+
+
+\appcaption{LAMPIRAN D}
+\chapter{\\ DAFTAR ALGORITMA}
+
+\begin{lstlisting}[style=mystyle, language=Python, caption={Penerapan Class Abstract}]
+class PosCategoryAbstract(models.AbstractModel):
+  _name = 'pos.category_abstract'
+  _description = 'Pos Category Abstract RPC'
+  _TABLE_NAME = "pos_category"
+  _MODEL_NAME = "pos.category"
+  _HOST_RPC = 'http://172.18.0.51:1323'
+  _PATH_RPC = "/jsonrpc/web/dataset/call_kw/pos.category/"
+  _TARGET_COLUMN = [ 'id', 'name', 'parent_id', 'sequence', 'create_uid', 
+                      'create_date', 'write_uid', 'write_date', 'display_name',  'has_image']
+  _TARGET_TYPE_COLUMN = [ int , str , int , int, int, 'datetime', int, 'datetime', str,  bool]    
+  
+  def create_payload(self,modelName, method,args, context, idCall):
+      # ...
+  
+  def _is_same_data(self, old, new):
+      # ...
+    
+  def call_rpc(self, method, headers, context , args=[],keyResult='result'):
+      payload = self.create_payload(self._MODEL_NAME, method,args,context,1)
+      # print(json.dumps(payload))
+      try:
+          _logger.info(f"Request RPC: {self._HOST_RPC}{self._PATH_RPC}")
+          response = requests.post(f"{self._HOST_RPC}{self._PATH_RPC}", headers=headers, data=json.dumps(payload))
+          if response.ok:
+              result = response.json()
+              if 'error' in result:
+                  raise Exception(f"Internal Error In Result RPC : {result['error']}")
+              # print(result)
+              return result[keyResult]
+          else:
+              print(response.text)
+              raise Exception(f"Internal Error From RPC : {self._HOST_RPC}{self._PATH_RPC} - Response Not OK")
+      except Exception as e:
+          raise Exception(f"Internal Error By Request RPC: {self._HOST_RPC}{self._PATH_RPC}  ")
+    
+  def manual_insert(self,env,records):
+      if len(records) == 0:
+          return
+      try:
+          listColumn = ",".join(self._TARGET_COLUMN)
+          query = f"INSERT INTO {self._TABLE_NAME} ({listColumn}) VALUES "
+          targetValues =  f"({', '.join(['%s'] * len(self._TARGET_COLUMN))})"
+          
+          values = []
+          realValues = []
+          for record in records:
+              values.append(targetValues)
+              tmpRV = []
+              c = self._TARGET_COLUMN
+              ct = self._TARGET_TYPE_COLUMN
+              for i in range(0,len(self._TARGET_COLUMN)):
+                  newData = record.get(c[i])
+                  tmpRV.append(self.convert_to_odoo_type(newData, ct[i]))
+              realValues += tmpRV
+          query += ','.join(values)
+          
+          placeholders = tuple(realValues)
+          preview_sql_query = query % placeholders
+          print(preview_sql_query)
+          env.cr.execute(query, realValues)
+          env.cr.commit()
+          _logger.info('Data inserted successfully into %s', self._TABLE_NAME)
+      except Exception as e:
+          _logger.error('Error inserting data into %s: %s', self._TABLE_NAME, str(e))
+          raise
+  
+  def manual_update(self,env,records):
+      # ...
+  
+  def manual_get(self,env,ids=[],returnobj=False):
+      # ...
+  
+  def manual_count(self,env):
+      # ...
+    
+  def manual_delete(self,env,records):
+      # ...
+  
+  @abstractmethod
+  def sync_data(self,ids):
+      pass
+\end{lstlisting} 
+
+\pagebreak 
+
+\begin{lstlisting}[style=mystyle, language=Python, caption={Penerapan Class Adapter}]
+class PosCategoryAdapter(models.Model, PosCategoryAbstract):
+  _name = "pos.category"
+  _description = "Point of Sale Category"
+  _order = "sequence, name"
+  _rec_name = "display_name"
+
+  name = fields.Char(string='Category Name')
+  display_name = fields.Char(string='Display Name')
+  parent_id = fields.Many2one('pos.category', string='Parent Category')
+  child_id = fields.One2many('pos.category', 'parent_id', string='Children Categories')
+  sequence = fields.Integer(help="Gives the sequence order when displaying a list of product categories.")
+  image_128 = fields.Image("Image", max_width=128, max_height=128)
+  has_image = fields.Boolean()
+
+   
+  def sync_data(self,ids = []):
+      _logger.info("Sync Data Started !!" )
+      # Kondisi ketika ID's yang diminta semua maka ID request dihilangkan
+      if len(ids) == self.manual_count(self.env):
+          ids = []
+      api_data =  self.call_rpc("read", dict(http.request.httprequest.headers), self.env.context ,[ids])
+      existing_records = self.manual_get(self.env,ids=ids,returnobj=True)
+      createList = []
+      updateList = []
+      sameCounter = 0
+      
+      for data in api_data:
+          record = {}
+          if data['id'] in existing_records:
+              existing_records[data['id']]['___metadata_found'] = True
+              record = existing_records[data['id']]
+          if record:
+              if self._is_same_data(record,data) == False:
+                  updateList.append(data)
+              else:
+                  sameCounter += 1
+          else:
+              createList.append(data)
+          
+      deleteList = []
+      
+      # #Delete Cek, ketika semua data diambil dari service
+      ex_key = list(existing_records.keys())
+      for k in ex_key:
+          if '___metadata_found' in existing_records[k]:
+              #Sudah ditemukan sebelumnya ketika pencarian data di api_data
+              continue
+          else: 
+              deleteList.append(k)
+      
+      _logger.info(f"Existing: {len(existing_records)}; Create: {len(createList)}; Update: {len(updateList)} , Delete: {len(deleteList)}, Unchange List: {sameCounter} ")
+      
+      self.manual_delete(self.env,deleteList)
+      self.manual_insert(self.env,createList)
+      self.manual_update(self.env,updateList)
+      self.env[self._name].clear_caches()
+  
+  @api.model
+  def create(self, records):
+      _logger.info("Create Triggered from Mono- ")
+      newID =  self.call_rpc("create", dict(http.request.httprequest.headers), self.env.context ,[records])
+      return self.browse(newID)
+  
+  @api.model
+  def browse(self, ids=None):
+      if not ids:
+          ids = ()
+      elif ids.__class__ is int:
+          ids = (ids,)
+      else:
+          ids = tuple(ids)
+      _logger.info("Browse Adapter Triggered :" + str(ids))
+      currRow  = self.manual_count(self.env)
+      if currRow == 0:
+          self.sync_data()  
+      return self.__class__(self.env, ids, ids)
+\end{lstlisting} 
+
+\pagebreak 
+
+\begin{lstlisting}[style=mystyle, language=C, caption={Penerapan di Sisi Service-10 di kasus menambahkan PosCategory}]
+// service-10/controller/rpc.go
+var AvailableModel = map[string]int{
+  "pos.category": 1,
+  "product.tag":  2,
+}
+var availableLang = "en_US"
+var availableMethod = [...]string{"create", "write", "read", "unlink"}
+
+func ProcessRPC(c echo.Context) error {
+  var requestBody dto.CustomJSONRPCContainer
+
+  body, err := io.ReadAll(c.Request().Body)
+
+  if err != nil {
+    return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+  }
+
+  err = json.Unmarshal(body, &requestBody)
+  if err != nil {
+    return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+  }
+
+  if requestBody.Method != "call" {
+    return c.JSON(http.StatusMethodNotAllowed, map[string]string{"error": "No method available for " + requestBody.Method})
+  }
+  _, modelExist := AvailableModel[requestBody.Params.Model]
+  if !modelExist {
+    return c.JSON(http.StatusMethodNotAllowed, map[string]string{"error": "No model available for " + requestBody.Params.Model})
+  }
+  if requestBody.Params.Kwargs.Context.Lang != availableLang {
+    return c.JSON(http.StatusNotImplemented, map[string]string{"error": "Current context language is not yet available for this " + requestBody.Params.Model})
+  }
+
+  for _, m := range availableMethod {
+    if requestBody.Params.Method == m {
+      jwtInfo, okJwt := c.Get("jwt_data").(*dto.JWTData)
+      if !okJwt {
+        return c.JSON(http.StatusBadRequest, map[string]string{"error": "No JWT Content "})
+      }
+
+      return c.JSON(http.StatusOK, modelSelector(requestBody.Params.Model, m, body, jwtInfo))
+    }
+  }
+  return c.JSON(http.StatusMethodNotAllowed, map[string]string{"error": "No method available for " + requestBody.Params.Method})
+
+}
+  
+// service-10/controller/mapper_pos_category.go
+// Format Data Interface "args": [
+//
+//	    {
+//	        "image_128": "false/base64",
+//	        "name": "PosCategoryTest",
+//	        "parent_id": 3
+//	    }
+//	],
+func createPosCategoryMapper(data dto.CreatePosCategoryDTO, user model.ResUser) interface{} {
+  for _, p := range data.Params.Args {
+    parentID, _ := odoo.Val2Int(p.ParentID)
+    image128, _ := odoo.Val2String(p.Image128)
+    newPos, err := pos.Create(
+      p.Name,
+      uint(parentID),
+      p.Sequence,
+      image128,
+      user)
+
+    if err != nil {
+      fmt.Println(err.Error())
+      return dto.GetResultDTO(data.ID, false)
+    }
+    //Contoh return
+    //{
+    //	"jsonrpc": "2.0",
+    //	"id": 26,
+    //	"result": 17
+    //}
+    return dto.GetResultDTO(data.ID, newPos)
+  }
+  return dto.GetResultDTO(data.ID, false)
+}  
+
+// service-10/controller/rpc_pos_category.go
+func methodPosCategorySelector(method string, body []byte, context *dto.JWTData) interface{} {
+	currModel := "pos.category"
+	switch method {
+	case "create":
+		acc, gid := service.IsAllowedByACL(service.ModelID[currModel], context.GroupID, "c")
+		if !acc {
+			return map[string]string{"no access": "create"}
+		}
+		var createDTO dto.CreatePosCategoryDTO
+		err := json.Unmarshal(body, &createDTO)
+		if err != nil {
+			return map[string]string{"error parse dto": err.Error()}
+		}
+		return createPosCategoryMapper(createDTO, model.ResUser{UID: int(context.Uid), GroupID: gid})
+	case "read":
+    // ...
+	case "write":
+    // ...
+	case "unlink":
+		// ...
+	default:
+		return nil
+
+	}
+
+  // service-10/service/pos/create.go 
+  func Create(name string, parentID uint, sequence int, imageBase64 string, uid model.ResUser) (uint, error) {
+    pos := model.PosCategory{
+      Name:          name,
+      Sequence:      sequence,
+      CreateAt:      time.Now(),
+      CreateResUser: uid,
+      WriteResUser:  uid,
+      WriteAt:       time.Now(),
+    }
+    var parentRef model.PosCategory
+    if parentID != 0 {
+      //Get parent
+      parentRef.ID = parentID
+      result := utils.Database().First(&parentRef, parentID)
+      if result.Error != nil {
+        //No Parent
+        return 0, result.Error
+      }
+      pos.ParentID = parentRef.ID
+    }
+
+    tx := utils.Database().Begin()
+    CreateUserIfNotFound(tx, uid)
+
+    if imageBase64 == "" {
+      pos.ImageID = nil
+      res := tx.Create(&pos)
+      if res.Error != nil {
+        tx.Rollback()
+        return 0, res.Error
+      }
+      tx.Commit()
+      return pos.ID, nil
+    }
+
+    newImg := model.PosCategoryImage{
+      ImageBase64:   imageBase64,
+      ImageSizeByte: len(imageBase64),
+    }
+    resImg := tx.Create(&newImg)
+    if resImg.Error != nil {
+      tx.Rollback()
+      fmt.Println(resImg.Error.Error())
+      return 0, resImg.Error
+    }
+    pos.Image = newImg
+    res := tx.Create(&pos)
+    if res.Error != nil {
+      tx.Rollback()
+      return 0, res.Error
+    }
+    tx.Commit()
+    //Background Task mengirimkan data
+    go SaveImageRemote(newImg, int(pos.ID))
+    return pos.ID, nil
+  }
+}
+ 
+\end{lstlisting} 

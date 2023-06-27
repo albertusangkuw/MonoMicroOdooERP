@@ -106,7 +106,7 @@ Arsitektur \textit{Microservice} memiliki banyak hal yang harus dipertimbangkan 
 \end{center}
 \begin{enumerate}[leftmargin=1.3cm]
 	\item \textit{Application patterns}\\
-	Permasalahan yang harus diselesaikan oleh pengembang aplikasi, yaitu bagaimana cara dekomposisi sistem menjadi beberapa \textit{service}. Terdapat beberapa Strategi yang dapat dilakukan seperti berdasarkan sub-domain dan berdasarkan proses bisnis. Service mengelola datanya masing-masing namun ini menyebabkan permasalahan tersendiri karena bisa terjadi data yang tidak konsisten antara \textit{service}. Pendekatan biasa seperti 2PC tidak cocok pada aplikasi modern sehingga konsistensi data dicapai melalui SAGA.
+	Permasalahan yang harus diselesaikan oleh pengembang aplikasi, yaitu bagaimana cara dekomposisi sistem menjadi beberapa \textit{service}. Terdapat beberapa Strategi yang dapat dilakukan seperti berdasarkan sub-domain dan berdasarkan proses bisnis. Service mengelola datanya masing-masing namun ini menyebabkan permasalahan tersendiri karena bisa terjadi data yang tidak konsisten antara \textit{service}. Pendekatan biasa seperti \textit{two-phase commit algorithm} (2PC) tidak cocok pada aplikasi modern sehingga konsistensi data dicapai melalui \textit{saga pattern}.
 	
 	Perbedaan penyimpanan data membuat \textit{query} harus menggabungkan data yang dimiliki oleh beberapa \textit{service} yang terlibat karena data hanya bisa diakses melalui API. Terkadang bisa digunakan komposisi API di mana memanggil API \textit{service} satu dengan yang lain atau dengan \textit{Command Query Responsibility Seqgregation(CQRS)} yaitu ketika setiap \textit{service} memiliki replika data dari \textit{service} yang dibutuhkan.
 
@@ -201,7 +201,7 @@ Terdapat beberapa cara untuk melakukan dekomposisi aplikasi monolitik, dekomposi
 
 		DDD memisahkan domain model untuk setiap subdomainya, subdomain adalah bagian dari domain. Subdomain diidentifikasi melalui pendekatan yang sama dengan mencari kemampuan bisnis. DDD menggunakan \textit{bounded context} dalam menentukan batasan suatu domain, \textit{bounded context} termasuk kode yang mengimplementasikan model. Pada \textit{microservice} \textit{bounded context} bisa berupa satu \textit{service} atau beberapa kumpulan \textit{service}.
 	\item Analisis Kode \cite{74C,5B1}  \\
-		Transformasi aplikasi monolitik menjadi \textit{microservice} bisa dilakukan dengan strategi analisis statik atau dinamis. Umumnya hal yang perhatikan adalah ketergantungan / keterhubungan antar module, kemudian menerapkan proses \textit{clustering} atau algoritma evolusi pada ketergantungan module untuk menghasilkan partisi-partisi module yang sudah ditentukan dari evaluasi tertentu seperti nilai \textit{coupling} yang rendah dan nilai \textit{cohesion} yang tinggi. Analisis ini sendiri bisa berupa campuran antara proses bisnis dekomposisi secara fungsional, \textit{control flow}, \textit{data flow}, dan \textit{semantic model}
+		Transformasi aplikasi monolitik menjadi \textit{microservice} bisa dilakukan dengan strategi analisis statik atau dinamis. Umumnya hal yang perhatikan adalah ketergantungan / keterhubungan antar module, kemudian menerapkan proses \textit{clustering} atau algoritma evolusi pada ketergantungan modul untuk menghasilkan partisi-partisi modul yang sudah ditentukan dari evaluasi tertentu seperti nilai \textit{coupling} yang rendah dan nilai \textit{cohesion} yang tinggi. Analisis ini sendiri bisa berupa campuran antara proses bisnis dekomposisi secara fungsional, \textit{control flow}, \textit{data flow}, dan \textit{semantic model}
 		
 \end{enumerate}	
 
@@ -394,7 +394,7 @@ Docker adalah sebuah platform terbuka untuk \textit{container} yang dapat membua
 Arsitektur Docker menggunakan arsitektur \textit{client}-server. Docker \textit{client} berkomunikasi dengan Docker daemon, yang melakukan pekerjaan seperti membangun, menjalankan, dan mendistribusikan docker containers. Docker \textit{client} dan daemon dapat berjalan disistem yang sama atau docker \textit{client} berhubungan dengan daemon melalui jaringan seperti REST API. 
 \\
 \subsubsection{\textit{PyCG} \cite{AD7}}
-PyCG adalah tools analisis statik pada bahasa pemrograman Python. PyCG memiliki kemampuan untuk otomatis menemukan module untuk melakukan analisis lebih lanjut. PyCG bisa menghasilkan \textit{call graph} dari suatu kode baik file maupun dalam bentuk package.
+PyCG adalah tools analisis statik pada bahasa pemrograman Python. PyCG memiliki kemampuan untuk otomatis menemukan modul untuk melakukan analisis lebih lanjut. PyCG bisa menghasilkan \textit{call graph} dari suatu kode baik file maupun dalam bentuk package.
 
 PyCG juga memiliki presisi dan \textit{recall} yang tinggi bila dibandingkan dengan alat lainnya seperti Pyan dan Depends. PyCG sudah dievaluasi dengan projek lainnya baik kecil atau besar. Pendekatan PyCG modular , mudah dikembangkan lebih lanjut dan mencakup sebagian besar fungsionalitas Python.
 \\
@@ -436,7 +436,7 @@ Module yang digunakan pada tugas akhir ini:
 \endgroup
 
 \subsubsection{\textit{SciPy} \cite{scipy}}
-SciPy adalah koleksi algoritma matematika yang cocok dengan ekstensi NumPY di Python. SciPy memiliki module algoritma \textit{clustering} yang dapat digunakan dan dapat dilakukan pemilihan metode yang mungkin dibutuhkan. Proses Perhitungan yang dilakukan SciPy sudah di optimalisasi dan efisien.
+SciPy adalah koleksi algoritma matematika yang cocok dengan ekstensi NumPY di Python. SciPy memiliki modul algoritma \textit{clustering} yang dapat digunakan dan dapat dilakukan pemilihan metode yang mungkin dibutuhkan. Proses Perhitungan yang dilakukan SciPy sudah di optimalisasi dan efisien.
 
 Module algoritma yang digunakan pada tugas akhir ini:
 \begingroup
@@ -550,7 +550,7 @@ Arsitektur yang digunakan pada Odoo yaitu three-tier arsitektur di mana tampilan
 
 Pada tingkatan paling atas yaitu tampilan(presentation tier), tampilan ini yang akan berinteraksi langsung dengan pengguna yang menggunakan aplikasi. Tampilan ini dibangun dengan teknologi web yaitu HTML5, Javascript, dan CSS. Tingkatan dibawahnya yaitu aturan bisnis(logic tier) yang berisi instruksi yang memproses data dan memberikan tanggapan dari interaksi kepada pengguna. Aturan pada Odoo hanya ditulis dalam bahasa pemrograman Python. Sedangkan pada tingkat paling bawah adalah tempat penyimpanan menggunakan DBMS(Database Management System), Odoo hanya bisa mendukung \textit{database} PostgreSQL \cite{odoo}.
 
-Struktur \textit{module} pada kode program di Odoo versi 16 yaitu ada folder debian dan setup yang menangani bagaimana aplikasi Odoo diinstall di berbagai platform. Folder doc berisi mengenai dokumentasi dan hak cipta. Folder odoo merupakan module utama aplikasi odoo tanpa ada module ini maka aplikasi tidak dapat dijalankan. Folder addons berisi module yang memiliki aset serta bisa diganti atau dihilangkan sesuai kebutuhan. File seperti odoo-bin untuk memulai aplikasi odoo, requirements.txt berisi library python yang dibutuhkan aplikasi odoo.
+Struktur \textit{module} pada kode program di Odoo versi 16 yaitu ada folder debian dan setup yang menangani bagaimana aplikasi Odoo diinstall di berbagai platform. Folder doc berisi mengenai dokumentasi dan hak cipta. Folder odoo merupakan modul utama aplikasi odoo tanpa ada modul ini maka aplikasi tidak dapat dijalankan. Folder addons berisi modul yang memiliki aset serta bisa diganti atau dihilangkan sesuai kebutuhan. File seperti odoo-bin untuk memulai aplikasi odoo, requirements.txt berisi library python yang dibutuhkan aplikasi odoo.
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_2/folder_odoo.png}
@@ -558,7 +558,7 @@ Struktur \textit{module} pada kode program di Odoo versi 16 yaitu ada folder deb
 	\label{fig:folderOdoo}
 \end{center}
 
-Odoo memiliki struktur kode yang dibentuk sebagai module untuk setiap fiturnya. Sehingga dari sisi server dan \textit{client} memiliki hubungan yang disatukan menjadi satu paket tersendiri. Di mana module adalah koleksi dari fungsi dan data untuk menyelesaikan satu tujuan. Modul pada Odoo bisa ditambahkan, diganti, diubah untuk menyesuaikan kebutuhan bisnis. Di mana pada pengguna module dilambangkan dengan nama Apps, tetapi tidak semua module adalah Apps. Modules juga bisa direfrensikan sebagai addons \cite{odoo}. 
+Odoo memiliki struktur kode yang dibentuk sebagai modul untuk setiap fiturnya. Sehingga dari sisi server dan \textit{client} memiliki hubungan yang disatukan menjadi satu paket tersendiri. Di mana modul adalah koleksi dari fungsi dan data untuk menyelesaikan satu tujuan. Modul pada Odoo bisa ditambahkan, diganti, diubah untuk menyesuaikan kebutuhan bisnis. Di mana pada pengguna modul dilambangkan dengan nama Apps, tetapi tidak semua modul adalah Apps. Modules juga bisa direfrensikan sebagai addons \cite{odoo}. 
 
 \begingroup
 \setlength{\LTleft}{-20cm plus -1fill}
@@ -572,7 +572,7 @@ Odoo memiliki struktur kode yang dibentuk sebagai module untuk setiap fiturnya. 
 		
 		\hline
 		    Business Objects
-		  & Object yang akan digunakan di module di mana setiap attribute secara otomatis dipetakan ke kolom \textit{database} dengan ORM
+		  & Object yang akan digunakan di modul di mana setiap attribute secara otomatis dipetakan ke kolom \textit{database} dengan ORM
 		  & File python yang memiliki \textit{class}\\
 		\hline  
 		Objects Views
@@ -611,7 +611,7 @@ Model Odoo bisa memiliki banyak parent yang diturunkan sehingga tipe atribut {\_
 
 Atribut comodel{\_}name merupakan atribut yang dimiliki sebuah field relational odoo. Untuk membuat relasi dengan model lainnya seperti one-to-many, many-to-one dan many-to-many, dilakukan dengan menambahkan atribut dengan class field. Di comodel{\_}name merupakan string yang merepresentasikan {\_}name dari model yang ingin direlasikan. 
 
-Tabel yang terbentuk pada konfigurasi awal Odoo umumnya bisa mencapai ±566 tabel bila semua module di install sementara itu jumlah tabel tanpa ada module terinstall adalah 99 tabel. Dari tabel tanpa ada module bisa diidentifikasi 27 tabel utama yang digunakan pada aplikasi. Berikut adalah diagram dari \textit{database} aplikasi Odoo, dengan attribute yang ditampilkan hanya sebuah key dari tabel. Nama depan tabel yang berinisial 'ir' artinya information repository dan 'res' artinya resource. Perbedaannya adalah 'res' menyimpan informasi yang digunakan dalam proses bisnis sedangkan 'ir' menyimpan informasi mengenai kebutuhan internal aplikasi.\\
+Tabel yang terbentuk pada konfigurasi awal Odoo umumnya bisa mencapai ±566 tabel bila semua modul di install sementara itu jumlah tabel tanpa ada modul terinstall adalah 99 tabel. Dari tabel tanpa ada modul bisa diidentifikasi 27 tabel utama yang digunakan pada aplikasi. Berikut adalah diagram dari \textit{database} aplikasi Odoo, dengan attribute yang ditampilkan hanya sebuah key dari tabel. Nama depan tabel yang berinisial 'ir' artinya information repository dan 'res' artinya resource. Perbedaannya adalah 'res' menyimpan informasi yang digunakan dalam proses bisnis sedangkan 'ir' menyimpan informasi mengenai kebutuhan internal aplikasi.\\
  
 \begin{center}
 	\includegraphics[width=14cm]{img/OdooCoreERD.png}

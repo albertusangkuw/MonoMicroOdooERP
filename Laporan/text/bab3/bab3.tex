@@ -39,7 +39,7 @@ Selain itu, untuk mengetahui apakah hasil \textit{clustering} relevan dan dapat 
 \subsection{Proses Clustering}
 
 \subsubsection{Pengambilan Source Code}
-Aplikasi ERP Odoo merupakan aplikasi berlisensi open source, kode program dapat diunduh melalui situs repository Odoo. Pada tugas akhir ini menggunakan Odoo versi 16 dengan status pengujian lulus. Agar kode program dapat berjalan dengan lancar maka diperlukan proses installasi library, module dan Package yang digunakan dari file requirement.txt
+Aplikasi ERP Odoo merupakan aplikasi berlisensi open source, kode program dapat diunduh melalui situs repository Odoo. Pada tugas akhir ini menggunakan Odoo versi 16 dengan status pengujian lulus. Agar kode program dapat berjalan dengan lancar maka diperlukan proses installasi library, modul dan Package yang digunakan dari file requirement.txt
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/github.png}
 	\captionof{figure}{Source Code Aplikasi Odoo pada git repository}
@@ -49,7 +49,7 @@ Aplikasi ERP Odoo merupakan aplikasi berlisensi open source, kode program dapat 
 \subsubsection{Pembuatan \textit{Call Graph}}
 Pada tugas akhir ini menggunakan tools PyCG untuk menghasilkan \textit{call graph} dalam bentuk format JSON. Terdapat target folder yang harus dianalisis oleh PyCG \textit{call graph} yaitu folder 'odoo/addons" atau package 'odoo.addons'. Pemilihan folder ini dikarenakan folder/package lainnya tidak memiliki hubungan mengenai proses bisnis. Untuk menghemat waktu pembuatan \textit{call graph} maka folder test dan l10n (localization) tidak dianalisis.  
 
-\textit{Entry point} untuk \textit{tools} PyCG adalah semua file di target folder dengan ekstensi file .py serta ditentukan package yang ingin diolah menjadi \textit{call graph}. Proses eksekusi dilakukan melalui terminal. \textit{Call graph} yang dihasilkan berisi \textit{call} yang berasal dari file .py yang ditentukan sebelumnya dan semua module yang terhubungan dari target. Semua module ini bisa diluar dari target module apabila keterhubungan itu terus berlanjut. PyCG hanya bisa menghasilkan \textit{call graph} tanpa informasi mengenai jumlah pemanggilan dan urutan pemanggilan.
+\textit{Entry point} untuk \textit{tools} PyCG adalah semua file di target folder dengan ekstensi file .py serta ditentukan package yang ingin diolah menjadi \textit{call graph}. Proses eksekusi dilakukan melalui terminal. \textit{Call graph} yang dihasilkan berisi \textit{call} yang berasal dari file .py yang ditentukan sebelumnya dan semua modul yang terhubungan dari target. Semua modul ini bisa diluar dari target modul apabila keterhubungan itu terus berlanjut. PyCG hanya bisa menghasilkan \textit{call graph} tanpa informasi mengenai jumlah pemanggilan dan urutan pemanggilan.
 
 \begin{center}
 	\includegraphics[width=13cm]{img/bab_3/soToCG.png}
@@ -60,7 +60,7 @@ Pada tugas akhir ini menggunakan tools PyCG untuk menghasilkan \textit{call grap
 Proses ekstraksi json yang dihasilkan dari tools PyCG berupa file JSON yang dinamakan berdasarkan argrument yang diberikan sebelumnya seperti 'addons.json'. File JSON diubah menjadi \textit{graph} yang direpresentasikan dalam bentuk \textit{adjacency} list di Python.
 
 \subsubsection{Ekstraksi Dependency Model}
-Keterbatasannya informasi \textit{call graph} yang dihasilkan dari PyCG, sehingga tugas akhir ini menggunakan library Python yaitu 'inspect' untuk menganalisis objek secara run-time. Hal ini disebabkan Python adalah bahasa pemrogram dinamik di mana pengecekan tipe data dilakukan secara 'run-time'. Ekstrasi ini difokuskan pada module yang memiliki proses bisnis seperti module addons. Dari gambar 3.5 bisa diketahui penggunaan inspect bisa menemukan atribut apa saja dan nilainya dari atribut pada objek. 
+Keterbatasannya informasi \textit{call graph} yang dihasilkan dari PyCG, sehingga tugas akhir ini menggunakan library Python yaitu 'inspect' untuk menganalisis objek secara run-time. Hal ini disebabkan Python adalah bahasa pemrogram dinamik di mana pengecekan tipe data dilakukan secara 'run-time'. Ekstrasi ini difokuskan pada modul yang memiliki proses bisnis seperti modul addons. Dari gambar 3.5 bisa diketahui penggunaan inspect bisa menemukan atribut apa saja dan nilainya dari atribut pada objek. 
 
 \begin{center}
 	\includegraphics[width=13cm]{img/bab_3/inspectSample.png}
@@ -68,12 +68,12 @@ Keterbatasannya informasi \textit{call graph} yang dihasilkan dari PyCG, sehingg
 	\label{contoh_inspectSample}
 \end{center}
 
-Object yang dianalisis yaitu \textit{class} yang merupakan turunan dari \textit{class} odoo.models.MetaModel, di mana \textit{class} MetaModel memiliki properti seperti  name, \_inherits , \_inherit, dan comodel\_name. Hasil ekstrasi dependency model digabungkan melalui nama module PyCG.
+Object yang dianalisis yaitu \textit{class} yang merupakan turunan dari \textit{class} odoo.models.MetaModel, di mana \textit{class} MetaModel memiliki properti seperti  name, \_inherits , \_inherit, dan comodel\_name. Hasil ekstrasi dependency model digabungkan melalui nama modul PyCG.
 
 \subsubsection{Penggabungan dan Optimisasi Hasil Ekstraksi}
-Graph yang dihasilkan dari proses ekstrasi dipisahkan antara module eksternal dan module internal. Module yang digunakan untuk pengelompokan adalah module internal, setiap \textit{call} yang dilakukan memiliki nama \textit{call} yang berupa gabungan antara nama fungsi / \textit{class} / module /file di kode program. PyCG tidak memberikan informasi apakah nama \textit{call} tersebut berupa tipe apa, untuk itu pengelompokan dilakukan secara campuran yaitu berdasarkan module dan file, yang dikelompokkan menjadi file hanya addons base.
+Graph yang dihasilkan dari proses ekstrasi dipisahkan antara modul eksternal dan modul internal. Module yang digunakan untuk pengelompokan adalah modul internal, setiap \textit{call} yang dilakukan memiliki nama \textit{call} yang berupa gabungan antara nama fungsi / \textit{class} / modul /file di kode program. PyCG tidak memberikan informasi apakah nama \textit{call} tersebut berupa tipe apa, untuk itu pengelompokan dilakukan secara campuran yaitu berdasarkan modul dan file, yang dikelompokkan menjadi file hanya addons base.
 
-Nama \textit{call} yang disatukan menjadi module adalah \textit{call} yang memiliki awalan(root) addons atau odoo/addons dan nama \textit{call} yang disatukan dengan file adalah nama \textit{call} selain addons. Call yang dikelompokkan memiliki nilai agregasi dari jumlah \textit{call}. Jumlah \textit{call} dapat digunakan sebagai weight yang dapat menunjukkan kekuatan antara \textit{call} satu sama lain, proses ini membentuk \textit{call} baru yang lebih ringkas dan relevan dalam bentuk \textit{graph}. 
+Nama \textit{call} yang disatukan menjadi modul adalah \textit{call} yang memiliki awalan(root) addons atau odoo/addons dan nama \textit{call} yang disatukan dengan file adalah nama \textit{call} selain addons. Call yang dikelompokkan memiliki nilai agregasi dari jumlah \textit{call}. Jumlah \textit{call} dapat digunakan sebagai weight yang dapat menunjukkan kekuatan antara \textit{call} satu sama lain, proses ini membentuk \textit{call} baru yang lebih ringkas dan relevan dalam bentuk \textit{graph}. 
 
 Pada gambar \ref{fig:dg_al} dapat dilihat hasil dari graph yang dihasilkan dari contoh PyCG dan Inspect sebelumnya. Graph yang digunakan merupakan directed sehingga setiap pemanggilan berlaku untuk satu arah. Graph ini dapat diubah menjadi bentuk dictionary sebagai \textit{adjacency} list, tujuannya agar pengaksesan dan pencarian node lebih cepat dan mudah dilakukan. Setiap relasi memiliki jumlah berapa kali node lain dipanggil dari node tersebut.
 
@@ -108,7 +108,7 @@ Proses perhitungan jarak antara 2 objek dilakukan dari \textit{adjacency} \texti
 	\label{fig:asd}
 \end{center}
 
-Distance \textit{Matrix} / Matriks kedekatan dapat dilihat nilai dengan ilustrasi Heatmap, di mana sumbu x dan y adalah semua module dan nilai kedekatannya dengan module lainnya. Semakin terang warna menunjukkan hubungan yang kuat antara module, perlu diketahui bahwa \textit{distance} \textit{matrix} merupakan matriks segitiga. Pada tugas akhir ini menggunakan library SciPy untuk melakukan proses \textit{clustering} yang memiliki fungsi \textit{Hierarchical Clustering}.
+Distance \textit{Matrix} / Matriks kedekatan dapat dilihat nilai dengan ilustrasi Heatmap, di mana sumbu x dan y adalah semua modul dan nilai kedekatannya dengan modul lainnya. Semakin terang warna menunjukkan hubungan yang kuat antara module, perlu diketahui bahwa \textit{distance} \textit{matrix} merupakan matriks segitiga. Pada tugas akhir ini menggunakan library SciPy untuk melakukan proses \textit{clustering} yang memiliki fungsi \textit{Hierarchical Clustering}.
 
 \begin{center}
 	\includegraphics[width=7cm]{img/bab_3/heatmap.png}
@@ -116,7 +116,7 @@ Distance \textit{Matrix} / Matriks kedekatan dapat dilihat nilai dengan ilustras
 	\label{fig:asd}
 \end{center}
 
-Pemilihan pengelompokan dengan hierarchical agglomerative \textit{clustering} dibandingkan Partition \textit{clustering} karena tidak mudah untuk mengetahui jumlah ideal \textit{cluster}. Untuk menentukan metode \textit{linkage} tugas akhir ini menggunakan \textit{single} linkage, \textit{average} \textit{linkage}, dan \textit{complete} linkage. Hasil dari masing-masing linkage dipilih jumlah partisi yang ideal untuk \textit{microservice}. Penggunaan \textit{single} linkage memiliki kecenderungan menghasilkan banyak partisi yang berisi modul sedikit tetapi ada satu partisi memiliki banyak module sedangkan \textit{complete} \textit{linkage} menghasilkan partisi yang memiliki jumlah modul yang sama dengan partisi lainnya. Untuk \textit{Average} linkage menghasilkan bentuk partisi di antara \textit{complete} linkage dan \textit{single} linkage.
+Pemilihan pengelompokan dengan hierarchical agglomerative \textit{clustering} dibandingkan Partition \textit{clustering} karena tidak mudah untuk mengetahui jumlah ideal \textit{cluster}. Untuk menentukan metode \textit{linkage} tugas akhir ini menggunakan \textit{single} linkage, \textit{average} \textit{linkage}, dan \textit{complete} linkage. Hasil dari masing-masing linkage dipilih jumlah partisi yang ideal untuk \textit{microservice}. Penggunaan \textit{single} linkage memiliki kecenderungan menghasilkan banyak partisi yang berisi modul sedikit tetapi ada satu partisi memiliki banyak modul sedangkan \textit{complete} \textit{linkage} menghasilkan partisi yang memiliki jumlah modul yang sama dengan partisi lainnya. Untuk \textit{Average} linkage menghasilkan bentuk partisi di antara \textit{complete} linkage dan \textit{single} linkage.
 
 Pada gambar \ref{fig:hc_detail_1} dijelaskan mengenai proses perhitungan \textit{Hierarchical Clustering} dengan \textit{distance} matriks yang sebelumnya sudah dihitung. Perhitungan \textit{Hierarchical Clustering} terdapat 5 bagian besar yaitu pertama memiliki objek pertama (urutan pertama), ke-2 mencari objek lainnya yang terdekat berdasarkan \textit{distance} \textit{matrix}, ke-3 mengabungkan objek yang terdekat dengan objek yang pertama dan membuat kelompok baru dari objek tersebut, ke-4 memperbaharui nilai jaraknya pada kelompok baru / partisi menggunakan \textit{linkage}. Penggunaan \textit{linkage} akan membandingkan 2 nilai objek yaitu dari nilai objek yang baru dan nilai objek yang sebelumnya (yang terdapat di \textit{distance} matriks) seperti min memilih nilai yang lebih rendah, \textit{complete} memilih nilai yang lebih tinggi, dan \textit{average} melakukan nilai rata-rata dari 2 nilai objek. Langkah terakhir bila sudah tidak ada objek tersisa maka perhitungan berhenti bila masih ada maka dilakukan kembali proses yang ke-2.
 
@@ -163,11 +163,11 @@ Hasil pengelompokan dapat ditampilkan dalam bentuk dendogram.  Di mana pengelomp
 \end{center}
 
 \subsubsection{Pemilihan Partisi}
-Pemilihan jumlah partisi perlu dilakukan dengan perhitungan yang dapat menentukan jumlah \textit{service} yang ideal. \textit{Microservice} yang ideal memiliki nilai \textit{coupling} yang rendah dan nilai \textit{cohesion} yang tinggi. Untuk itu tugas akhir ini menentukan partisi dengan nilai struktural yang menggunakan persamaan 2.2 dan tidak memperhitungkan nilai \textit{coupling} external karena addons pada Odoo dibuat dengan framework Odoo. Hubungan module luar seperti library umumnya dilakukan oleh framework Odoo sendiri bukan oleh addons.
+Pemilihan jumlah partisi perlu dilakukan dengan perhitungan yang dapat menentukan jumlah \textit{service} yang ideal. \textit{Microservice} yang ideal memiliki nilai \textit{coupling} yang rendah dan nilai \textit{cohesion} yang tinggi. Untuk itu tugas akhir ini menentukan partisi dengan nilai struktural yang menggunakan persamaan 2.2 dan tidak memperhitungkan nilai \textit{coupling} external karena addons pada Odoo dibuat dengan framework Odoo. Hubungan modul luar seperti library umumnya dilakukan oleh framework Odoo sendiri bukan oleh addons.
 
 Untuk pemilihan partisi harus mempertimbangkan nilai \textit{cohesion}, nilai \textit{coupling}, jumlah \textit{service}, dan apakah \textit{service} tersebut seimbang. Partisi yang akan menjadi \textit{service} diharapkan bisa independen. 
 
-Proses pemilihan partisi dimulai dari pemotongan tree dari hasil \textit{Hierarchical Clustering} sebelumnya. Pemotongan dilakukan berdasarkan jumlah cluster / partisi, kemudian  dipetakan dalam bentuk directed graph untuk menyusun kelompok partisi yang berisi relasi objek-objek / modul. Didalam node graph setiap hubungan module diluar dari partisinya akan dihitung sebagai panggilan ke luar dan hubungan antar module yang masih didalam  dihitung sebagai panggilan internal partisi.
+Proses pemilihan partisi dimulai dari pemotongan tree dari hasil \textit{Hierarchical Clustering} sebelumnya. Pemotongan dilakukan berdasarkan jumlah cluster / partisi, kemudian  dipetakan dalam bentuk directed graph untuk menyusun kelompok partisi yang berisi relasi objek-objek / modul. Didalam node graph setiap hubungan modul diluar dari partisinya akan dihitung sebagai panggilan ke luar dan hubungan antar modul yang masih didalam  dihitung sebagai panggilan internal partisi.
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/eval_detail1.png}
@@ -175,7 +175,7 @@ Proses pemilihan partisi dimulai dari pemotongan tree dari hasil \textit{Hierarc
 	\label{fig:asd}
 \end{center}
 
-Module juga memiliki panggilannya internal masing-masing sebelumnya karena didalam module bisa berisi banyak sub-module lainnya, data ini disimpan dalam bentuk key-value dictionary. panggilan internal dibutuhkan untuk membuat kohesi yang benar dan panggilan eksternal (diluar partisi) digunakan untuk menghitung nilai coupling.  Pada tugas akhir ini menggunakan Structural and Behavioral Dependencies untuk mengevaluasi hasil partisi yang dihasilkan oleh \textit{Hierarchical Clustering}. Node graph diubah kembali menjadi \textit{Adjacency} \textit{Matrix} untuk memudahkan akses seperti komparasi hubungan antar partisi. 
+Module juga memiliki panggilannya internal masing-masing sebelumnya karena didalam modul bisa berisi banyak sub-module lainnya, data ini disimpan dalam bentuk key-value dictionary. panggilan internal dibutuhkan untuk membuat kohesi yang benar dan panggilan eksternal (diluar partisi) digunakan untuk menghitung nilai coupling.  Pada tugas akhir ini menggunakan Structural and Behavioral Dependencies untuk mengevaluasi hasil partisi yang dihasilkan oleh \textit{Hierarchical Clustering}. Node graph diubah kembali menjadi \textit{Adjacency} \textit{Matrix} untuk memudahkan akses seperti komparasi hubungan antar partisi. 
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/eval_detail2.png}
@@ -211,7 +211,7 @@ Proses pemisahan membutuhkan \textit{reverse} \textit{proxy} yang dapat menghubu
 	\label{fig:arsitektu_micro}
 \end{center}
 
-Berdasarkan landasan teori terdapat beberapa strategi pemisahan kode aplikasi monolitik, pada tugas akhir ini akan menggunakan 2 strategi yaitu pola \textit{Strangle} dan pola Branch by Abstraction. Pola \textit{Strangle} diterapkan karena pendekatan ini umum diterapkan dan lebih mudah pada suatu aplikasi yang sudah besar, dengan pola ini aplikasi monolitik bisa berdiri bersamaan dengan \textit{service} yang ingin dibangun atau dimigrasi. 
+Berdasarkan landasan teori terdapat beberapa strategi pemisahan kode aplikasi monolitik, pada tugas akhir ini akan menggunakan 2 strategi yaitu pola \textit{Strangle} dan pola \textit{Branch by Abstraction}. Pola \textit{Strangle} diterapkan karena pendekatan ini umum diterapkan dan lebih mudah pada suatu aplikasi yang sudah besar, dengan pola ini aplikasi monolitik bisa berdiri bersamaan dengan \textit{service} yang ingin dibangun atau dimigrasi. 
 
 Tugas Akhir ini menggunakan \textit{API Gateway} Kong \textit{(off-the-shelf)} karena Kong sudah memiliki fitur yang lengkap pada kasus migrasi aplikasi monolitik ke \textit{microservice}. Fitur itu berupa kemampuan untuk redireksi url untuk menerapkan proses \textit{strangle}, pemantauan \textit{service}, dan memiliki performa yang baik.
 
@@ -223,27 +223,38 @@ Tugas Akhir ini menggunakan \textit{API Gateway} Kong \textit{(off-the-shelf)} k
 
 Terdapat 3 langkah utama dalam menerapkan pola \textit{strangle} yaitu memilih bagian yang ingin dipindahkan, memindahkan aplikasi menjadi \textit{service} yang berdiri sendiri, dan yang terakhir mengubah \textit{call} dari monolitik ke \textit{service} yang baru dibuat.
  
-Untuk menghubungkan antara bagian yang sudah dipisah dari monolitik dengan bagian yang masih di monolitik maka diperlukan penerapan pola Branch by Abstraction. Terdapat dua bagian utama yaitu abstract dan adapter. Abstract berperan menggantikan bagian yang sudah pisah menjadi \textit{service} sehingga bagian lain di monolitik tidak terdampak dan Adapter adalah implementasi sesungguhnya yang menghubungkan antara \textit{service} dan aplikasi monolitik.
+Untuk menghubungkan antara bagian yang sudah dipisah dari monolitik dengan bagian yang masih di monolitik maka diperlukan penerapan pola \textit{Branch by Abstraction}. Terdapat dua bagian utama yaitu \textit{abstract} dan \textit{adapter}. \textit{Abstract} berperan menggantikan bagian yang sudah pisah menjadi \textit{service} sehingga bagian lain di monolitik tidak terdampak dan \textit{adapter} adalah implementasi sesungguhnya yang menghubungkan antara \textit{service} dan aplikasi monolitik.
 
 \begin{center}
 	\includegraphics[width=12cm]{img/bab_3/strangelExMicro.png}
-	\captionof{figure}{Penerapan Pola \textit{Strangle} dan Branch by Abstraction}
+	\captionof{figure}{Penerapan Pola \textit{Strangle} dan \textit{Branch by Abstraction}}
 	\label{fig:asd}
 \end{center}
 
-Pemisahan kode mempengaruhi proses autentikasi, proses autentikasi pada aplikasi Odoo terdapat 2 cara yaitu melalui password atau API-Key. Odoo menyimpan sesi autentikasi di cookie namun bukan dalam format JSON Web Token (JWT) tapi bentuk HTTP session. Untuk itu diperlukan modifikasi pada sistem autentikasi yang menggunakan format JWT agar setiap \textit{service} tidak perlu memvalidasi berkali-kali apakah sesi itu valid. 
+Pemisahan kode mempengaruhi proses autentikasi, proses autentikasi pada aplikasi Odoo terdapat 2 cara yaitu melalui password atau API-Key. Odoo menyimpan sesi autentikasi di cookie namun bukan dalam format JSON Web Token (JWT) tapi dalam bentuk HTTP session. Untuk itu diperlukan modifikasi pada sistem autentikasi yang menggunakan format JWT agar setiap \textit{service} tidak perlu memvalidasi berkali-kali apakah sesi itu valid. 
 
 \begin{center}
 	\includegraphics[width=14cm]{img/bab_3/stateDiagramLogin.png}
 	\captionof{figure}{State Diagram pada proses login}
-	\label{fig:asd}
+	\label{fig:state_diag}
 \end{center}
 
+Pada state diagram \ref{fig:state_diag} pada proses login, dilakukan penambahan JWT ketika proses login sukses. Proses ini menambahkan token  di client cookie, informasi yang disimpan berupa informasi umum yang dibutuhkan \textit{service} dalam mengidentifikasi pengguna. Selain itu dilakukan proses penghapusan token pada web.controller ketika pengguna ingin keluar dari akunnya.
 
 \subsubsection{Komunikasi antar service}
 Proses komunikasi antar \textit{service} dilakukan melalui JSON-RPC karena Odoo sudah memiliki untuk setiap addonsnya RPC ini bisa berupa XML atau JSON. Komunikasi ini melalui protokol  HTTP agar bisa akses oleh browser.  
 \\
 \subsubsection{Strategi Pemisahan \textit{database}}
 Pemisahan \textit{database} dilakukan setelah dilakukan pemisahan kode karena pada Odoo sudah terdapat ORM yang mengelola \textit{database}. Ketika \textit{database} ingin dipisahkan maka pengaksesan \textit{database} monolitik  digunakan sebagai data access layer melalui API yang bisa berupa JSON-RPC.
+
+\begin{center}
+	\includegraphics[width=10cm]{img/bab_3/expose_api_db.png}
+	\captionof{figure}{Ilustrasi Pengaksesan Database dari  \textit{service} ke monolitik \cite{74C}}
+	\label{fig:db_ilus}
+\end{center}
+
+Setiap \textit{service} yang dibangun juga memiliki databasenya masing-masing, tabel yang semula berada aplikasi monolitik tidak dapat dihapus secara langsung karena dapat mempengaruhi konsistensi data dan efek berkelanjutan pada komponen aplikasi lainnya. Untuk itu tabel hanya menyimpan informasi yang penting seperti \textit{primary key} atau \textit{key} lainnya. Data pada tabel dikelola oleh adapter model yang dibuat sebelumnya sehingga data yang disimpan dapat diperbarui atau disesuaikan dengan \textit{service} yang menangani hal tersebut. 
+
+Pada ilustrasi \ref{fig:db_ilus} dapat dilihat proses bagaimana \textit{service} membutuhkan informasi yang berada di database monolitik. \textit{Service} tidak boleh secara langsung mengakses database milik monolitik melainkan harus melalui \textit{endpoint} atau API yang sudah ditentukan oleh monolitik.
 \\ 
 
