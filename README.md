@@ -1,4 +1,4 @@
-#  Penerapan Microservice dengan Hierarchical Clustering untuk Dekomposisi dari Monolitik pada Enterprise Resource Planning
+#  Penerapan Metode Hierarchical Clustering untuk Dekomposisi Microservice dari Monolitik pada Enterprise Resource Planning 
 
 <img src="Poster/2.png" alt="Poster Image" />
 
